@@ -1,0 +1,31 @@
+<mat-toolbar color="primary">
+  <header>
+    <h1>{{ title }}</h1>
+  </header>
+</mat-toolbar>
+<div class="container">
+  <div class="alt-wrapper">
+<form class="example-form" (ngSubmit)="create(); criteriaForm.reset()" #criteriaForm="ngForm">
+  <p>Добавьте критерий:</p>
+  <mat-input-container class="example-full-width">
+    <input matInput name="title" [(ngModel)]="newCriteriaName" placeholder="Название критерия" required>
+  </mat-input-container>
+  <button mat-button type="submit" [disabled]="criteriaForm.form.invalid">Добавить</button>
+</form>
+
+<mat-nav-list *ngIf="criteriaArray.length">
+  <h3 mat-subheader>Список критериев</h3>
+  <mat-list-item *ngFor="let criteria of criteriaArray">
+    <h4 mat-line>{{criteria.name}}</h4>
+    <p mat-line>id: {{criteria.id}}</p>
+    <button mat-icon-button (click)="editCriteria(criteria)"><mat-icon>edit</mat-icon></button>
+    <button mat-icon-button (click)="delete(criteria)"><mat-icon calss="exampple-icon">delete_forever</mat-icon></button>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+</mat-nav-list>
+</div>
+  <div class="alt-btns">
+<button mat-raised-button (click)="goBack()">Вернуться назад</button>
+<button mat-raised-button type="submit" (click)="goNext()">Далее</button>
+</div>
+</div>

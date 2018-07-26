@@ -1,0 +1,18 @@
+
+<div class="container">
+
+  <form class="example-form" (ngSubmit)="decisionForm.reset()" #decisionForm="ngForm">
+    <p>Создайте свое решение:</p>
+    <div class="form-field-col">
+          <mat-input-container class="example-full-width">
+            <input matInput name="title" [(ngModel)]="newDecisionTitle" placeholder="Название решения" required>
+          </mat-input-container>
+          <mat-form-field>
+            <textarea matInput name="note" [(ngModel)]="note" placeholder="Комментарий" ></textarea>
+          </mat-form-field>
+      </div>
+      <div class="form-field-btn">
+          <button mat-raised-button type="submit" [disabled]="decisionForm.form.invalid" (click)="goNext()">Создать</button>
+        </div>
+  </form>
+</div>

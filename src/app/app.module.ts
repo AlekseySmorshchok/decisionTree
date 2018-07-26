@@ -3,16 +3,55 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
+import { HttpService } from './services/http-service.service';
+import { Http, HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { AppRoutingModule } from './app-routing.module';
+import { HomeComponent } from './decision/home/home.component';
+import { DecisionService } from './services/decision-service.service';
+import { DecisionModule } from './decision/decision-module/decision.module';
+import { CreateTreeComponent } from './decision/create-tree/create-tree.component';
+import { FormsModule } from '@angular/forms';
+import { DecisionCreateService } from './services/decision-create.service';
+import { CreateCriteriaComponent } from './decision/create-criteria/create-criteria.component';
+import { CreateAlternativeComponent } from './decision/create-alternative/create-alternative.component';
+import { RedirectWithMessageComponent } from './decision/create-alternative/redirect-with-message/redirect-with-message.component';
+import { EditAlternativeComponent } from './decision/create-alternative/edit-alternative/edit-alternative.component';
+import { DeletAlternativeComponent } from './decision/create-alternative/delet-alternative/delet-alternative.component';
+import { EditCriteriaComponent } from './decision/create-criteria/edit-criteria/edit-criteria.component';
+import { DeleteCriteriaComponent } from './decision/create-criteria/delete-criteria/delete-criteria.component';
+import { FillValueCriteriaComponent } from './decision/fill-value-criteria/fill-value-criteria.component';
+import { InstructionComponent } from './decision/instruction/instruction.component';
+import { PairedComparisonCriteriaComponent } from './decision/paired-comparison-criteria/paired-comparison-criteria.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    CreateTreeComponent,
+    CreateCriteriaComponent,
+    CreateAlternativeComponent,
+    RedirectWithMessageComponent,
+    EditAlternativeComponent,
+    DeletAlternativeComponent,
+    EditCriteriaComponent,
+    DeleteCriteriaComponent,
+    FillValueCriteriaComponent,
+    InstructionComponent,
+    PairedComparisonCriteriaComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule,
+    RouterModule,
+    FormsModule,
+    AppRoutingModule,
+    DecisionModule,
+    HttpModule,
   ],
-  providers: [],
+  providers: [HttpService, DecisionService,DecisionCreateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

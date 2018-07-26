@@ -1,0 +1,27 @@
+form {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    align-items: center;
+    background: rgba(242, 237, 252, 0.8);
+    box-shadow:  0 2px 5px lightgrey;
+    width: 50vh;
+    padding: 20px;
+    margin-top: 50px;
+  }
+  
+  .form-field-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  form p {
+    align-self: flex-start;
+  }
+  
+  form textarea {
+    height: 100px;
+  }
+  
