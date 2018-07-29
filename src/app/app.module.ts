@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { HttpService } from './services/http-service.service';
-import { Http, HttpModule } from '@angular/http';
+import { Http, HttpModule, RequestOptions } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
@@ -24,6 +24,8 @@ import { DeleteCriteriaComponent } from './decision/create-criteria/delete-crite
 import { FillValueCriteriaComponent } from './decision/fill-value-criteria/fill-value-criteria.component';
 import { InstructionComponent } from './decision/instruction/instruction.component';
 import { PairedComparisonCriteriaComponent } from './decision/paired-comparison-criteria/paired-comparison-criteria.component';
+import { AuthHttp, AuthConfig } from 'angular2-jwt';
+import { PairedComparisonCriteriaValueComponent } from './decision/paired-comparison-criteria-value/paired-comparison-criteria-value.component';
 
 
 @NgModule({
@@ -40,7 +42,8 @@ import { PairedComparisonCriteriaComponent } from './decision/paired-comparison-
     DeleteCriteriaComponent,
     FillValueCriteriaComponent,
     InstructionComponent,
-    PairedComparisonCriteriaComponent
+    PairedComparisonCriteriaComponent,
+    PairedComparisonCriteriaValueComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +54,16 @@ import { PairedComparisonCriteriaComponent } from './decision/paired-comparison-
     DecisionModule,
     HttpModule,
   ],
-  providers: [HttpService, DecisionService,DecisionCreateService],
+  providers: [HttpService, DecisionService,DecisionCreateService,{ 
+    provide: AuthHttp,
+    useFactory: authHttpServiceFactory,
+    deps: [Http, RequestOptions]
+  }],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
+
+export function authHttpServiceFactory(http: Http, options: RequestOptions) {
+  return new AuthHttp(new AuthConfig(), http, options);
+}

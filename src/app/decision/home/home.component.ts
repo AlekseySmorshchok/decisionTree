@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DecisionService } from '../../services/decision-service.service';
 import { Router } from '@angular/router';
+import { DecisionCreateService } from '../../services/decision-create.service';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,8 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   title = 'Decision App';
-  constructor(private router: Router) { }
+  constructor(private router: Router, 
+              private decisionCreateService: DecisionCreateService) { }
 
   goCreateDesicion() {
     this.router.navigate(['createTree']);
@@ -20,5 +22,6 @@ export class HomeComponent implements OnInit {
   }
   
   ngOnInit() {
+  
   }
 }

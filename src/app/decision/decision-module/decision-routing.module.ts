@@ -12,6 +12,7 @@ import { DeleteCriteriaComponent } from '../create-criteria/delete-criteria/dele
 import { FillValueCriteriaComponent } from '../fill-value-criteria/fill-value-criteria.component';
 import { InstructionComponent } from '../instruction/instruction.component';
 import { PairedComparisonCriteriaComponent } from '../paired-comparison-criteria/paired-comparison-criteria.component';
+import { PairedComparisonCriteriaValueComponent } from '../paired-comparison-criteria-value/paired-comparison-criteria-value.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,15 @@ const routes: Routes = [
   },
   {
     path:'pairedComparisonCriteria', component: PairedComparisonCriteriaComponent
+  },
+  {
+    path:'pairedComparisonCriteriaValue', component: PairedComparisonCriteriaValueComponent,
+    children: [
+      {
+        path: ':numberOfNote',
+        component: PairedComparisonCriteriaValueComponent
+      },
+    ]
   }
 ];
 

@@ -1,26 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { Decision, Criteria } from '../../model/decision';
+import { Router } from '@angular/router';
+import { Decision, Criteria, Alternative } from '../../model/decision';
 import { DecisionCreateService } from '../../services/decision-create.service';
 import { MatDialog } from '@angular/material';
-import { Router } from '@angular/router';
 import { RedirectWithMessageComponent } from '../create-alternative/redirect-with-message/redirect-with-message.component';
-import { and } from '@angular/router/src/utils/collection';
 
 @Component({
-  selector: 'app-paired-comparison-criteria',
-  templateUrl: './paired-comparison-criteria.component.html',
-  styleUrls: ['./paired-comparison-criteria.component.css']
+  selector: 'app-paired-comparison-criteria-value',
+  templateUrl: './paired-comparison-criteria-value.component.html',
+  styleUrls: ['./paired-comparison-criteria-value.component.css']
 })
-export class PairedComparisonCriteriaComponent implements OnInit {
-  
-  title="Попарное сравнение критериев";
+export class PairedComparisonCriteriaValueComponent implements OnInit {
+  numberOfNote: number;
   decision: Decision;
   counter : number = 0;
+  title = "Попарное сравнение значений критериев"
+  rageCriteria : number[][];
   comparisonCriteriaArray : Criteria[]  = [];
   firstCompariosnIndex : number = 0;
   secondCompariosnIndex : number = 1;
   selectedValue: number = 1;
-  rageCriteria : number[][];
+  kolvoCriteria: number = 0;
+  
+  constructor(private router: Router,
+              private decisionCreateService: DecisionCreateService,
+              private dialog: MatDialog) { }
 
   values = [
     {value: 1, viewValue: 'равновесное значение (одинаково важны при выборе)'},
@@ -34,35 +38,27 @@ export class PairedComparisonCriteriaComponent implements OnInit {
     {value: 9, viewValue: 'высшее превосходство'}
   ];
 
-  constructor(private decisionCreateSevice: DecisionCreateService,
-              private dialog: MatDialog,
-              private router: Router) {  }
-
   ngOnInit() {
-    this.decision = this.decisionCreateSevice.getDecision();
+    this.numberOfNote = +this.router.url.substring(this.router.url.length-1,this.router.url.length);
+    this.decision = this.decisionCreateService.getDecision();
     if( this.decision.getName == undefined)
     {
       this.redirectWithMessage();
     }
     else{
       this.counter = this.doFact(this.decision.getAlternative[0].getCriteriaArray.length-1);
-      this.comparisonCriteriaArray = this.decision.getAlternative[0].getCriteriaArray;
       this.makeDefaultRageCriteria();
+      this.makeCriteriaArray();
+      this.kolvoCriteria = this.decision.getAlternative[0].getCriteriaArray.length-1;
     }
   }
 
-  doFact(counter: number ): number {
-    return counter <= 1 ? 1 : counter + this.doFact(counter - 1);
-  }
-
-  makeDefaultRageCriteria()
+  makeCriteriaArray()
   {
-    this.rageCriteria = new Array(this.comparisonCriteriaArray.length);
-    for(var criteria = 0 ; criteria < this.comparisonCriteriaArray.length; criteria++)
-    {
-        this.rageCriteria[criteria] = new Array(this.comparisonCriteriaArray.length);
-        this.rageCriteria[criteria][criteria] = 1;
-    }
+      for(let alternative of this.decision.getAlternative)
+      {
+        this.comparisonCriteriaArray.push(alternative.getCriteriaArray[this.numberOfNote])
+      }
   }
 
   redirectWithMessage()
@@ -74,6 +70,20 @@ export class PairedComparisonCriteriaComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.router.navigate(['/']);
     });
+  }
+  
+  doFact(counter: number ): number {
+    return counter <= 1 ? 1 : counter + this.doFact(counter - 1);
+  }
+
+  makeDefaultRageCriteria()
+  {
+    this.rageCriteria = new Array(this.decision.getAlternative[0].getCriteriaArray.length);
+    for(var criteria = 0 ; criteria < this.decision.getAlternative[0].getCriteriaArray.length; criteria++)
+    {
+        this.rageCriteria[criteria] = new Array(this.decision.getAlternative[0].getCriteriaArray.length);
+        this.rageCriteria[criteria][criteria] = 1;
+    }
   }
 
   saveAnswerInRageArray()
@@ -106,10 +116,30 @@ export class PairedComparisonCriteriaComponent implements OnInit {
   {
     if(this.counter<=0)
     {
-      this.decisionCreateSevice.sendpairedComparisonCirteria(this.decision,this.rageCriteria,2).subscribe(
+      this.decisionCreateService.sendpairedComparisonCirteria(this.decision,this.rageCriteria,1).subscribe(
         data=>
         {
-          this.decision = data;
+          this.decisionCreateService.setDecision(data);
+          this.decisionCreateService.getAnswer(this.decision).subscribe(
+            data =>
+            {
+              if(data==-1)
+              {
+                this.router.navigate(['pairedComparisonCriteria']);
+              }
+              else
+              {
+                this.decision = this.decisionCreateService.getDecision();
+                this.counter = this.doFact(this.decision.getAlternative[1].getCriteriaArray.length-1);
+                console.log(this.decision);
+                this.makeDefaultRageCriteria();
+                this.makeCriteriaArray();
+                this.firstCompariosnIndex = 0;
+                this.secondCompariosnIndex  = 1;
+                this.selectedValue =  1;
+              }
+            }
+          )
         }
       );
     }
