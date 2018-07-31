@@ -46,15 +46,16 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
       this.redirectWithMessage();
     }
     else{
-      this.counter = this.doFact(this.decision.getAlternative[0].getCriteriaArray.length-1);
+      this.counter = this.doFact(this.decision.getAlternative.length-1);
       this.makeDefaultRageCriteria();
       this.makeCriteriaArray();
-      this.kolvoCriteria = this.decision.getAlternative[0].getCriteriaArray.length-1;
+      this.kolvoCriteria = this.decision.getAlternative.length-1;
     }
   }
 
   makeCriteriaArray()
   {
+    this.comparisonCriteriaArray = [];
       for(let alternative of this.decision.getAlternative)
       {
         this.comparisonCriteriaArray.push(alternative.getCriteriaArray[this.numberOfNote])
@@ -116,33 +117,34 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
   {
     if(this.counter<=0)
     {
-      this.decisionCreateService.sendpairedComparisonCirteria(this.decision,this.rageCriteria,1).subscribe(
-        data=>
-        {
-          this.decisionCreateService.setDecision(data);
-          this.decisionCreateService.getAnswer(this.decision).subscribe(
-            data =>
+      this.decisionCreateService.sendpairedComparisonCirteria(this.decision,this.rageCriteria,1).subscribe( (data )=>{
+        console.log(data, "data");
+        this.decision = this.decisionCreateService.makeDecisionObject(data);
+        console.log(this.decision, "decision")
+        this.decisionCreateService.getAnswer(this.decision).subscribe(
+          flag =>
+          {
+            if(flag==-1)
             {
-              if(data==-1)
-              {
-                this.router.navigate(['pairedComparisonCriteria']);
-              }
-              else
-              {
-                this.decision = this.decisionCreateService.getDecision();
-                this.counter = this.doFact(this.decision.getAlternative[1].getCriteriaArray.length-1);
-                console.log(this.decision);
-                this.makeDefaultRageCriteria();
-                this.makeCriteriaArray();
-                this.firstCompariosnIndex = 0;
-                this.secondCompariosnIndex  = 1;
-                this.selectedValue =  1;
-              }
+              this.router.navigate(['pairedComparisonCriteria']);
             }
-          )
+            else
+            {
+              this.counter = this.doFact(this.decision.getAlternative[0].getCriteriaArray.length-1);
+              this.numberOfNote = flag;
+              this.makeDefaultRageCriteria();
+              this.makeCriteriaArray();
+              this.firstCompariosnIndex = 0;
+              this.secondCompariosnIndex  = 1;
+              this.selectedValue =  1;
+            }
+          }
+        );
+      });
+
+          
         }
-      );
-    }
+      
   }
 
 }

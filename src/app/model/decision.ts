@@ -1,9 +1,9 @@
 export class Decision {
-  private id: number;
-  private name: string;
-  private note: string;
-  private stage: number = 0;
-  private alternativeArray: Alternative[] = [];
+  public id: number;
+  public name: string;
+  public note: string;
+  public stage: number = 0;
+  public alternativeArray: Alternative[] = [];
   constructor(){}
   
   get getId():number{
@@ -55,11 +55,11 @@ export class Decision {
 }
 
 export class Alternative {
-  private id: number;
-  private name: string;
-  private url: string = null;
-  private finalRate: number = 1;
-  private criteriaArray: Criteria[] = [];
+  public id: number;
+  public name: string;
+  public url: string = null;
+  public finalRate: number = 1;
+  public criteriaArray: Criteria[] = [];
 
   constructor() {
   }
@@ -116,14 +116,14 @@ export class Alternative {
 }
 
 export class Criteria {
-  private id: number;
-  private name: string = '';
-  private rate: number = 0;
-  private value: string = null;
-  private valueRate: number = null;
-  private criterionPriority: number = 0;
-  private valuePriority: number = 0;
-  private minMaxValue: boolean = false;
+  public id: number;
+  public name: string = '';
+  public rate: number = 0;
+  public value: string = null;
+  public valueRate: number = null;
+  public criterionPriority: number = 0;
+  public valuePriority: number = 0;
+  public minMaxValue: boolean = false;
 
   constructor() {}
 

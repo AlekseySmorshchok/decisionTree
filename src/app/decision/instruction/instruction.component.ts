@@ -40,14 +40,13 @@ export class InstructionComponent implements OnInit {
   goNext()
   {
     this.createDecisionService.getAnswer(this.decision).subscribe(data=>{
-      console.log(data);
       if(data == -1)
     {
       this.router.navigate(['pairedComparisonCriteria']);
     }
     else
     {
-      if(data != 0)
+      if(data != -1)
       {
         this.router.navigate(['pairedComparisonCriteriaValue',data]);
       }

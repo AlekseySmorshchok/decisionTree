@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 import { environment } from '../../environments/environment';
 import { HttpParams } from '@angular/common/http';
 import { DecisionWithCompareArray } from '../model/decisionWithCompareArray';
+import { Observable } from '../../../node_modules/rxjs/Observable';
 
 @Injectable()
 export class DecisionCreateService {
@@ -67,19 +68,21 @@ export class DecisionCreateService {
     
   }
 
-  sendpairedComparisonCirteria(decision:Decision, rageCriteria:number[][], number:number)
+  sendpairedComparisonCirteria(decision:Decision, rageCriteria:number[][], number:number): Observable<Decision>
   {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     if(number == 2)
     {
-      return this.http.post(this.host + `sendpairedComparisonCirteria`, new DecisionWithCompareArray(decision,rageCriteria) ,{headers})
+      return this.http.post(this.host + `sendpairedComparisonCirteria`, new DecisionWithCompareArray(decision,rageCriteria),{ headers }
+      )
       .map(response => response.json() as Decision);
     }
     if(number ==1 )
     {
+      let object= {decision:decision,rageCriteria:rageCriteria};
       return this.http.post(this.host + `sendpairedComparisonCirteriaValue`, new DecisionWithCompareArray(decision,rageCriteria) ,{headers})
-      .map(response => response.json() as Decision);
+      .map(response =>  response.json() as Decision);
     }
   }
 
@@ -89,6 +92,42 @@ export class DecisionCreateService {
     return this.http.post(this.host+`getAnswer`, decision,{headers})
     .map(response => response.json() as number);
 
+  }
+
+  makeDecisionObject(dec:Decision)
+  {
+    let decision = new Decision();
+    decision.setId = dec.id;
+    decision.setName = dec.name;
+    decision.setNote = dec.note;
+    decision.setStage = dec.stage;
+    let alternativeArray : Alternative[] = [];
+    for( let alternative of dec.alternativeArray)
+    {
+      let criteriaArray : Criteria[] = [];
+      for(let criteria of alternative.criteriaArray)
+      {
+        let tmpCritera = new Criteria();
+        tmpCritera.setId = criteria.id;
+        tmpCritera.setCriterionPriority = criteria.criterionPriority;
+        tmpCritera.setMinMaxValue = criteria.minMaxValue;
+        tmpCritera.setName = criteria.name;
+        tmpCritera.setRate = criteria.rate;
+        tmpCritera.setValue = criteria.value;
+        tmpCritera.setValuePriority = criteria.valuePriority;
+        tmpCritera.setValueRate = criteria.valueRate;
+        criteriaArray.push(tmpCritera);
+      }
+      let tmpAlternative = new Alternative();
+      tmpAlternative.setId = alternative.id;
+      tmpAlternative.setCriteriaArray = criteriaArray;
+      tmpAlternative.setFinalRate = alternative.finalRate;
+      tmpAlternative.setName = alternative.name;
+      tmpAlternative.setUrl = alternative.url;
+      alternativeArray.push(tmpAlternative);
+    }
+    decision.setAlternative = alternativeArray;
+    return decision;
   }
 
 }
