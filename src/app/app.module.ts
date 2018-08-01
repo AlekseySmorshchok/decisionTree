@@ -26,6 +26,7 @@ import { InstructionComponent } from './decision/instruction/instruction.compone
 import { PairedComparisonCriteriaComponent } from './decision/paired-comparison-criteria/paired-comparison-criteria.component';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { PairedComparisonCriteriaValueComponent } from './decision/paired-comparison-criteria-value/paired-comparison-criteria-value.component';
+import { EndTreeComponent } from './decision/end-tree/end-tree.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { PairedComparisonCriteriaValueComponent } from './decision/paired-compar
     FillValueCriteriaComponent,
     InstructionComponent,
     PairedComparisonCriteriaComponent,
-    PairedComparisonCriteriaValueComponent
+    PairedComparisonCriteriaValueComponent,
+    EndTreeComponent
   ],
   imports: [
     BrowserModule,

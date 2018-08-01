@@ -13,6 +13,8 @@ import { FillValueCriteriaComponent } from '../fill-value-criteria/fill-value-cr
 import { InstructionComponent } from '../instruction/instruction.component';
 import { PairedComparisonCriteriaComponent } from '../paired-comparison-criteria/paired-comparison-criteria.component';
 import { PairedComparisonCriteriaValueComponent } from '../paired-comparison-criteria-value/paired-comparison-criteria-value.component';
+import { EndTreeComponent } from '../end-tree/end-tree.component';
+import { DecisionViewListComponent } from '../decision-view-list/decision-view-list.component';
 
 const routes: Routes = [
   {
@@ -36,6 +38,12 @@ const routes: Routes = [
   {
     path:'pairedComparisonCriteria', component: PairedComparisonCriteriaComponent
   },
+  {
+    path:'endTree', component: EndTreeComponent
+  },
+  {
+    path:'decisionViewList', component: DecisionViewListComponent
+  }
   {
     path:'pairedComparisonCriteriaValue', component: PairedComparisonCriteriaValueComponent,
     children: [

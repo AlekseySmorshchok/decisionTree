@@ -40,7 +40,6 @@ export class PairedComparisonCriteriaComponent implements OnInit {
 
   ngOnInit() {
     this.decision = this.decisionCreateSevice.getDecision();
-    console.log(this.decision);
     if( this.decision.getName == undefined)
     {
       this.redirectWithMessage();
@@ -107,12 +106,14 @@ export class PairedComparisonCriteriaComponent implements OnInit {
   {
     if(this.counter<=0)
     {
-      /*this.decisionCreateSevice.sendpairedComparisonCirteria(this.decision,this.rageCriteria,2).subscribe(
+      this.decisionCreateSevice.sendpairedComparisonCirteria(this.decision,this.rageCriteria,2).subscribe(
         data=>
         {
-          this.decision = data;
+          this.decisionCreateSevice.setDecision( this.decisionCreateSevice.makeDecisionObject(data));
+          this.router.navigate(['endTree'])
+          
         }
-      );*/
+      );
     }
   }
 

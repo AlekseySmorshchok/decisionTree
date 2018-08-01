@@ -94,40 +94,27 @@ export class DecisionCreateService {
 
   }
 
-  makeDecisionObject(dec:Decision)
-  {
-    let decision = new Decision();
-    decision.setId = dec.id;
-    decision.setName = dec.name;
-    decision.setNote = dec.note;
-    decision.setStage = dec.stage;
-    let alternativeArray : Alternative[] = [];
-    for( let alternative of dec.alternativeArray)
-    {
-      let criteriaArray : Criteria[] = [];
-      for(let criteria of alternative.criteriaArray)
-      {
-        let tmpCritera = new Criteria();
-        tmpCritera.setId = criteria.id;
-        tmpCritera.setCriterionPriority = criteria.criterionPriority;
-        tmpCritera.setMinMaxValue = criteria.minMaxValue;
-        tmpCritera.setName = criteria.name;
-        tmpCritera.setRate = criteria.rate;
-        tmpCritera.setValue = criteria.value;
-        tmpCritera.setValuePriority = criteria.valuePriority;
-        tmpCritera.setValueRate = criteria.valueRate;
-        criteriaArray.push(tmpCritera);
-      }
-      let tmpAlternative = new Alternative();
-      tmpAlternative.setId = alternative.id;
-      tmpAlternative.setCriteriaArray = criteriaArray;
-      tmpAlternative.setFinalRate = alternative.finalRate;
-      tmpAlternative.setName = alternative.name;
-      tmpAlternative.setUrl = alternative.url;
-      alternativeArray.push(tmpAlternative);
-    }
-    decision.setAlternative = alternativeArray;
-    return decision;
-  }
+makeDecisionObject(dec:Decision) 
+{ 
+  let decision = new Decision(); 
+  Object.assign(decision,dec); 
+  let alternativeArray : Alternative[] = []; 
+  for(let alternative of decision.getAlternative) 
+  { 
+    let tmpalternative = new Alternative(); 
+    Object.assign(tmpalternative,alternative); 
+    let criteriaArray : Criteria[] = []; 
+    for(let criteria of tmpalternative.getCriteriaArray) 
+    { 
+      let tmpCriteria = new Criteria(); 
+      Object.assign(tmpCriteria,criteria); 
+      criteriaArray.push(tmpCriteria); 
+    } 
+    tmpalternative.setCriteriaArray = criteriaArray; 
+    alternativeArray.push(tmpalternative); 
+  } 
+  decision.setAlternative = alternativeArray; 
+  return decision; 
+}
 
 }

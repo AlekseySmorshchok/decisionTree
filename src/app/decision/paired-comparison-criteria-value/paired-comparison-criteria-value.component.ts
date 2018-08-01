@@ -118,14 +118,13 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
     if(this.counter<=0)
     {
       this.decisionCreateService.sendpairedComparisonCirteria(this.decision,this.rageCriteria,1).subscribe( (data )=>{
-        console.log(data, "data");
         this.decision = this.decisionCreateService.makeDecisionObject(data);
-        console.log(this.decision, "decision")
         this.decisionCreateService.getAnswer(this.decision).subscribe(
           flag =>
           {
             if(flag==-1)
             {
+              this.decisionCreateService.setDecision(this.decision);
               this.router.navigate(['pairedComparisonCriteria']);
             }
             else

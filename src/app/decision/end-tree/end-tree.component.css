@@ -1,0 +1,20 @@
+.tree {
+    border-collapse: collapse;
+    min-width: 50%;
+    margin: 0 auto;
+  }
+  
+  .tree th {
+    border: 1px solid black;
+    padding: 10px;
+    font-size: 18px;
+    max-width: 200px;
+    word-wrap: break-word;
+  }
+  
+  
+  h1 {
+    text-align: center;
+    margin-top: 50px;
+  }
+  

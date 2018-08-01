@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   }
 
   viewDecisionList() {
-    this.router.navigate(['viewdecision']);
+    this.router.navigate(['decisionViewList']);
   }
   
   ngOnInit() {
