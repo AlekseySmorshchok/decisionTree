@@ -14,7 +14,6 @@ import { InstructionComponent } from '../instruction/instruction.component';
 import { PairedComparisonCriteriaComponent } from '../paired-comparison-criteria/paired-comparison-criteria.component';
 import { PairedComparisonCriteriaValueComponent } from '../paired-comparison-criteria-value/paired-comparison-criteria-value.component';
 import { EndTreeComponent } from '../end-tree/end-tree.component';
-import { DecisionViewListComponent } from '../decision-view-list/decision-view-list.component';
 
 const routes: Routes = [
   {
@@ -24,10 +23,20 @@ const routes: Routes = [
     path:'createTree', component: CreateTreeComponent
   },
   {
-    path:'createCriteria', component: CreateCriteriaComponent
+    path:'createCriteria', component: CreateCriteriaComponent,
+    children:[
+        {
+          path: ':path', component: CreateCriteriaComponent
+        }
+    ]
   },
   {
-    path:'createAlternative', component: CreateAlternativeComponent
+    path:'createAlternative', component: CreateAlternativeComponent,
+    children:[
+      {
+        path: ':path', component: CreateAlternativeComponent
+      }
+    ]
   },
   {
     path:'fillValueCriteria', component: FillValueCriteriaComponent
@@ -41,9 +50,6 @@ const routes: Routes = [
   {
     path:'endTree', component: EndTreeComponent
   },
-  {
-    path:'decisionViewList', component: DecisionViewListComponent
-  }
   {
     path:'pairedComparisonCriteriaValue', component: PairedComparisonCriteriaValueComponent,
     children: [

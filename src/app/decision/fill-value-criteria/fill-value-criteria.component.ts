@@ -71,4 +71,19 @@ export class FillValueCriteriaComponent implements OnInit {
     }
   }
 
+  goCreateCriterion()
+  {
+    this.router.navigate(['createCriteria',2]);
+  }
+
+  goCreateAlternative()
+  {
+    this.router.navigate(['createAlternative',2]);
+  }
+
+  goBack()
+  {
+    this.router.navigate(['instruction']);
+  }
+
 }

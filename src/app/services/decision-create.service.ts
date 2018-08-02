@@ -30,19 +30,41 @@ export class DecisionCreateService {
      return this.decision;
    }
 
-   createAlternative(name : string) : Decision
+   createAlternative(name : string, tmp : boolean) : Decision
    {
-      var alternative : Alternative = new Alternative();
-      alternative.setName = name;
-      if(this.decision.getAlternative.length!=0)
-      {
-          alternative.setId = this.decision.getAlternative[this.decision.getAlternative.length-1].getId +1;
-      }
-      else{
-          alternative.setId = 1;
-      }
-      this.decision.getAlternative.push(alternative);
+      this.decision.getAlternative.push(this.makeOneAlternative(name, tmp));
       return this.decision;
+   }
+
+   makeOneAlternative(name : string, flag: boolean) : Alternative
+   {
+    var alternative : Alternative = new Alternative();
+    alternative.setName = name;
+    if(this.decision.getAlternative.length!=0)
+    {
+        alternative.setId = this.decision.getAlternative[this.decision.getAlternative.length-1].getId +1;
+    }
+    else{
+        alternative.setId = 1;
+    }
+    if(flag == true)
+    {
+      
+      let lengthAlternative = this.decision.getAlternative.length;
+      let lengthCriteria = this.decision.getAlternative[0].getCriteriaArray.length;
+      let i = this.decision.getAlternative[lengthAlternative-1].getCriteriaArray[lengthCriteria-1].getId +1;
+      let criteriaArray : Criteria[ ] = [];
+        for(let criteria of this.decision.getAlternative[0].getCriteriaArray)
+        {
+          let tmp: Criteria = new Criteria();
+          tmp.setName = criteria.getName;
+          tmp.setId = i;
+          criteriaArray.push(tmp);
+          i++;
+        }
+      alternative.setCriteriaArray = criteriaArray;
+    }
+    return alternative;
    }
 
    setDecision(decision : Decision)

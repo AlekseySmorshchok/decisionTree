@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Decision, Alternative } from '../../model/decision';
 import { DecisionCreateService } from '../../services/decision-create.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { RedirectWithMessageComponent } from './redirect-with-message/redirect-with-message.component';
 import { Router } from '@angular/router';
 import { EditAlternativeComponent } from './edit-alternative/edit-alternative.component';
@@ -17,22 +17,33 @@ export class CreateAlternativeComponent implements OnInit {
   title = 'Create Alternative';
   newAlternativeName = '';
   decision : Decision;
+  path: number;
+  flag: boolean = false;
 
   constructor(private decisionCreateService : DecisionCreateService,
               private dialog: MatDialog,
-              private router: Router) { }
+              private router: Router,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit() {
+      this.path = +this.router.url.substring(this.router.url.length-1,this.router.url.length);
       this.decision = this.decisionCreateService.getDecision();
       if( this.decision.getName == undefined)
       {
         this.redirectWithMessage();
       }
+      else{
+        if(this.decision.getAlternative.length!=0)
+        {
+        this.flag = true;
+        }
+      }
   }
 
   create()
   {
-    this.decision = this.decisionCreateService.createAlternative(this.newAlternativeName);
+    
+    this.decision = this.decisionCreateService.createAlternative(this.newAlternativeName, this.flag);
   }
 
   redirectWithMessage()
@@ -74,9 +85,39 @@ export class CreateAlternativeComponent implements OnInit {
 }
 
   goNext() {
-    this.router.navigate(['createCriteria']);
-    this.decision.setStage = 1;
+    if(this.decision.getAlternative.length>=2)
+    {
+      if(this.path == 1)
+      {
+
+        this.router.navigate(['createCriteria',1]);
+        this.decision.setStage = 1;
+      }
+      else{
+        this.router.navigate(['fillValueCriteria']);
+      }
+    }
+    else
+    {
+      this.openSnackBar("Для сравнения нужны 2 альтернативы","");
+    }
   }
 
+  goBack()
+  {
+    if(this.path==1)
+    {
+      this.router.navigate(['createTree']);
+    }
+    else{
+      this.router.navigate(['fillValueCriteria']);
+    }
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000
+    });
+  }
 
 }
