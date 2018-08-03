@@ -139,4 +139,14 @@ makeDecisionObject(dec:Decision)
   return decision; 
 }
 
+  makeDefaultDecision()
+  {
+    let decision = new Decision();
+    let alternative = new Alternative();
+    let criteria = new Criteria();
+    decision.getAlternative.push(alternative);
+    decision.getAlternative[0].getCriteriaArray.push(criteria);
+    return decision;
+  }
+
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DecisionService } from '../../services/decision-service.service';
 import { Router } from '@angular/router';
 import { DecisionCreateService } from '../../services/decision-create.service';
+import { Decision } from '../../model/decision';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,7 @@ export class HomeComponent implements OnInit {
               private decisionCreateService: DecisionCreateService) { }
 
   goCreateDesicion() {
+    this.decisionCreateService.setDecision(new Decision());
     this.router.navigate(['createTree']);
   }
 

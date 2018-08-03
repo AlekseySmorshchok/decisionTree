@@ -23,6 +23,7 @@ export class EndTreeComponent implements OnInit {
     this.decision = this.decisionCreateService.getDecision();
     if( this.decision.getName == undefined)
     {
+      this.decision= this.decisionCreateService.makeDefaultDecision();
       this.redirectWithMessage();
     }
   }
@@ -50,4 +51,14 @@ export class EndTreeComponent implements OnInit {
       }
     }
   }
+
+  goNext()
+  {
+    this.router.navigate(['']);
+  }
+  changeTree()
+  {
+    this.router.navigate(['createTree']);
+  }
+
 }

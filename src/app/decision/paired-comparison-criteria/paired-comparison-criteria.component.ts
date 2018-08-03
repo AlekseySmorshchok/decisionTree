@@ -42,6 +42,7 @@ export class PairedComparisonCriteriaComponent implements OnInit {
     this.decision = this.decisionCreateSevice.getDecision();
     if( this.decision.getName == undefined)
     {
+      this.decision= this.decisionCreateSevice.makeDefaultDecision();
       this.redirectWithMessage();
     }
     else{
