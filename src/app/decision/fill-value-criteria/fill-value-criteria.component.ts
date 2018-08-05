@@ -14,6 +14,7 @@ export class FillValueCriteriaComponent implements OnInit {
 
   decision: Decision;
   minRate: boolean[] = [];
+  panelOpenState: boolean = false;
 
   constructor( private decisionCreateService: DecisionCreateService,
               private dialog: MatDialog,

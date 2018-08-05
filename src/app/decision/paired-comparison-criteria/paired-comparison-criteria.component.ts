@@ -21,7 +21,8 @@ export class PairedComparisonCriteriaComponent implements OnInit {
   secondCompariosnIndex : number = 1;
   selectedValue: number = 1;
   rageCriteria : number[][];
-
+  panelOpenState: boolean = false;
+  
   values = [
     {value: 1, viewValue: 'равновесное значение (одинаково важны при выборе)'},
     {value: 2, viewValue: 'между равнозначностью и умеренным превосходством'},

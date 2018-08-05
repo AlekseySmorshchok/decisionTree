@@ -21,6 +21,7 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
   secondCompariosnIndex : number = 1;
   selectedValue: number = 1;
   kolvoCriteria: number = 0;
+  panelOpenState: boolean = false;
   
   constructor(private router: Router,
               private decisionCreateService: DecisionCreateService,

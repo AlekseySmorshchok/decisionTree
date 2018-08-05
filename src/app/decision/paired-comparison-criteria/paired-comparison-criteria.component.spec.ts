@@ -5,7 +5,7 @@ import { PairedComparisonCriteriaComponent } from './paired-comparison-criteria.
 describe('PairedComparisonCriteriaComponent', () => {
   let component: PairedComparisonCriteriaComponent;
   let fixture: ComponentFixture<PairedComparisonCriteriaComponent>;
-
+  
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ PairedComparisonCriteriaComponent ]
