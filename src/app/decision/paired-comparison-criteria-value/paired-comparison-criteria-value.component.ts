@@ -22,7 +22,8 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
   selectedValue: number = 1;
   kolvoCriteria: number = 0;
   panelOpenState: boolean = false;
-  
+  choose:boolean = true;
+
   constructor(private router: Router,
               private decisionCreateService: DecisionCreateService,
               private dialog: MatDialog) { }
@@ -70,7 +71,7 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.router.navigate(['/']);
+      this.router.navigate(['']);
     });
   }
   
@@ -88,10 +89,23 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
     }
   }
 
+  saveChoose()
+  {
+    if(this.choose)
+    {
+      this.rageCriteria[this.firstCompariosnIndex][this.secondCompariosnIndex] = this.selectedValue;
+      this.rageCriteria[this.secondCompariosnIndex][this.firstCompariosnIndex] = 1/this.selectedValue
+    }
+    else
+    {
+      this.rageCriteria[this.firstCompariosnIndex][this.secondCompariosnIndex] = 1/this.selectedValue;
+      this.rageCriteria[this.secondCompariosnIndex][this.firstCompariosnIndex] = this.selectedValue
+    }
+  }
+
   saveAnswerInRageArray()
   {
-    this.rageCriteria[this.firstCompariosnIndex][this.secondCompariosnIndex] = this.selectedValue;
-    this.rageCriteria[this.secondCompariosnIndex][this.firstCompariosnIndex] = 1/this.selectedValue
+    this.saveChoose();
     if(this.secondCompariosnIndex== this.rageCriteria.length-1)
     {
       if(this.firstCompariosnIndex== this.rageCriteria.length-2 && this.secondCompariosnIndex== this.rageCriteria.length-1 )
@@ -114,10 +128,22 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
     }
   }
 
+  swap()
+  {
+    if(this.choose)
+    {
+      this.choose = false;
+    }
+    else{
+      this.choose = true;
+    }
+  }
+
   saveResaultAndgoNext()
   {
     if(this.counter<=0)
     {
+      console.log(this.rageCriteria);
       this.decisionCreateService.sendpairedComparisonCirteria(this.decision,this.rageCriteria,1).subscribe( (data )=>{
         this.decision = this.decisionCreateService.makeDecisionObject(data);
         this.decisionCreateService.getAnswer(this.decision).subscribe(

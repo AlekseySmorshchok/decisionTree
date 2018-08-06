@@ -1,0 +1,26 @@
+<div class="modal-dialog">
+  <div class="modal-content panel-login">
+    <div class="panel-heading">
+      <div class="row">
+        <div class="col-xs-6" >
+          <a  href="#login" id="login-form-link" [class.active]="activeLinkLogin" (click)="changeActiveLogin()" tabindex="0"  style="display: block; ">LOGIN</a>
+          </div>
+          <div class="col-xs-6" >
+            <a  href="#register" id="register-form-link" [class.active]="activeLinkRegister" (click)="changeActiveRegister()" tabindex="1" style="display: block;" >REGISTER</a>
+            <br>
+        </div>
+      </div>
+   </div>
+    <div id="login" *ngIf="activeLinkLogin" >
+      <h2 class="text-center"></h2>
+      <app-sign-in></app-sign-in>
+    </div>
+    <div id="register" *ngIf="activeLinkRegister" >
+      <app-sign-up></app-sign-up>
+      <h2 class="text-center"> </h2>
+    </div>
+    <div class="modal-footer">
+      <button  type="button" class="btn-default btn" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>

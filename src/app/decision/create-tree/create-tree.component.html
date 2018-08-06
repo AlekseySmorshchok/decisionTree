@@ -1,18 +1,35 @@
 
-<div class="container">
 
-  <form class="example-form" (ngSubmit)="decisionForm.reset()" #decisionForm="ngForm">
-    <p>Создайте свое решение:</p>
-    <div class="form-field-col">
-          <mat-input-container class="example-full-width">
-            <input matInput name="title" [(ngModel)]="newDecisionTitle" placeholder="Название решения" required>
-          </mat-input-container>
-          <mat-form-field>
-            <textarea matInput name="note" [(ngModel)]="note" placeholder="Комментарий" ></textarea>
-          </mat-form-field>
-      </div>
-      <div class="form-field-btn">
-          <button mat-raised-button type="submit" [disabled]="decisionForm.form.invalid" (click)="goNext()">Создать</button>
-        </div>
-  </form>
+<section id="one" class="wrapper style1 special">
+    <div class="containersS">
+      <header class="major">
+          <h2>Создайте решение</h2>
+          <p>Введите название решения</p>
+        </header>
+       
+      <!--<form class="example-form" (ngSubmit)="decisionForm.reset()" #decisionForm="ngForm">
+          <div class="row uniform 50%">
+              <div class="12u$(4)">
+                  <input  id="name" name = "name" [(ngModel)]="newDecisionTitle" placeholder="Название решения" required>
+                </div>
+              <mat-form-field>
+                <textarea matInput name="note" [(ngModel)]="note" placeholder="Комментарий" ></textarea>
+              </mat-form-field>
+          </div>
+          <div class="form-field-btn">
+              <button mat-raised-button type="submit" [disabled]="decisionForm.form.invalid" (click)="goNext()">Создать</button>
+            </div>
+      </form>-->
+      <form (ngSubmit)="decisionForm.reset()" #decisionForm="ngForm">  
+              <div class="smallContainer">
+              <input type="text" name="name" id="name" value="" [(ngModel)]="newDecisionTitle"  placeholder="Название решения" required/>
+              </div>
+              <p></p>
+              <div class="smallContainer">
+                <textarea name="message" id="message"  [(ngModel)]="note" placeholder="Комментарий" rows="6"></textarea>
+              </div>
+              <p></p>
+              <button class="button alt big" type="submit" [disabled]="decisionForm.form.invalid" (click)="goNext()">Создать</button>
+      </form>
 </div>
+</section>

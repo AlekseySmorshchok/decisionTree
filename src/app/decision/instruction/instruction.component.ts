@@ -32,7 +32,7 @@ export class InstructionComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.router.navigate(['/']);
+      this.router.navigate(['']);
     });
   }
 

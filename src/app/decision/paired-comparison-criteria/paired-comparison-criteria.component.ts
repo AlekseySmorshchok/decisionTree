@@ -21,6 +21,7 @@ export class PairedComparisonCriteriaComponent implements OnInit {
   secondCompariosnIndex : number = 1;
   selectedValue: number = 1;
   rageCriteria : number[][];
+  choose:boolean = true;
   panelOpenState: boolean = false;
   
   values = [
@@ -78,10 +79,23 @@ export class PairedComparisonCriteriaComponent implements OnInit {
     });
   }
 
+  saveChoose()
+  {
+    if(this.choose)
+    {
+      this.rageCriteria[this.firstCompariosnIndex][this.secondCompariosnIndex] = this.selectedValue;
+      this.rageCriteria[this.secondCompariosnIndex][this.firstCompariosnIndex] = 1/this.selectedValue
+    }
+    else
+    {
+      this.rageCriteria[this.firstCompariosnIndex][this.secondCompariosnIndex] = 1/this.selectedValue;
+      this.rageCriteria[this.secondCompariosnIndex][this.firstCompariosnIndex] = this.selectedValue
+    }
+  }
+
   saveAnswerInRageArray()
   {
-    this.rageCriteria[this.firstCompariosnIndex][this.secondCompariosnIndex] = this.selectedValue;
-    this.rageCriteria[this.secondCompariosnIndex][this.firstCompariosnIndex] = 1/this.selectedValue
+    this.saveChoose();
     if(this.secondCompariosnIndex== this.rageCriteria.length-1)
     {
       if(this.firstCompariosnIndex== this.rageCriteria.length-2 && this.secondCompariosnIndex== this.rageCriteria.length-1 )
@@ -101,6 +115,17 @@ export class PairedComparisonCriteriaComponent implements OnInit {
     if(this.counter==0)
     {
       this.saveResaultAndgoNext();
+    }
+  }
+
+  swap()
+  {
+    if(this.choose)
+    {
+      this.choose = false;
+    }
+    else{
+      this.choose = true;
     }
   }
 

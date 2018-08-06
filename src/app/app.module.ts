@@ -3,13 +3,11 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
-import { HttpService } from './services/http-service.service';
 import { Http, HttpModule, RequestOptions } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './decision/home/home.component';
-import { DecisionService } from './services/decision-service.service';
 import { DecisionModule } from './decision/decision-module/decision.module';
 import { CreateTreeComponent } from './decision/create-tree/create-tree.component';
 import { FormsModule } from '@angular/forms';
@@ -27,6 +25,13 @@ import { PairedComparisonCriteriaComponent } from './decision/paired-comparison-
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { PairedComparisonCriteriaValueComponent } from './decision/paired-comparison-criteria-value/paired-comparison-criteria-value.component';
 import { EndTreeComponent } from './decision/end-tree/end-tree.component';
+import { HeaderComponent } from './decision/header/header.component';
+import { UserComponent } from './decision/header/user/user.component';
+import { SignUpComponent } from './decision/header/user/sign-up/sign-up.component';
+import { SignInComponent } from './decision/header/user/sign-in/sign-in.component';
+import { UserService } from './services/user-service';
+import { ValidationData } from './services/validationData';
+import { FooterComponent } from './decision/footer/footer.component';
 
 
 @NgModule({
@@ -45,7 +50,12 @@ import { EndTreeComponent } from './decision/end-tree/end-tree.component';
     InstructionComponent,
     PairedComparisonCriteriaComponent,
     PairedComparisonCriteriaValueComponent,
-    EndTreeComponent
+    EndTreeComponent,
+    HeaderComponent,
+    UserComponent,
+    SignUpComponent,
+    SignInComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -56,11 +66,11 @@ import { EndTreeComponent } from './decision/end-tree/end-tree.component';
     DecisionModule,
     HttpModule,
   ],
-  providers: [HttpService, DecisionService,DecisionCreateService,{ 
+  providers: [DecisionCreateService,{ 
     provide: AuthHttp,
     useFactory: authHttpServiceFactory,
     deps: [Http, RequestOptions]
-  }],
+  }, UserService,ValidationData],
   bootstrap: [AppComponent]
 })
 
