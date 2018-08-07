@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<!--<mat-toolbar color="primary">
   <header>
     <h1>{{ title }}</h1>
   </header>
@@ -31,4 +31,40 @@
     <button mat-raised-button type="submit" (click)="goNext()">Далее</button>
   </div>
 
-</div>
+</div>-->
+<section id="one" class="wrapper style1 special">
+  <div class="containersS">
+    <header class="major">
+        <h2>Создайте альтернативы</h2>
+      </header>
+  </div>
+  <div class="specialContainer">
+    <form class="example-form" (ngSubmit)="create(); alternativeForm.reset();" #alternativeForm="ngForm">
+      <div class="row uniform 50%">
+        <div class="6u(2) 12u$(3)">
+          <ul class="actions vertical">
+            <li><header class="major"><p>Для сравнения нужно ввести минимум 2 альтернативы</p></header></li>
+            <li><input type="text" class="input large" name="name" id="name" value="" [(ngModel)]="newAlternativeName" placeholder="Название варианта альтернативы" required></li>
+            <li><button class="button alt large" type="submit" [disabled]="alternativeForm.form.invalid">Добавить</button></li>
+          </ul>
+        </div>
+        <div>
+          <mat-nav-list *ngIf="decision.alternativeArray.length">
+              <header class="major">
+                  <p>Список созданных альтернатив</p>
+              </header>
+                <mat-list-item *ngFor="let alternative of decision.alternativeArray">
+                  
+                    <h4 class="line" >{{alternative.name}}</h4>
+                    <p  class="line" >id: {{alternative.id}}</p>
+                    <button mat-icon-button (click)="editAlternative(alternative)"><mat-icon>edit</mat-icon></button>
+                    <button mat-icon-button (click)="delete(alternative)"><mat-icon calss="exampple-icon">delete_forever</mat-icon></button>
+                  
+                </mat-list-item>
+              <mat-divider></mat-divider>
+          </mat-nav-list>
+        </div>
+      </div>
+    </form>
+  </div>  
+</section>
