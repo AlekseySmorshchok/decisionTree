@@ -14,6 +14,7 @@ import { InstructionComponent } from '../instruction/instruction.component';
 import { PairedComparisonCriteriaComponent } from '../paired-comparison-criteria/paired-comparison-criteria.component';
 import { PairedComparisonCriteriaValueComponent } from '../paired-comparison-criteria-value/paired-comparison-criteria-value.component';
 import { EndTreeComponent } from '../end-tree/end-tree.component';
+import { UserComponent } from '../header/user/user.component';
 
 const routes: Routes = [
   {

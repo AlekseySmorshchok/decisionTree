@@ -25,11 +25,7 @@ export class SignUpComponent  {
   static setErrors(answer: string) {
     return answer === null;
   }
-  controller() {}
-  checkFirstName(){}
-  checkLastName(){}
-  checkEmail(){}
-  checkNick(){}
+  
   checkPasswordConfirm(){
     this.formErrors.passwordConfirm = this.validationService.confirmPassword(this.user._password, this.passwordConfirm);
     this.isPasswordConfirm = SignUpComponent.setErrors(this.formErrors.passwordConfirm);

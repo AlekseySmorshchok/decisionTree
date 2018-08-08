@@ -30,7 +30,7 @@ export class CreateAlternativeComponent implements OnInit {
       this.decision = this.decisionCreateService.getDecision();
       if( this.decision.getName == undefined)
       {
-        //this.redirectWithMessage();
+        this.redirectWithMessage();
       }
       else{
         if(this.decision.getAlternative.length!=0)

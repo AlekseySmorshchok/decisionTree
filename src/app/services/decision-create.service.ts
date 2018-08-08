@@ -149,4 +149,13 @@ makeDecisionObject(dec:Decision)
     return decision;
   }
 
+  saveDecision(decision:Decision){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME));
+    return this.authHttp.post(this.host + `saveDecision`, decision,{headers})
+    .map(response => response.json() as Decision);
+  
+  }
+
 }
