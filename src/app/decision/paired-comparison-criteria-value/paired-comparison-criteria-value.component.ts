@@ -143,7 +143,6 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
   {
     if(this.counter<=0)
     {
-      console.log(this.rageCriteria);
       this.decisionCreateService.sendpairedComparisonCirteria(this.decision,this.rageCriteria,1).subscribe( (data )=>{
         this.decision = this.decisionCreateService.makeDecisionObject(data);
         this.decisionCreateService.getAnswer(this.decision).subscribe(

@@ -21,7 +21,20 @@ export class FillValueCriteriaComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    this.decision = this.decisionCreateService.getDecision();
+    if(localStorage.getItem('currentUser')!=null)
+      {
+        this.decisionCreateService.getDecisionTree().subscribe(
+          
+            data =>
+            {
+              this.decision = this.decisionCreateService.makeDecisionObject(data);
+            }
+          
+        );
+      }
+      else{
+        this.decision = this.decisionCreateService.getDecision();
+      }
     if( this.decision.getName == undefined)
       {
         this.decision.setAlternative = [];
@@ -58,7 +71,23 @@ export class FillValueCriteriaComponent implements OnInit {
       }
     }
     this.checkValueRate();
-    this.router.navigate(['instruction']);
+    if(localStorage.getItem('currentUser')!=null)
+    {
+      if(localStorage.getItem("currentUser")!=null)
+      {
+        this.decisionCreateService.saveDecision(this.decision).subscribe(
+          data=>
+          {
+            this.decision = this.decisionCreateService.makeDecisionObject(data);
+            
+          }
+        );
+      }
+      else{
+        this.router.navigate(['instruction']);
+      }
+    }
+    
   }
 
   checkValueRate()

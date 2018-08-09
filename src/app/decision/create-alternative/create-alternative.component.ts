@@ -27,7 +27,20 @@ export class CreateAlternativeComponent implements OnInit {
 
   ngOnInit() {
       this.path = +this.router.url.substring(this.router.url.length-1,this.router.url.length);
-      this.decision = this.decisionCreateService.getDecision();
+      if(localStorage.getItem('currentUser')!=null)
+      {
+        this.decisionCreateService.getDecisionTree().subscribe(
+          
+            data =>
+            {
+              this.decision = this.decisionCreateService.makeDecisionObject(data);
+            }
+          
+        );
+      }
+      else{
+        this.decision = this.decisionCreateService.getDecision();
+      }
       if( this.decision.getName == undefined)
       {
         this.redirectWithMessage();
@@ -84,18 +97,36 @@ export class CreateAlternativeComponent implements OnInit {
   );
 }
 
+  goToUrl()
+  {
+    if(this.path == 1)
+    {
+
+      this.router.navigate(['createCriteria',1]);
+      this.decision.setStage = 1;
+    }
+    else{
+      this.router.navigate(['fillValueCriteria']);
+    }
+  }
+
   goNext() {
     if(this.decision.getAlternative.length>=2)
     {
-      if(this.path == 1)
+      if(localStorage.getItem("currentUser")!=null)
       {
-
-        this.router.navigate(['createCriteria',1]);
-        this.decision.setStage = 1;
+        this.decisionCreateService.saveDecision(this.decision).subscribe(
+          data=>
+          {
+            this.decision = this.decisionCreateService.makeDecisionObject(data);
+            this.goToUrl();
+          }
+        );
       }
       else{
-        this.router.navigate(['fillValueCriteria']);
+        this.goToUrl();
       }
+      
     }
     else
     {

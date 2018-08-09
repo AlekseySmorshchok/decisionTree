@@ -20,7 +20,20 @@ export class EndTreeComponent implements OnInit {
               private dialog: MatDialog) { }
 
   ngOnInit() {
-    this.decision = this.decisionCreateService.getDecision();
+    if(localStorage.getItem('currentUser')!=null)
+      {
+        this.decisionCreateService.getDecisionTree().subscribe(
+          
+            data =>
+            {
+              this.decision = this.decisionCreateService.makeDecisionObject(data);
+            }
+          
+        );
+      }
+      else{
+          this.decision = this.decisionCreateService.getDecision();
+      }
     if( this.decision.getName == undefined)
     {
       this.decision= this.decisionCreateService.makeDefaultDecision();

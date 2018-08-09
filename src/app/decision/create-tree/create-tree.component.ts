@@ -39,7 +39,13 @@ export class CreateTreeComponent implements OnInit {
     this.decisionCreateService.createDecision(this.newDecisionTitle,this.note);
     if(localStorage.getItem("currentUser")!=null)
     {
-        this.decisionCreateService
+        this.decisionCreateService.saveDecision(this.decisionCreateService.getDecision()).subscribe(
+          data=>
+          {
+            this.decision = this.decisionCreateService.makeDecisionObject(data);
+            localStorage.setItem("idDecision", this.decision.getId.toString());
+          }
+        );
     }
     this.router.navigate(['createAlternative',1]);
   }

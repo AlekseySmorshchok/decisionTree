@@ -94,6 +94,32 @@ export class DecisionCreateService {
   {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
+    let url  = '';
+    if(number == 2)
+    {
+      if(localStorage.getItem('currentUser')!=null)
+      {
+        url = 'sendpairedComparisonCirteriaWithSave';
+      }
+      else
+      {
+        url = 'sendpairedComparisonCirteria';
+      }
+    }
+    else
+    {
+      if(number == 1)
+      {
+        if(localStorage.getItem('currentUser')!=null)
+        {
+          url ='sendpairedComparisonCirteriaValueWithSave'
+        }
+        else
+        {
+          url = 'sendpairedComparisonCirteriaValue';
+        }
+      }
+    }
     if(number == 2)
     {
       return this.http.post(this.host + `sendpairedComparisonCirteria`, new DecisionWithCompareArray(decision,rageCriteria),{ headers }
@@ -156,6 +182,16 @@ makeDecisionObject(dec:Decision)
     return this.authHttp.post(this.host + `saveDecision`, decision,{headers})
     .map(response => response.json() as Decision);
   
+  }
+
+  getDecisionTree()
+  {
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      headers.append('Authorization', localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME));
+      var id : number = +localStorage.getItem("idDecision");
+      return this.authHttp.post(this.host + `getDecision`, id,{headers})
+      .map(response => response.json() as Decision);
   }
 
 }
