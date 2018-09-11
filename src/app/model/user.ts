@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class User {
  // private id: number;
-  private firstName: string;
-  private lastName: string;
-  private userName: string;
-  private password: string;
-  private email: string;
+  public firstName: string;
+  public lastName: string;
+  public userName: string;
+  public password: string;
+  public email: string;
   //private role: string;
   constructor(){}
 

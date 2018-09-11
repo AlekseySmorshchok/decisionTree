@@ -11,8 +11,8 @@ import { UserService } from '../../../../services/user-service';
 })
 export class SignInComponent{
   error: string;
-  protected change: boolean = false;
-  protected user: User = new User();
+  public change: boolean = false;
+  public user: User = new User();
   constructor(private userServise: UserService,
               private router: Router) {
   }

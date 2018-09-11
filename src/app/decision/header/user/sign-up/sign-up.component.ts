@@ -10,10 +10,10 @@ import { ValidationData } from '../../../../services/validationData';
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent  {
-  protected user: User = new User();
+  public user: User = new User();
   isPasswordConfirm = false;
   passwordConfirm: string;
-  protected errorMessage: string;
+  public errorMessage: string;
   form: FormGroup;
   formErrors = {
     passwordConfirm: ''
@@ -21,6 +21,11 @@ export class SignUpComponent  {
   constructor(private userService: UserService,
               private validationService:ValidationData)
   {}
+
+  checkFirstName(){}
+  checkLastName(){}
+  checkEmail(){}
+  checkNick(){}
 
   static setErrors(answer: string) {
     return answer === null;
