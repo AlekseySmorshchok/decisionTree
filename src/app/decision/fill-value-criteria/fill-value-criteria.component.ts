@@ -15,26 +15,38 @@ export class FillValueCriteriaComponent implements OnInit {
   decision: Decision;
   minRate: boolean[] = [];
   panelOpenState: boolean = false;
+  disabled: boolean[] = [];
 
   constructor( private decisionCreateService: DecisionCreateService,
               private dialog: MatDialog,
               private router: Router) { }
 
   ngOnInit() {
+    for(let i =0; i< this.disabled.length;i++)
+    {
+      this.disabled[i] = false;
+    }
     if(localStorage.getItem('currentUser')!=null)
       {
         this.decisionCreateService.getDecisionTree().subscribe(
-          
             data =>
             {
               this.decision = this.decisionCreateService.makeDecisionObject(data);
+              console.log(this.decision);
+              this.check();
             }
           
         );
       }
       else{
         this.decision = this.decisionCreateService.getDecision();
+        this.check();
       }
+    
+  }
+
+  check()
+  {
     if( this.decision.getName == undefined)
       {
         this.decision.setAlternative = [];
@@ -71,8 +83,7 @@ export class FillValueCriteriaComponent implements OnInit {
       }
     }
     this.checkValueRate();
-    if(localStorage.getItem('currentUser')!=null)
-    {
+    
       if(localStorage.getItem("currentUser")!=null)
       {
         this.decisionCreateService.saveDecision(this.decision).subscribe(
@@ -86,7 +97,7 @@ export class FillValueCriteriaComponent implements OnInit {
       else{
         this.router.navigate(['instruction']);
       }
-    }
+    
     
   }
 
@@ -114,6 +125,66 @@ export class FillValueCriteriaComponent implements OnInit {
   goBack()
   {
     this.router.navigate(['instruction']);
+  }
+
+  checkForLetters(id : number)
+  {
+      var index : number = this.findInexOfCriteria(id);
+      var regexp = new RegExp("[а-яА-ЯёЁa-zA-z]");
+      var flag : boolean = false;
+      for(let alternative of this.decision.getAlternative)
+      {
+        if(alternative.getCriteriaArray[index].getValue!=null)
+        {
+            if(alternative.getCriteriaArray[index].getValue.search(regexp) != -1)
+          {
+            flag = true;
+            break;
+          }
+        }
+      }
+      if(flag == true)
+      {
+        this.disabled[index] = true;
+        this.minRate[index] = false;
+      }
+      else{
+        this.disabled[index] = false;
+      }
+  }
+
+  findInexOfCriteria(id:number)
+  {
+   
+    for(let alternative of this.decision.getAlternative)
+    {
+        let flag = 0;
+        for(let criteria of alternative.getCriteriaArray)
+        {
+          if(criteria.getId == id)
+          {
+            return flag;
+          }
+          else
+          {
+            flag++;
+          }
+        }
+    }
+  }
+
+  findCriteria(id:number): string
+  {
+    for(let alternative of this.decision.getAlternative)
+    {
+        for(let criteria of alternative.getCriteriaArray)
+        {
+          if(criteria.getId==id)
+          {
+            return criteria.getValue;
+          }
+        }
+    }
   }
 
 }

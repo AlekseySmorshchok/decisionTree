@@ -44,10 +44,16 @@ export class CreateTreeComponent implements OnInit {
           {
             this.decision = this.decisionCreateService.makeDecisionObject(data);
             localStorage.setItem("idDecision", this.decision.getId.toString());
+            this.router.navigate(['createAlternative',1]);
           }
         );
+        
+    
     }
-    this.router.navigate(['createAlternative',1]);
+    else
+    {
+      this.router.navigate(['createAlternative',1]);
+    }
   }
 
   

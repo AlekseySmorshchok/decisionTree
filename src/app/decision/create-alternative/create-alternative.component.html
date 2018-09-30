@@ -48,7 +48,8 @@
             <li><button class="button alt large" type="submit" [disabled]="alternativeForm.form.invalid">Добавить</button></li>
           </ul>
         </div>
-        <div>
+      </div>
+    </form>
           <mat-nav-list *ngIf="decision.alternativeArray.length">
               <header class="major">
                   <p>Список созданных альтернатив</p>
@@ -63,9 +64,6 @@
                 </mat-list-item>
               <mat-divider></mat-divider>
           </mat-nav-list>
-        </div>
-      </div>
-    </form>
     
     <button mat-raised-button (click)="goBack()">Вернуться назад</button>
     <button mat-raised-button type="submit" (click)="goNext()">Далее</button>

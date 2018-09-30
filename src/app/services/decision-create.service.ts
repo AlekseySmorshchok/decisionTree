@@ -79,6 +79,7 @@ export class DecisionCreateService {
       this.decision.getAlternative.splice(index, 1);
     }
   }
+  
   deleteCriteria(criteria: Criteria, criteriaArray : Criteria[])
   {
     

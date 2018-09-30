@@ -42,11 +42,11 @@
   </thead>
   <tbody>
       <tr *ngFor="let number of decision.alternativeArray[0].criteriaArray; index as i">
-        <th><mat-checkbox  [(ngModel)]="minRate[i]" id = {{i}}></mat-checkbox></th>
+        <th><mat-checkbox [disabled]="disabled[i]" [(ngModel)]="minRate[i]" id = {{i}}></mat-checkbox></th>
         <th> {{number.name}}</th>
         <th *ngFor="let alternative of decision.alternativeArray">
           <mat-input-container class="example-full-width" style="margin-left:20px;margin-right:20px;width:100px;">
-            <input  matInput [(ngModel)]="alternative.criteriaArray[i].value" id = {{alternative.criteriaArray[i].id}} required >
+            <input  matInput (input)="checkForLetters(alternative.criteriaArray[i].id)" [(ngModel)]="alternative.criteriaArray[i].value" id = {{alternative.criteriaArray[i].id}} required >
           </mat-input-container>
         </th>
       </tr>

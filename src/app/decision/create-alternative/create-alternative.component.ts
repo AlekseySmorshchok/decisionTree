@@ -16,7 +16,7 @@ export class CreateAlternativeComponent implements OnInit {
 
   title = 'Create Alternative';
   newAlternativeName = '';
-  decision : Decision;
+  decision : Decision = new Decision;
   path: number;
   flag: boolean = false;
 
@@ -30,32 +30,36 @@ export class CreateAlternativeComponent implements OnInit {
       if(localStorage.getItem('currentUser')!=null)
       {
         this.decisionCreateService.getDecisionTree().subscribe(
-          
             data =>
             {
               this.decision = this.decisionCreateService.makeDecisionObject(data);
-            }
-          
+              this.decisionCreateService.setDecision(this.decision);
+              this.check();
+            }         
         );
       }
       else{
         this.decision = this.decisionCreateService.getDecision();
+        this.check();
       }
-      if( this.decision.getName == undefined)
+  }
+
+  check()
+  {
+    if( this.decision.getName == undefined)
+    {
+      this.redirectWithMessage();
+    }
+    else{
+      if(this.decision.getAlternative.length!=0)
       {
-        this.redirectWithMessage();
-      }
-      else{
-        if(this.decision.getAlternative.length!=0)
-        {
         this.flag = true;
-        }
       }
+    }
   }
 
   create()
   {
-    
     this.decision = this.decisionCreateService.createAlternative(this.newAlternativeName, this.flag);
   }
 
@@ -81,7 +85,6 @@ export class CreateAlternativeComponent implements OnInit {
       if(result != undefined)
       {
         alternative.setName = result;
-        
       }
     });
   }
