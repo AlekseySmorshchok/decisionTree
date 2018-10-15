@@ -1,26 +1,53 @@
-<div class="modal-dialog">
-  <div class="modal-content panel-login">
-    <div class="panel-heading">
-      <div class="row">
-        <div class="col-xs-6" >
-          <a  href="#login" id="login-form-link" [class.active]="activeLinkLogin" (click)="changeActiveLogin()" tabindex="0"  style="display: block; ">LOGIN</a>
-          </div>
+ <!--<div class="modal-dialog">
+    <div class="modal-content panel-login">
+      <div class="panel-heading">
+        <div class="row">
           <div class="col-xs-6" >
-            <a  href="#register" id="register-form-link" [class.active]="activeLinkRegister" (click)="changeActiveRegister()" tabindex="1" style="display: block;" >REGISTER</a>
-            <br>
+            <a  href="#login" id="login-form-link" [class.active]="activeLinkLogin" (click)="changeActiveLogin()" tabindex="0"  style="display: block; ">LOGIN</a>
+            </div>
+            <div class="col-xs-6" >
+              <a  href="#register" id="register-form-link" [class.active]="activeLinkRegister" (click)="changeActiveRegister()" tabindex="1" style="display: block;" >REGISTER</a>
+              <br>
+          </div>
         </div>
+    </div>
+      <div id="login" *ngIf="activeLinkLogin" >
+        <h2 class="text-center"></h2>
+        <app-sign-in></app-sign-in>
       </div>
-   </div>
-    <div id="login" *ngIf="activeLinkLogin" >
-      <h2 class="text-center"></h2>
-      <app-sign-in></app-sign-in>
+      <div id="register" *ngIf="activeLinkRegister" >
+        <app-sign-up></app-sign-up>
+        <h2 class="text-center"> </h2>
+      </div>
+      <div class="modal-footer">
+        <button  type="button" class="btn-default btn" data-dismiss="modal">Close</button>
+      </div>
     </div>
-    <div id="register" *ngIf="activeLinkRegister" >
-      <app-sign-up></app-sign-up>
-      <h2 class="text-center"> </h2>
+  </div>-->
+ 
+  <div class="containerAuth">
+  <form class="specialContainer">
+    <input checked="" id="signin" name="action" type="radio" value="signin">
+    <label for="signin">Sign in</label>
+    <input id="signup" name="action" type="radio" value="signup">
+    <label for="signup">Sign up</label>
+    <input id="reset" name="action" type="radio" value="reset">
+    <label for="reset">Reset</label>
+    <div id="wrapper">
+      <div id="arrow"></div>
+      <input id="email" placeholder="Email" type="text">
+      <input id="pass" placeholder="Password" type="password">
+      <input id="repass" placeholder="Repeat password" type="password">
     </div>
-    <div class="modal-footer">
-      <button  type="button" class="btn-default btn" data-dismiss="modal">Close</button>
-    </div>
-  </div>
+    <button type="submit">
+      <span>
+        Reset password
+        <br>
+        Sign in
+        <br>
+        Sign up
+      </span>
+    </button>
+  </form>
+  <div id="hint">Click on the tabs</div>
 </div>
