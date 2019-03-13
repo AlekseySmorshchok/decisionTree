@@ -66,7 +66,7 @@ import { FooterComponent } from './decision/footer/footer.component';
     DecisionModule,
     HttpModule,
   ],
-  providers: [DecisionCreateService,{ 
+  providers: [DecisionCreateService, {
     provide: AuthHttp,
     useFactory: authHttpServiceFactory,
     deps: [Http, RequestOptions]

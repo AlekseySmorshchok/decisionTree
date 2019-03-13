@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DecisionCreateService } from '../../services/decision-create.service';
 import { Decision } from '../../model/decision';
+import { Http } from '@angular/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -10,8 +12,12 @@ import { Decision } from '../../model/decision';
 })
 export class HomeComponent implements OnInit {
   title = 'Decision App';
+
+  host : string ;
   constructor(private router: Router, 
-              private decisionCreateService: DecisionCreateService) { }
+              private decisionCreateService: DecisionCreateService,
+              private http: Http){
+                this.host = environment.host;}
 
   goCreateDesicion() {
     this.decisionCreateService.setDecision(new Decision());
