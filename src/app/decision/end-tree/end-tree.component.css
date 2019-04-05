@@ -10,6 +10,7 @@
     font-size: 18px;
     max-width: 200px;
     word-wrap: break-word;
+    font-weight: 400 !important;
   }
   
   
@@ -18,3 +19,17 @@
     margin-top: 50px;
   }
   
+  .mat-raised-button {
+    margin: 10px auto;
+    border-radius: 5px;
+  }
+
+.mat-raised-button:hover {
+    background-color: cyan;
+}
+
+
+  div[_ngcontent-c3=""] {
+    display: flex;
+    justify-content: center;
+  }

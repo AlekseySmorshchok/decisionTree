@@ -1,0 +1,36 @@
+table th{
+    font-weight: 400 !important;
+}
+
+.mat-raised-button {
+    border-radius: 5px;
+    width: 199px;
+    margin-top: 10px;
+}
+
+.mat-raised-button:nth-child(2) {
+    margin-left: 10px;
+}
+
+.mat-raised-button:hover {
+    background-color: cyan;
+}
+
+.btns {
+    display: flex;
+    justify-content: center;
+}
+
+.btns-next .mat-raised-button {
+    width: 250px;
+    margin-top: 25px;
+}
+
+.btns-next {
+    display: flex;
+    justify-content: center;
+}
+
+.btns-next .mat-raised-button:hover {
+    background-color: cyan;
+}

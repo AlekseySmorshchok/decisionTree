@@ -1,0 +1,36 @@
+.mat-toolbar.mat-primary {
+    background: none;
+    color: #474747;
+    width: 1200px;
+    margin: auto;
+}
+
+.mat-toolbar-row, .mat-toolbar-single-row {
+    padding: 0;
+}
+
+h1 {
+    font-size: 30px;
+}
+
+form p {
+    font-size: 24px;
+}
+
+input {
+    font-size: 20px;
+}
+
+.mat-raised-button {
+    border-radius: 5px;
+    width: 144px;
+    margin-top: 10px;
+}
+
+.mat-raised-button:last-child {
+    margin-left: 10px;
+}
+
+.mat-raised-button:hover {
+    background-color: cyan;
+}

@@ -1,0 +1,17 @@
+app-footer {
+    position: fixed;
+    bottom: 0;
+}
+
+div.row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.row div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 34px;
+}

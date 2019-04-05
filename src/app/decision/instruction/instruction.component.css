@@ -1,0 +1,14 @@
+pre {
+    width: 920px;
+    margin: auto;
+}
+
+.mat-raised-button {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.mat-raised-button:hover {
+    background-color: cyan;
+}

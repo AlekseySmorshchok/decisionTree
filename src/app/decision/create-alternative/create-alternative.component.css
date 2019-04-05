@@ -2,3 +2,50 @@
 {
     margin-left: 10% ;
 }
+
+header.major>p {
+    color: #474747;
+}
+
+ul.ctions.vertical {
+    margin: auto;
+}
+
+div.row.uniform {
+    display: flex;
+    margin: auto;
+}
+
+div.row.uniform>div {
+    display: flex;
+    margin: auto;
+}
+
+button.button.alt.large {
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+button.button.alt.large:hover {
+    background-color: cyan !important;
+}
+
+.mat-raised-button {
+    border-radius: 5px;
+    width: 144px;
+    margin-top: 10px;
+}
+
+.mat-raised-button:last-child {
+    margin-left: 10px;
+}
+
+.mat-raised-button:hover {
+    background-color: cyan;
+}
+
+div.mat-list-item-content {
+    display: flex;
+    justify-content: center !important;
+}
+

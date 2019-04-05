@@ -1,0 +1,38 @@
+.mat-expansion-panel-header-description {
+    font-weight: 600;
+    font-size: 20px;
+    flex-grow: none;
+}
+
+.mat-expansion-panel-header-description {
+    flex-grow: unset;
+}
+
+.mat-expansion-panel-header-description, .mat-expansion-panel-header-title {
+    display: flex;
+    flex-grow: 1;
+    margin-right: 16px;
+}
+
+form {
+    width: 920px;
+    margin: auto;
+}
+
+.mat-raised-button {
+    border-radius: 5px;
+    width: 199px;
+    margin-top: 10px;
+}
+
+.mat-raised-button:first-child {
+    width: 284px;
+}
+
+.mat-raised-button:nth-child(2) {
+    margin-left: 10px;
+}
+
+.mat-raised-button:hover {
+    background-color: cyan;
+}
