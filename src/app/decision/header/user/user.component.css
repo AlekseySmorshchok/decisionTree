@@ -29,11 +29,32 @@ html, body * { box-sizing: border-box; font-family: 'Open Sans', sans-serif; }
 form {
   width: 450px;
   height: 370px;
+  margin: auto;
+  padding-top: 20px;
+  /*
   position: absolute;
     top: 35%;
     left: 50%;
     margin-right: -50%;
-    transform: translate(-50%, -50%)
+    transform: translate(-50%, -50%);
+    */
+}
+
+form[_ngcontent-c5] {
+
+    width: 450px;
+    height: 370px;
+    margin: auto;
+    padding-top: 20px;
+    /*
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    margin-right: -50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    */
+
 }
 
 input[type=radio] { display: none; }
