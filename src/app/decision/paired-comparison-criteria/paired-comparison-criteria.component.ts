@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Decision, Criteria } from '../../model/decision';
+import { Decision } from '../../model/decision';
 import { DecisionCreateService } from '../../services/decision-create.service';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { RedirectWithMessageComponent } from '../create-alternative/redirect-with-message/redirect-with-message.component';
 import { and } from '@angular/router/src/utils/collection';
+import { Criteria } from '../../model/criteria';
 
 @Component({
   selector: 'app-paired-comparison-criteria',

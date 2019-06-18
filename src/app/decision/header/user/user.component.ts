@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SignInComponent } from './sign-in/sign-in.component';
 
 @Component({
@@ -8,10 +8,12 @@ import { SignInComponent } from './sign-in/sign-in.component';
   providers: [SignInComponent]
 })
 export class UserComponent{
-
-  constructor(private signInComponent:SignInComponent){}
   activeLinkLogin: boolean = true;
   activeLinkRegister: boolean = false;
+  constructor(){}
+  /*signIn: boolean = true;
+  signUp: boolean = false;
+  reset:boolean = false;*/
 
   changeActiveLogin(){
     this.activeLinkLogin = true;
@@ -21,4 +23,12 @@ export class UserComponent{
     this.activeLinkRegister = true;
     this.activeLinkLogin = false;
   }
+
+  /*userFunction()
+  {
+    console.log(this.signIn);
+    console.log(this.signUp);
+    console.log(this.reset);
+  }*/
+
 }

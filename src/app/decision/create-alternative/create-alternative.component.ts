@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Decision, Alternative } from '../../model/decision';
+import { Decision } from '../../model/decision';
 import { DecisionCreateService } from '../../services/decision-create.service';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { RedirectWithMessageComponent } from './redirect-with-message/redirect-with-message.component';
 import { Router } from '@angular/router';
 import { EditAlternativeComponent } from './edit-alternative/edit-alternative.component';
 import { DeletAlternativeComponent } from './delet-alternative/delet-alternative.component';
+import { DecisionInterface } from '../../services/decisionInterface';
+import { DecisionServiceWithAuth } from '../../services/decisionServiceWithAuth';
+import { DecisionServiceWithoutAuth } from '../../services/decisonServiceWithoutAuth';
+import { Alternative } from '../../model/alternative';
 
 @Component({
   selector: 'app-create-alternative',
@@ -16,10 +20,11 @@ export class CreateAlternativeComponent implements OnInit {
 
   title = 'Create Alternative';
   newAlternativeName = '';
-  decision : Decision = new Decision;
+  decision : Decision;
   path: number;
-  flag: boolean = false;
-
+  flag = false;
+  decisionInterface : DecisionInterface;
+  
   constructor(private decisionCreateService : DecisionCreateService,
               private dialog: MatDialog,
               private router: Router,
@@ -27,31 +32,25 @@ export class CreateAlternativeComponent implements OnInit {
 
   ngOnInit() {
       this.path = +this.router.url.substring(this.router.url.length-1,this.router.url.length);
-      if(localStorage.getItem('currentUser')!=null)
-      {
-        this.decisionCreateService.getDecisionTree().subscribe(
-            data =>
-            {
-              this.decision = this.decisionCreateService.makeDecisionObject(data);
-              this.decisionCreateService.setDecision(this.decision);
-              this.check();
-            }         
-        );
+      if (localStorage.getItem('currentUser') != null) {
+        this.decisionInterface = new DecisionServiceWithAuth();
       }
-      else{
-        this.decision = this.decisionCreateService.getDecision();
-        this.check();
+      else {
+        this.decisionInterface = new DecisionServiceWithoutAuth();
       }
+      this.decision = this.decisionInterface.getDecision();
+      this.check();
   }
 
   check()
   {
-    if( this.decision.getName == undefined)
+    if( this.decision == null)
     {
-      this.redirectWithMessage();
+      //this.redirectWithMessage();
+      this.decision = new Decision();
     }
     else{
-      if(this.decision.getAlternative.length!=0)
+      if(this.decision.getAlternative != null && this.decision.getAlternative.length != 0)
       {
         this.flag = true;
       }
@@ -60,7 +59,12 @@ export class CreateAlternativeComponent implements OnInit {
 
   create()
   {
-    this.decision = this.decisionCreateService.createAlternative(this.newAlternativeName, this.flag);
+    if( this.decision == null)
+    {
+      this.redirectWithMessage();
+    }
+    this.decision.getAlternative.push(this.decisionCreateService.makeOneAlternative(this.newAlternativeName, this.flag, this.decision));
+    this.decisionInterface.setDecision(this.decision);
   }
 
   redirectWithMessage()
@@ -76,6 +80,10 @@ export class CreateAlternativeComponent implements OnInit {
 
 
   editAlternative(alternative: Alternative): void {
+    if( this.decision == null)
+    {
+      this.redirectWithMessage();
+    }
     let dialogRef = this.dialog.open(EditAlternativeComponent, {
       width: '250px',
       data: { name: alternative.getName }
@@ -95,7 +103,7 @@ export class CreateAlternativeComponent implements OnInit {
       data: { name: '' }
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.decisionCreateService.deleteAlternative(alternative);
+      this.decisionCreateService.deleteAlternative(alternative,this.decision);
     }
   );
 }
@@ -104,32 +112,21 @@ export class CreateAlternativeComponent implements OnInit {
   {
     if(this.path == 1)
     {
-
-      this.router.navigate(['createCriteria',1]);
       this.decision.setStage = 1;
+      this.decisionInterface.setDecision(this.decision);
+      this.router.navigate(['createCriteria', 1]);
     }
     else{
+      
+      this.decisionInterface.setDecision(this.decision);
       this.router.navigate(['fillValueCriteria']);
     }
   }
 
   goNext() {
-    if(this.decision.getAlternative.length>=2)
+    if(this.decision.getAlternative.length >= 2)
     {
-      if(localStorage.getItem("currentUser")!=null)
-      {
-        this.decisionCreateService.saveDecision(this.decision).subscribe(
-          data=>
-          {
-            this.decision = this.decisionCreateService.makeDecisionObject(data);
-            this.goToUrl();
-          }
-        );
-      }
-      else{
         this.goToUrl();
-      }
-      
     }
     else
     {
@@ -139,7 +136,7 @@ export class CreateAlternativeComponent implements OnInit {
 
   goBack()
   {
-    if(this.path==1)
+    if(this.path == 1)
     {
       this.router.navigate(['createTree']);
     }
@@ -155,5 +152,3 @@ export class CreateAlternativeComponent implements OnInit {
   }
 
 }
-
-// 

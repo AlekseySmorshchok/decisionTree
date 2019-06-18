@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Decision, Alternative, Criteria } from '../model/decision';
+import { Decision } from '../model/decision';
 import { AuthConfigConsts, AuthHttp } from 'angular2-jwt';
 import { Http,Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -7,6 +7,8 @@ import { environment } from '../../environments/environment';
 import { HttpParams } from '@angular/common/http';
 import { DecisionWithCompareArray } from '../model/decisionWithCompareArray';
 import { Observable } from '../../../node_modules/rxjs/Observable';
+import { Alternative } from '../model/alternative';
+import { Criteria } from '../model/criteria';
 
 @Injectable()
 export class DecisionCreateService {
@@ -19,50 +21,34 @@ export class DecisionCreateService {
       this.host = environment.host;
    }
 
-   createDecision(name : string, note : string)
+   /*createDecision(name: string, note: string): Decision
    {
-     this.decision.setName = name;
-     this.decision.setNote = note;
-   }
+      let decisionObect = new Decision();
+      decisionObect.setName = name;
+      decisionObect.setNote = note;
+      return decisionObect;
+   }*/
 
+  
    getDecision()
    {
      return this.decision;
    }
 
-   createAlternative(name : string, tmp : boolean) : Decision
+   makeOneAlternative(name : string, flag: boolean, decisionObject: Decision) : Alternative
    {
-      this.decision.getAlternative.push(this.makeOneAlternative(name, tmp));
-      return this.decision;
-   }
-
-   makeOneAlternative(name : string, flag: boolean) : Alternative
-   {
-    var alternative : Alternative = new Alternative();
+    let alternative = new Alternative();
     alternative.setName = name;
-    if(this.decision.getAlternative.length!=0)
+    if(decisionObject.getAlternative.length != 0)
     {
-        alternative.setId = this.decision.getAlternative[this.decision.getAlternative.length-1].getId +1;
+        alternative.setId = decisionObject.getAlternative[decisionObject.alternativeArray.length - 1].id + 1;
     }
     else{
         alternative.setId = 1;
     }
     if(flag == true)
     {
-      
-      let lengthAlternative = this.decision.getAlternative.length;
-      let lengthCriteria = this.decision.getAlternative[0].getCriteriaArray.length;
-      let i = this.decision.getAlternative[lengthAlternative-1].getCriteriaArray[lengthCriteria-1].getId +1;
-      let criteriaArray : Criteria[ ] = [];
-        for(let criteria of this.decision.getAlternative[0].getCriteriaArray)
-        {
-          let tmp: Criteria = new Criteria();
-          tmp.setName = criteria.getName;
-          tmp.setId = i;
-          criteriaArray.push(tmp);
-          i++;
-        }
-      alternative.setCriteriaArray = criteriaArray;
+      alternative.setCriteriaArray = JSON.parse(JSON.stringify(decisionObject.getAlternative[0].getCriteriaArray)) as Criteria[ ];
     }
     return alternative;
    }
@@ -72,11 +58,11 @@ export class DecisionCreateService {
      this.decision = decision;
    }
 
-   deleteAlternative(alternative: Alternative) {
-    let index = this.decision.getAlternative.indexOf(alternative);
+   deleteAlternative(alternative: Alternative, decisionObject: Decision) {
+    let index = decisionObject.getAlternative.indexOf(alternative);
 
     if (index > -1) {
-      this.decision.getAlternative.splice(index, 1);
+      decisionObject.getAlternative.splice(index, 1);
     }
   }
   
@@ -191,7 +177,7 @@ makeDecisionObject(dec:Decision)
       headers.append('Content-Type', 'application/json');
       headers.append('Authorization', localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME));
       var id : number = +localStorage.getItem("idDecision");
-      return this.authHttp.post(this.host + `getDecision`, id,{headers})
+      return this.authHttp.post(this.host + `getDecision`, id, {headers})
       .map(response => response.json() as Decision);
   }
 

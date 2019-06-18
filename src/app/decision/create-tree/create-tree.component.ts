@@ -3,28 +3,33 @@ import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { DecisionCreateService } from '../../services/decision-create.service';
 import { Decision } from '../../model/decision';
+import { DecisionInterface } from '../../services/decisionInterface';
+import { DecisionServiceWithAuth } from '../../services/decisionServiceWithAuth';
+import { DecisionServiceWithoutAuth } from '../../services/decisonServiceWithoutAuth';
 
 @Component({
   selector: 'app-create-tree',
   templateUrl: './create-tree.component.html',
   styleUrls: ['./create-tree.component.css']
 })
-export class CreateTreeComponent implements OnInit {
+export class CreateTreeComponent implements OnInit{
 
-  newDecisionTitle = '';
-  note = '';
-  decision : Decision;
-  
+  decision: Decision;
+  decisionInterface : DecisionInterface;
   constructor(public snackBar: MatSnackBar,
               private router: Router,
-              private decisionCreateService : DecisionCreateService) { }
+              private decisionCreateService: DecisionCreateService) { }
 
   ngOnInit() {
-    this.decision = this.decisionCreateService.getDecision();
-    if(this.decision.getName != undefined)
-    {
-      this.newDecisionTitle = this.decision.getName;
-      this.note = this.decision.getNote;
+    if (localStorage.getItem('currentUser') != null) {
+      this.decisionInterface = new DecisionServiceWithAuth();
+    }
+    else {
+      this.decisionInterface = new DecisionServiceWithoutAuth();
+    }
+    this.decision = this.decisionInterface.getDecision();
+    if(this.decision == null) {
+      this.decision = new Decision();
     }
   }
 
@@ -35,27 +40,9 @@ export class CreateTreeComponent implements OnInit {
   }
 
   goNext() {
-    this.openSnackBar(this.newDecisionTitle, 'Create');
-    this.decisionCreateService.createDecision(this.newDecisionTitle,this.note);
-    if(localStorage.getItem("currentUser")!=null)
-    {
-        this.decisionCreateService.saveDecision(this.decisionCreateService.getDecision()).subscribe(
-          data=>
-          {
-            this.decision = this.decisionCreateService.makeDecisionObject(data);
-            localStorage.setItem("idDecision", this.decision.getId.toString());
-            this.router.navigate(['createAlternative',1]);
-          }
-        );
-        
-    
-    }
-    else
-    {
-      this.router.navigate(['createAlternative',1]);
-    }
+    this.openSnackBar(this.decision.name, 'Create');
+    this.decisionInterface.setDecision(this.decision);
+    this.router.navigate(['createAlternative', 1]);
   }
-
-  
 
 }

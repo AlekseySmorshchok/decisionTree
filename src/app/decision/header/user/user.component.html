@@ -1,33 +1,21 @@
- <!--<div class="modal-dialog">
-    <div class="modal-content panel-login">
-      <div class="panel-heading">
-        <div class="row">
-          <div class="col-xs-6" >
-            <a  href="#login" id="login-form-link" [class.active]="activeLinkLogin" (click)="changeActiveLogin()" tabindex="0"  style="display: block; ">LOGIN</a>
-            </div>
-            <div class="col-xs-6" >
-              <a  href="#register" id="register-form-link" [class.active]="activeLinkRegister" (click)="changeActiveRegister()" tabindex="1" style="display: block;" >REGISTER</a>
-              <br>
-          </div>
-        </div>
-    </div>
-      <div id="login" *ngIf="activeLinkLogin" >
-        <h2 class="text-center"></h2>
-        <app-sign-in></app-sign-in>
-      </div>
-      <div id="register" *ngIf="activeLinkRegister" >
-        <app-sign-up></app-sign-up>
-        <h2 class="text-center"> </h2>
-      </div>
-      <div class="modal-footer">
-        <button  type="button" class="btn-default btn" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>-->
-
-  <div class="containerAuth">
+<div class="containerAuth">
+  <div  >
+    <a  id="login-form-link" [class.active]="activeLinkLogin" (click)="changeActiveLogin()" tabindex="0"  style="display: block; ">LOGIN</a>
+  </div>
+    <div  >
+      <a  id="register-form-link" [class.active]="activeLinkRegister" (click)="changeActiveRegister()" tabindex="1" style="display: block;" >REGISTER</a>
+      <br>
+  </div>
+  <div id="login" *ngIf="activeLinkLogin" >
+    <app-sign-in></app-sign-in>
+  </div>
+  <div id="register" *ngIf="activeLinkRegister" >
+    <app-sign-up></app-sign-up>
+  </div>
+</div>
+<!--<div class="containerAuth">
   <form class="specialContainer">
-    <input checked="" id="signin" name="action" type="radio" value="signin">
+    <input id="signin" name="action" type="radio" value="signin">
     <label for="signin">Войти</label>
     <input id="signup" name="action" type="radio" value="signup">
     <label for="signup">Зарегистрироваться</label>
@@ -39,7 +27,7 @@
       <input id="pass" placeholder="Пароль" type="password">
       <input id="repass" placeholder="Повторите пароль" type="password">
     </div>
-    <button type="submit">
+    <button type="submit"  (click)="userFunction()">
       <span>
         Сбросить пароль
         <br>
@@ -50,4 +38,4 @@
     </button>
   </form>
   <div id="hint">Click on the tabs</div>
-</div>
+</div>-->

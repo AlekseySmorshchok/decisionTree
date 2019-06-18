@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DecisionCreateService } from '../../services/decision-create.service';
-import { Decision, Alternative } from '../../model/decision';
+import { Decision } from '../../model/decision';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { RedirectWithMessageComponent } from '../create-alternative/redirect-with-message/redirect-with-message.component';
+import { Alternative } from '../../model/alternative';
 
 @Component({
   selector: 'app-fill-value-criteria',

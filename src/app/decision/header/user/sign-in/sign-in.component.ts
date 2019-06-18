@@ -18,12 +18,7 @@ export class SignInComponent{
   }
   checkLogin() {}
   checkPassword() {}
-  loading = false;
-  returnUrl: string;
-  errorMessage: string;
   login(data: any) {
-    this.loading = true;
-    this.errorMessage = null;
     this.userServise.login(this.user._email, this.user._password)
       .flatMap(data => {
         return this.userServise.getMe();
@@ -31,12 +26,9 @@ export class SignInComponent{
       .subscribe(
         data => {
           localStorage.setItem('currentUser', JSON.stringify(data));
-        },
-        error => {
-          this.loading = false;
-          console.log(this.errorMessage = error.json().message);
         }
       );
+      this.router.navigate(['']);
   }
   formReset(form: NgForm){
       form.reset();

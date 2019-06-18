@@ -22,11 +22,6 @@ export class SignUpComponent  {
               private validationService:ValidationData)
   {}
 
-  checkFirstName(){}
-  checkLastName(){}
-  checkEmail(){}
-  checkNick(){}
-
   static setErrors(answer: string) {
     return answer === null;
   }
@@ -35,7 +30,7 @@ export class SignUpComponent  {
     this.formErrors.passwordConfirm = this.validationService.confirmPassword(this.user._password, this.passwordConfirm);
     this.isPasswordConfirm = SignUpComponent.setErrors(this.formErrors.passwordConfirm);
   }
-  register(data: any) {
+  register() {
     this.userService.register(this.user).subscribe(
       error =>{
         console.log(this.errorMessage = error.json().message);

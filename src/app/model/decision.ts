@@ -1,12 +1,25 @@
-export class Decision {
+import {  Injectable } from "@angular/core";
+import { Alternative } from "./alternative";
+import { Deserializable } from "../services/deserializable";
+
+export class Decision  implements Deserializable {
+
+  
+  public alternativeArray: Alternative[] = [];
   public id: number;
   public name: string;
   public note: string;
-  public stage: number = 0;
-  public alternativeArray: Alternative[] = [];
-  constructor(){}
+  public stage: number;
   
-  get getId():number{
+  constructor() {
+    this.id = 0;
+    this.name = '';
+    this.note = '';
+    this.stage = 0;
+    this.alternativeArray = [];
+  }
+  
+  get getId(): number{
     return this.id
   }
 
@@ -15,8 +28,8 @@ export class Decision {
     this.id = id;
   }
 
-  get getName() : string{
-    return this.name
+  get getName(): string{
+    return this.name;
   }
 
   set setName(name : string)
@@ -37,7 +50,7 @@ export class Decision {
     return this.alternativeArray
   }
 
-  set setAlternative(decisionArray:Alternative[])
+  set setAlternative(decisionArray: Alternative[])
   {
     this.alternativeArray = decisionArray;
   }
@@ -52,153 +65,22 @@ export class Decision {
     this.stage = stage;
   }
 
-}
-
-export class Alternative {
-  public id: number;
-  public name: string;
-  public url: string = null;
-  public finalRate: number = 1;
-  public criteriaArray: Criteria[] = [];
-
-  constructor() {
-  }
-
-  get getId()
-  {
-    return this.id;
-  }
-
-  set setId(id : number)
-  {
-    this.id = id;
-  }
-
-  get getName()
-  {
-    return this.name;
-  }
-
-  set setName(name : string)
-  {
-    this.name = name;
-  }
-
-  get getUrl()
-  {
-    return this.url;
-  }
-
-  set setUrl(url : string)
-  {
-    this.url = url;
-  }
-
-  get getFinalRate()
-  {
-    return this.finalRate;
-  }
-
-  set setFinalRate(finalRate:number)
-  {
-    this.finalRate = finalRate;
-  }
-
-   get getCriteriaArray()
-  {
-    return this.criteriaArray;
-  }
-
-  set setCriteriaArray(criteriaArray : Criteria[])
-  {
-    this.criteriaArray = criteriaArray;
-  }
-}
-
-export class Criteria {
-  public id: number;
-  public name: string = '';
-  public rate: number = 0;
-  public value: string = null;
-  public valueRate: number = null;
-  public criterionPriority: number = 0;
-  public valuePriority: number = 0;
-  public minMaxValue: boolean = false;
-
-  constructor() {}
-
-  get getId()
-  {
-    return this.id;
-  }
-
-  set setId(id : number)
-  {
-    this.id = id;
-  }
-  get getName()
-  {
-    return this.name;
-  }
-
-  set setName(name : string)
-  {
-    this.name = name;
-  }
-  get getRate()
-  {
-    return this.rate;
-  }
-
-  set setRate(rate : number)
-  {
-    this.rate = rate;
-  }
-  get getValue()
-  {
-    return this.value;
-  }
-
-  set setValue(value : string)
-  {
-    this.value =value;
-  }
-  get getValueRate()
-  {
-    return this.valueRate;
-  }
-
-  set setValueRate(valueRate : number)
-  {
-    this.valueRate = valueRate;
-  }
-  get getCriterionPriority()
-  {
-    return this.criterionPriority;
-  }
-
-  set setCriterionPriority(criterionPriority : number)
-  {
-    this.criterionPriority = criterionPriority;
-  }
-  get getValuePriority()
-  {
-    return this.valuePriority;
-  }
-
-  set setValuePriority(valuePriority : number)
-  {
-    this.valuePriority = valuePriority;
-  }
-
-  get getMinMaxValue()
-  {
-    return this.minMaxValue;
-  }
-
-  set setMinMaxValue(minMaxValue : boolean)
-  {
-    this.minMaxValue = minMaxValue;
+  deserialize(input: any): this {
+    Object.assign(this, input);
+    console.log("asd");
+    console.log(this);
+    if(this.getName != '') {
+      this.alternativeArray = []
+      let alternative = new Alternative().deserialize(input.alternative);
+      if(alternative.getName !='')
+      {
+        this.alternativeArray.push(new Alternative().deserialize(input.alternative));
+      }
+      return this;
+    }else {
+      return null;
+    }
   }
 
 }
+

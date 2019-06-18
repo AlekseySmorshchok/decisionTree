@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { DecisionCreateService } from '../../services/decision-create.service';
-import { Criteria, Decision} from '../../model/decision';
+import {  Decision} from '../../model/decision';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { RedirectWithMessageComponent } from '../create-alternative/redirect-with-message/redirect-with-message.component';
 import { Router } from '@angular/router';
 import { EditCriteriaComponent } from './edit-criteria/edit-criteria.component';
 import { DeletAlternativeComponent } from '../create-alternative/delet-alternative/delet-alternative.component';
 import { DeleteCriteriaComponent } from './delete-criteria/delete-criteria.component';
+import { Criteria } from '../../model/criteria';
 
 @Component({
   selector: 'app-create-criteria',
@@ -21,7 +22,7 @@ export class CreateCriteriaComponent implements OnInit {
   decision : Decision;
   criteriaArray: Criteria[] = [];
 
-  constructor(private decisionCreateService : DecisionCreateService,
+  constructor(private decisionCreateService: DecisionCreateService,
               private dialog: MatDialog,
               private router: Router,
               private snackBar: MatSnackBar) { }
