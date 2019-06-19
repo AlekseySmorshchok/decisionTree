@@ -16,9 +16,9 @@ export class CreateTreeComponent implements OnInit{
 
   decision: Decision;
   decisionInterface : DecisionInterface;
+  buttonName: string;
   constructor(public snackBar: MatSnackBar,
-              private router: Router,
-              private decisionCreateService: DecisionCreateService) { }
+              private router: Router) { }
 
   ngOnInit() {
     if (localStorage.getItem('currentUser') != null) {
@@ -30,6 +30,11 @@ export class CreateTreeComponent implements OnInit{
     this.decision = this.decisionInterface.getDecision();
     if(this.decision == null) {
       this.decision = new Decision();
+      this.buttonName = "Создать";
+    }
+    else
+    {
+      this.buttonName = "Далее";
     }
   }
 

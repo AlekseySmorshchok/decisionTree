@@ -29,7 +29,7 @@
                 <textarea name="message" id="message"  [(ngModel)]="decision.note" placeholder="Комментарий" rows="6"></textarea>
               </div>
               <p></p>
-              <button class="button alt big" type="submit" [disabled]="decisionForm.form.invalid" (click)="goNext()">Создать</button>
+              <button class="button alt big" type="submit" [disabled]="decisionForm.form.invalid" (click)="goNext()">{{buttonName}}</button>
       </form>
 </div>
 </section>

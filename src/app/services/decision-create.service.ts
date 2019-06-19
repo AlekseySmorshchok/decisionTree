@@ -38,20 +38,33 @@ export class DecisionCreateService {
 
    makeOneAlternative(name : string, flag: boolean, decisionObject: Decision) : Alternative // +
    {
-    let alternative = new Alternative();
-    alternative.setName = name;
-    if(decisionObject.getAlternative.length != 0)
-    {
-        alternative.setId = decisionObject.getAlternative[decisionObject.alternativeArray.length - 1].id + 1;
-    }
-    else{
-        alternative.setId = 1;
-    }
-    if(flag == true)
-    {
-      alternative.setCriteriaArray = JSON.parse(JSON.stringify(decisionObject.getAlternative[0].getCriteriaArray)) as Criteria[ ];
-    }
-    return alternative;
+      let alternative = new Alternative();
+      alternative.setName = name;
+      if(decisionObject.getAlternative.length != 0)
+      {
+          alternative.setId = decisionObject.getAlternative[decisionObject.alternativeArray.length - 1].id + 1;
+      }
+      else{
+          alternative.setId = 1;
+      }
+      if(flag == true)
+      {
+        //alternative.setCriteriaArray = JSON.parse(JSON.stringify(decisionObject.getAlternative[0].getCriteriaArray)) as Criteria[ ];
+        let idNumber = this.getMaxCriteriaId(decisionObject);
+        for( let criteriaFromArray of decisionObject.alternativeArray[0].criteriaArray)
+        {
+          let criteria = new Criteria();
+          criteria.id = idNumber;
+          criteria.name = criteriaFromArray.name;
+          if(alternative.criteriaArray == null || alternative.criteriaArray == undefined)
+          {
+            alternative.criteriaArray = [];
+          }
+          alternative.criteriaArray.push(criteria);
+          idNumber++;
+        }
+      }
+      return alternative;
    }
 
    getMaxCriteriaId(decisionObect: Decision) : number // +

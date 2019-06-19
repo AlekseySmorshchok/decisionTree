@@ -35,7 +35,7 @@ export class DecisionServiceWithoutAuth implements DecisionInterface
         this.setDecision(decision);
         return decision;
     }
-      addAlternative(name: string, flag: boolean): Decision {
+    addAlternative(name: string, flag: boolean): Decision {
         let decision = this.getDecision();
         decision.getAlternative.push(DecisionCreateService.prototype.makeOneAlternative(name, flag, decision));
         this.setDecision(decision);

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DecisionCreateService } from '../../services/decision-create.service';
 import { Decision } from '../../model/decision';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { RedirectWithMessageComponent } from '../create-alternative/redirect-with-message/redirect-with-message.component';
 import { Alternative } from '../../model/alternative';
@@ -22,7 +22,7 @@ export class FillValueCriteriaComponent implements OnInit {
   disabled: boolean[] = [];
   decisionInterface : DecisionInterface;
   
-  constructor( private decisionCreateService: DecisionCreateService,
+  constructor( public snackBar: MatSnackBar,
               private dialog: MatDialog,
               private router: Router) { }
 
@@ -70,7 +70,25 @@ export class FillValueCriteriaComponent implements OnInit {
 
   goNext()
   {
+    let canGoNext = true;
     for(let alternative of this.decision.alternativeArray)
+    {
+      for(let criteria of alternative.criteriaArray)
+      {
+        if(criteria.value == null)
+        {
+          canGoNext = false;
+          break;
+        }
+      }
+      if(canGoNext == false)
+      {
+        break;
+      }
+    }
+    if(canGoNext == true)
+    {
+      for(let alternative of this.decision.alternativeArray)
     {
       for(let i in this.decision.alternativeArray[0].criteriaArray)
       {
@@ -80,6 +98,12 @@ export class FillValueCriteriaComponent implements OnInit {
     this.checkValueRate();
     this.decisionInterface.setDecision(this.decision);
     this.router.navigate(['instruction']);
+    }
+    else
+    {
+      this.openSnackBar("Для перехода на следующую страницу, должны быть заполнены все значения", '');
+    }
+    
   }
 
   checkValueRate()
@@ -170,4 +194,9 @@ export class FillValueCriteriaComponent implements OnInit {
     }
   }
 
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000
+    });
+  }
 }

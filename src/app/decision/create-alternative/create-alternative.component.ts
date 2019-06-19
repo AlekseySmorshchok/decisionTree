@@ -50,8 +50,8 @@ export class CreateAlternativeComponent implements OnInit {
       this.decision = new Decision();
     }
     else{
-      if(this.decision.getAlternative != null && this.decision.getAlternative.length != 0 && this.decision.getAlternative[0].getCriteriaArray != null 
-        && this.decision.getAlternative[0].getCriteriaArray.length > 0)
+      if(this.decision.alternativeArray != null && this.decision.alternativeArray.length != 0 && this.decision.alternativeArray[0].criteriaArray != null 
+        && this.decision.alternativeArray[0].criteriaArray.length > 0)
       {
         this.flag = true;
       }
