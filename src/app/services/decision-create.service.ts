@@ -9,6 +9,7 @@ import { DecisionWithCompareArray } from '../model/decisionWithCompareArray';
 import { Observable } from '../../../node_modules/rxjs/Observable';
 import { Alternative } from '../model/alternative';
 import { Criteria } from '../model/criteria';
+import { AngularWaitBarrier } from 'blocking-proxy/built/lib/angular_wait_barrier';
 
 @Injectable()
 export class DecisionCreateService {
@@ -30,12 +31,12 @@ export class DecisionCreateService {
    }*/
 
   
-   getDecision()
+   getDecision()  // -
    {
      return this.decision;
    }
 
-   makeOneAlternative(name : string, flag: boolean, decisionObject: Decision) : Alternative
+   makeOneAlternative(name : string, flag: boolean, decisionObject: Decision) : Alternative // +
    {
     let alternative = new Alternative();
     alternative.setName = name;
@@ -53,29 +54,95 @@ export class DecisionCreateService {
     return alternative;
    }
 
+   getMaxCriteriaId(decisionObect: Decision) : number // +
+   {
+     var Arrayindex = 1;
+     if(decisionObect.alternativeArray[0].criteriaArray == null || decisionObect.alternativeArray[0].criteriaArray == undefined || 
+      decisionObect.alternativeArray[0].criteriaArray.length == 0)
+      {
+        return Arrayindex;
+      }
+      else
+      {
+        for( let alternative of decisionObect.alternativeArray)
+        {
+          for (let criteria of alternative.criteriaArray)
+          {
+            if(criteria.id > Arrayindex)
+            {
+              Arrayindex = criteria.id;
+             
+            }
+            
+          }
+        }
+        return (Arrayindex +1);
+      }
+   }
+
+   pushCriteria(name : string, decisionObect: Decision) :Decision //+
+   {
+      let idNumber = this.getMaxCriteriaId(decisionObect);
+      for(let alternative of decisionObect.alternativeArray )
+      {
+        let criteria = new Criteria();
+        criteria.id = idNumber;
+        criteria.name = name;
+        if(alternative.criteriaArray == null || alternative.criteriaArray == undefined)
+        {
+          alternative.criteriaArray = [];
+        }
+        
+        alternative.criteriaArray.push(criteria);
+        idNumber++;
+      }
+      return decisionObect;
+   }
+
+   deleteCriteriaArray(criteriaName: string, decisionObect: Decision) : Decision //+
+   {
+      let index = -1;
+      for( let alternative of decisionObect.alternativeArray)
+      {
+        for(let criteria of alternative.criteriaArray)
+        {
+          if(criteria.name == criteriaName)
+          {
+            index = alternative.criteriaArray.indexOf(criteria);
+            break;
+          }
+        }
+        if(index != -1)
+        {
+          alternative.criteriaArray.splice(index, 1);
+          index = -1;
+        }
+      }
+      return decisionObect;
+   }
+
    setDecision(decision : Decision)
    {
      this.decision = decision;
    }
 
-   deleteAlternative(alternative: Alternative, decisionObject: Decision) {
-    let index = decisionObject.getAlternative.indexOf(alternative);
-
-    if (index > -1) {
-      decisionObject.getAlternative.splice(index, 1);
+   deleteAlternative(alternative: Alternative, decisionObject: Decision) : Decision {
+    //let index = decisionObject.alternativeArray.indexOf(alternative);
+    let index = 0;
+    for( let i = 0; i < decisionObject.alternativeArray.length; i++)
+    {
+      if(decisionObject.alternativeArray[i].id == alternative.id)
+      {
+        index = i;
+      }
     }
+    if (index > -1) {
+      decisionObject.alternativeArray.splice(index, 1);
+    }
+    return decisionObject;
   }
   
-  deleteCriteria(criteria: Criteria, criteriaArray : Criteria[])
-  {
-    
-      let index = criteriaArray.indexOf(criteria);
-
-      if (index > -1) {
-        criteriaArray.splice(index, 1);
-      }
-    
-  }
+  
 
   sendpairedComparisonCirteria(decision:Decision, rageCriteria:number[][], number:number): Observable<Decision>
   {

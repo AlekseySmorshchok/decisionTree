@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { DecisionCreateService } from '../../services/decision-create.service';
 import { MatDialog } from '@angular/material';
 import { RedirectWithMessageComponent } from '../create-alternative/redirect-with-message/redirect-with-message.component';
+import { DecisionInterface } from '../../services/decisionInterface';
+import { DecisionServiceWithAuth } from '../../services/decisionServiceWithAuth';
+import { DecisionServiceWithoutAuth } from '../../services/decisonServiceWithoutAuth';
 
 @Component({
   selector: 'app-end-tree',
@@ -15,28 +18,22 @@ export class EndTreeComponent implements OnInit {
   decision : Decision;
   alternativeName : String = "";
   number : number = 0;
+  decisionInterface : DecisionInterface;
+
   constructor(private router: Router,
               private decisionCreateService: DecisionCreateService,
               private dialog: MatDialog) { }
 
   ngOnInit() {
-    if(localStorage.getItem('currentUser')!=null)
-      {
-        this.decisionCreateService.getDecisionTree().subscribe(
-          
-            data =>
-            {
-              this.decision = this.decisionCreateService.makeDecisionObject(data);
-            }
-          
-        );
-      }
-      else{
-          this.decision = this.decisionCreateService.getDecision();
-      }
-    if( this.decision.getName == undefined)
+    if (localStorage.getItem('currentUser') != null) {
+      this.decisionInterface = new DecisionServiceWithAuth();
+    }
+    else {
+      this.decisionInterface = new DecisionServiceWithoutAuth();
+    }
+    this.decision = this.decisionInterface.getDecision();
+    if( this.decision == undefined)
     {
-      this.decision= this.decisionCreateService.makeDefaultDecision();
       this.redirectWithMessage();
     }
   }
@@ -55,7 +52,7 @@ export class EndTreeComponent implements OnInit {
 
   getTitle()
   {
-    for(let alternativ of this.decision.getAlternative)
+    for(let alternativ of this.decision.alternativeArray)
     {
       if(alternativ.finalRate > this.number)
       {

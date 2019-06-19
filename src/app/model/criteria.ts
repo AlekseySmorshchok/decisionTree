@@ -1,17 +1,27 @@
 import { Injectable } from "@angular/core";
+import { Deserializable } from "../services/deserializable";
 
 @Injectable()
-export class Criteria {
+export class Criteria implements Deserializable{
   public id: number;
-  public name: string = '';
-  public rate: number = 0;
-  public value: string = null;
-  public valueRate: number = null;
-  public criterionPriority: number = 0;
-  public valuePriority: number = 0;
-  public minMaxValue: boolean = false;
+  public name: string ;
+  public rate: number;
+  public value: string;
+  public valueRate: number;
+  public criterionPriority: number;
+  public valuePriority: number;
+  public minMaxValue: boolean;
 
-  constructor() {}
+  constructor() {
+    this.id = 0;
+    this.name = '';
+    this.rate = 0;
+    this.value = null;
+    this.valueRate = null;
+    this.criterionPriority = 0;
+    this.valuePriority = 0;
+    this.minMaxValue = false;
+  }
 
   get getId()
   {
@@ -85,6 +95,11 @@ export class Criteria {
   set setMinMaxValue(minMaxValue : boolean)
   {
     this.minMaxValue = minMaxValue;
+  }
+
+  deserialize(input: any): this {
+    Object.assign(this, input);
+    return this;
   }
 
 }

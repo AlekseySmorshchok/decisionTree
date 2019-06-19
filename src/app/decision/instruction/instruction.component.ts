@@ -4,6 +4,9 @@ import { DecisionCreateService } from '../../services/decision-create.service';
 import { Decision } from '../../model/decision';
 import { MatDialog } from '@angular/material';
 import { RedirectWithMessageComponent } from '../create-alternative/redirect-with-message/redirect-with-message.component';
+import { DecisionInterface } from '../../services/decisionInterface';
+import { DecisionServiceWithAuth } from '../../services/decisionServiceWithAuth';
+import { DecisionServiceWithoutAuth } from '../../services/decisonServiceWithoutAuth';
 
 @Component({
   selector: 'app-instruction',
@@ -13,13 +16,21 @@ import { RedirectWithMessageComponent } from '../create-alternative/redirect-wit
 export class InstructionComponent implements OnInit {
   title = 'Instruction';
   decision: Decision;
+  decisionInterface : DecisionInterface;
+
   constructor(private router: Router,
               private createDecisionService: DecisionCreateService,
               private dialog: MatDialog) { }
 
   ngOnInit() {
-    this.decision = this.createDecisionService.getDecision();
-    if( this.decision.getName == undefined)
+    if (localStorage.getItem('currentUser') != null) {
+      this.decisionInterface = new DecisionServiceWithAuth();
+    }
+    else {
+      this.decisionInterface = new DecisionServiceWithoutAuth();
+    }
+    this.decision = this.decisionInterface.getDecision();
+    if( this.decision == undefined)
     {
       this.redirectWithMessage();
     }

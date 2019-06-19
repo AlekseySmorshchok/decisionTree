@@ -50,14 +50,15 @@
         </div>
       </div>
     </form>
-          <mat-nav-list *ngIf="decision.alternativeArray.length">
+          <mat-nav-list *ngIf="decision.alternativeArray!=null && decision.alternativeArray!=undefiend && decision.alternativeArray.length>0">
               <header class="major">
                   <p>Список созданных альтернатив</p>
               </header>
                 <mat-list-item *ngFor="let alternative of decision.alternativeArray">
                   
-                    <h4 class="line" >{{alternative.name}}</h4>
+                    
                     <p  class="line" >id: {{alternative.id}}</p>
+                    <h4 class="line" >name: {{alternative.name}}</h4>
                     <button mat-icon-button (click)="editAlternative(alternative)"><mat-icon>edit</mat-icon></button>
                     <button mat-icon-button (click)="delete(alternative)"><mat-icon calss="exampple-icon">delete_forever</mat-icon></button>
                   

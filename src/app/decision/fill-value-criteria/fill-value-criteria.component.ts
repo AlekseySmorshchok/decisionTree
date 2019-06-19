@@ -5,6 +5,9 @@ import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { RedirectWithMessageComponent } from '../create-alternative/redirect-with-message/redirect-with-message.component';
 import { Alternative } from '../../model/alternative';
+import { DecisionInterface } from '../../services/decisionInterface';
+import { DecisionServiceWithAuth } from '../../services/decisionServiceWithAuth';
+import { DecisionServiceWithoutAuth } from '../../services/decisonServiceWithoutAuth';
 
 @Component({
   selector: 'app-fill-value-criteria',
@@ -17,7 +20,8 @@ export class FillValueCriteriaComponent implements OnInit {
   minRate: boolean[] = [];
   panelOpenState: boolean = false;
   disabled: boolean[] = [];
-
+  decisionInterface : DecisionInterface;
+  
   constructor( private decisionCreateService: DecisionCreateService,
               private dialog: MatDialog,
               private router: Router) { }
@@ -27,36 +31,26 @@ export class FillValueCriteriaComponent implements OnInit {
     {
       this.disabled[i] = false;
     }
-    if(localStorage.getItem('currentUser')!=null)
-      {
-        this.decisionCreateService.getDecisionTree().subscribe(
-            data =>
-            {
-              this.decision = this.decisionCreateService.makeDecisionObject(data);
-              console.log(this.decision);
-              this.check();
-            }
-          
-        );
-      }
-      else{
-        this.decision = this.decisionCreateService.getDecision();
-        this.check();
-      }
+    if (localStorage.getItem('currentUser') != null) {
+      this.decisionInterface = new DecisionServiceWithAuth();
+    }
+    else {
+      this.decisionInterface = new DecisionServiceWithoutAuth();
+    }
+    this.decision = this.decisionInterface.getDecision();
+    this.check();
     
   }
 
   check()
   {
-    if( this.decision.getName == undefined)
+    if( this.decision == undefined)
       {
-        this.decision.setAlternative = [];
-        this.decision.getAlternative.push(new Alternative());
         this.redirectWithMessage();
       }
       else
       {
-        for(let criteria of this.decision.getAlternative[0].getCriteriaArray)
+        for(let criteria of this.decision.alternativeArray[0].criteriaArray)
         {
           this.minRate.push(false);
         }
@@ -76,50 +70,38 @@ export class FillValueCriteriaComponent implements OnInit {
 
   goNext()
   {
-    for(let alternative of this.decision.getAlternative)
+    for(let alternative of this.decision.alternativeArray)
     {
-      for(let i in this.decision.getAlternative[0].getCriteriaArray)
+      for(let i in this.decision.alternativeArray[0].criteriaArray)
       {
-        alternative.getCriteriaArray[i].setMinMaxValue = this.minRate[i]
+        alternative.criteriaArray[i].setMinMaxValue = this.minRate[i]
       }
     }
     this.checkValueRate();
-    
-      if(localStorage.getItem("currentUser")!=null)
-      {
-        this.decisionCreateService.saveDecision(this.decision).subscribe(
-          data=>
-          {
-            this.decision = this.decisionCreateService.makeDecisionObject(data);
-            
-          }
-        );
-      }
-      else{
-        this.router.navigate(['instruction']);
-      }
-    
-    
+    this.decisionInterface.setDecision(this.decision);
+    this.router.navigate(['instruction']);
   }
 
   checkValueRate()
   {
-    for(let alternative of this.decision.getAlternative)
+    for(let alternative of this.decision.alternativeArray)
     {
-      for(let criteria of alternative.getCriteriaArray)
+      for(let criteria of alternative.criteriaArray)
       {
-        criteria.setValueRate = parseFloat(criteria.getValue);
+        criteria.setValueRate = parseFloat(criteria.value);
       }
     }
   }
 
   goCreateCriterion()
   {
+    this.decisionInterface.setDecision(this.decision);
     this.router.navigate(['createCriteria',2]);
   }
 
   goCreateAlternative()
   {
+    this.decisionInterface.setDecision(this.decision);
     this.router.navigate(['createAlternative',2]);
   }
 
@@ -133,11 +115,11 @@ export class FillValueCriteriaComponent implements OnInit {
       var index : number = this.findInexOfCriteria(id);
       var regexp = new RegExp("[а-яА-ЯёЁa-zA-z]");
       var flag : boolean = false;
-      for(let alternative of this.decision.getAlternative)
+      for(let alternative of this.decision.alternativeArray)
       {
-        if(alternative.getCriteriaArray[index].getValue!=null)
+        if(alternative.criteriaArray[index].value!=null)
         {
-            if(alternative.getCriteriaArray[index].getValue.search(regexp) != -1)
+            if(alternative.criteriaArray[index].value.search(regexp) != -1)
           {
             flag = true;
             break;
@@ -157,12 +139,12 @@ export class FillValueCriteriaComponent implements OnInit {
   findInexOfCriteria(id:number)
   {
    
-    for(let alternative of this.decision.getAlternative)
+    for(let alternative of this.decision.alternativeArray)
     {
         let flag = 0;
-        for(let criteria of alternative.getCriteriaArray)
+        for(let criteria of alternative.criteriaArray)
         {
-          if(criteria.getId == id)
+          if(criteria.id == id)
           {
             return flag;
           }
@@ -176,13 +158,13 @@ export class FillValueCriteriaComponent implements OnInit {
 
   findCriteria(id:number): string
   {
-    for(let alternative of this.decision.getAlternative)
+    for(let alternative of this.decision.alternativeArray)
     {
-        for(let criteria of alternative.getCriteriaArray)
+        for(let criteria of alternative.criteriaArray)
         {
-          if(criteria.getId==id)
+          if(criteria.id==id)
           {
-            return criteria.getValue;
+            return criteria.value;
           }
         }
     }

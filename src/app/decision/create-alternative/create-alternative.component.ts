@@ -46,11 +46,12 @@ export class CreateAlternativeComponent implements OnInit {
   {
     if( this.decision == null)
     {
-      //this.redirectWithMessage();
+      this.redirectWithMessage();
       this.decision = new Decision();
     }
     else{
-      if(this.decision.getAlternative != null && this.decision.getAlternative.length != 0)
+      if(this.decision.getAlternative != null && this.decision.getAlternative.length != 0 && this.decision.getAlternative[0].getCriteriaArray != null 
+        && this.decision.getAlternative[0].getCriteriaArray.length > 0)
       {
         this.flag = true;
       }
@@ -63,8 +64,7 @@ export class CreateAlternativeComponent implements OnInit {
     {
       this.redirectWithMessage();
     }
-    this.decision.getAlternative.push(this.decisionCreateService.makeOneAlternative(this.newAlternativeName, this.flag, this.decision));
-    this.decisionInterface.setDecision(this.decision);
+    this.decision = this.decisionInterface.addAlternative(this.newAlternativeName,this.flag);
   }
 
   redirectWithMessage()
@@ -86,13 +86,14 @@ export class CreateAlternativeComponent implements OnInit {
     }
     let dialogRef = this.dialog.open(EditAlternativeComponent, {
       width: '250px',
-      data: { name: alternative.getName }
+      data: { name: alternative.name }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result != undefined)
       {
-        alternative.setName = result;
+        alternative.name = result;
+        this.decisionInterface.setDecision(this.decision);
       }
     });
   }
@@ -103,7 +104,7 @@ export class CreateAlternativeComponent implements OnInit {
       data: { name: '' }
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.decisionCreateService.deleteAlternative(alternative,this.decision);
+      this.decision = this.decisionInterface.deliteAlternative(alternative);
     }
   );
 }

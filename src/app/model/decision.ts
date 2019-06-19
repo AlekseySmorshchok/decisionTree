@@ -67,15 +67,7 @@ export class Decision  implements Deserializable {
 
   deserialize(input: any): this {
     Object.assign(this, input);
-    console.log("asd");
-    console.log(this);
     if(this.getName != '') {
-      this.alternativeArray = []
-      let alternative = new Alternative().deserialize(input.alternative);
-      if(alternative.getName !='')
-      {
-        this.alternativeArray.push(new Alternative().deserialize(input.alternative));
-      }
       return this;
     }else {
       return null;

@@ -35,8 +35,8 @@
     <h3>
          Осталось {{counter}} сравнений
     </h3>
-         <h3 *ngIf="choose">{{comparisonCriteriaArray[firstCompariosnIndex].getValue}} в сравнении с {{comparisonCriteriaArray[secondCompariosnIndex].getValue}} имеет</h3>
-         <h3 *ngIf="!choose">{{comparisonCriteriaArray[secondCompariosnIndex].getValue}} в сравнении с {{comparisonCriteriaArray[firstCompariosnIndex].getValue}} имеет</h3>
+         <h3 *ngIf="choose">{{comparisonCriteriaArray[firstCompariosnIndex].value}} в сравнении с {{comparisonCriteriaArray[secondCompariosnIndex].value}} имеет</h3>
+         <h3 *ngIf="!choose">{{comparisonCriteriaArray[secondCompariosnIndex].value}} в сравнении с {{comparisonCriteriaArray[firstCompariosnIndex].value}} имеет</h3>
     
       <mat-form-field>
         <mat-select [(ngModel)]="selectedValue" name="value" >

@@ -6,6 +6,9 @@ import { Router } from '@angular/router';
 import { RedirectWithMessageComponent } from '../create-alternative/redirect-with-message/redirect-with-message.component';
 import { and } from '@angular/router/src/utils/collection';
 import { Criteria } from '../../model/criteria';
+import { DecisionInterface } from '../../services/decisionInterface';
+import { DecisionServiceWithAuth } from '../../services/decisionServiceWithAuth';
+import { DecisionServiceWithoutAuth } from '../../services/decisonServiceWithoutAuth';
 
 @Component({
   selector: 'app-paired-comparison-criteria',
@@ -24,6 +27,7 @@ export class PairedComparisonCriteriaComponent implements OnInit {
   rageCriteria : number[][];
   choose:boolean = true;
   panelOpenState: boolean = false;
+  decisionInterface : DecisionInterface;
   
   values = [
     {value: 1, viewValue: 'равновесное значение (одинаково важны при выборе)'},
@@ -42,15 +46,20 @@ export class PairedComparisonCriteriaComponent implements OnInit {
               private router: Router) {  }
 
   ngOnInit() {
-    this.decision = this.decisionCreateSevice.getDecision();
-    if( this.decision.getName == undefined)
+    if (localStorage.getItem('currentUser') != null) {
+      this.decisionInterface = new DecisionServiceWithAuth();
+    }
+    else {
+      this.decisionInterface = new DecisionServiceWithoutAuth();
+    }
+    this.decision = this.decisionInterface.getDecision();
+    if( this.decision == undefined)
     {
-      this.decision= this.decisionCreateSevice.makeDefaultDecision();
       this.redirectWithMessage();
     }
     else{
-      this.counter = this.doFact(this.decision.getAlternative[0].getCriteriaArray.length-1);
-      this.comparisonCriteriaArray = this.decision.getAlternative[0].getCriteriaArray;
+      this.counter = this.doFact(this.decision.alternativeArray[0].criteriaArray.length-1);
+      this.comparisonCriteriaArray = this.decision.alternativeArray[0].criteriaArray;
       this.makeDefaultRageCriteria();
     }
   }
@@ -137,7 +146,7 @@ export class PairedComparisonCriteriaComponent implements OnInit {
       this.decisionCreateSevice.sendpairedComparisonCirteria(this.decision,this.rageCriteria,2).subscribe(
         data=>
         {
-          this.decisionCreateSevice.setDecision( this.decisionCreateSevice.makeDecisionObject(data));
+          this.decisionInterface.setDecision( this.decisionCreateSevice.makeDecisionObject(data));
           this.router.navigate(['endTree'])
           
         }

@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { DecisionCreateService } from '../../services/decision-create.service';
 import {  Decision} from '../../model/decision';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar, throwMatDialogContentAlreadyAttachedError } from '@angular/material';
 import { RedirectWithMessageComponent } from '../create-alternative/redirect-with-message/redirect-with-message.component';
 import { Router } from '@angular/router';
 import { EditCriteriaComponent } from './edit-criteria/edit-criteria.component';
 import { DeletAlternativeComponent } from '../create-alternative/delet-alternative/delet-alternative.component';
 import { DeleteCriteriaComponent } from './delete-criteria/delete-criteria.component';
 import { Criteria } from '../../model/criteria';
+import { DecisionInterface } from '../../services/decisionInterface';
+import { DecisionServiceWithAuth } from '../../services/decisionServiceWithAuth';
+import { DecisionServiceWithoutAuth } from '../../services/decisonServiceWithoutAuth';
 
 @Component({
   selector: 'app-create-criteria',
@@ -21,6 +24,7 @@ export class CreateCriteriaComponent implements OnInit {
   path: number;
   decision : Decision;
   criteriaArray: Criteria[] = [];
+  decisionInterface : DecisionInterface;
 
   constructor(private decisionCreateService: DecisionCreateService,
               private dialog: MatDialog,
@@ -29,18 +33,28 @@ export class CreateCriteriaComponent implements OnInit {
 
   ngOnInit() {
     this.path = +this.router.url.substring(this.router.url.length-1,this.router.url.length);
-    this.decision = this.decisionCreateService.getDecision();
+    if (localStorage.getItem('currentUser') != null) {
+      this.decisionInterface = new DecisionServiceWithAuth();
+    }
+    else {
+      this.decisionInterface = new DecisionServiceWithoutAuth();
+    }
+    this.decision = this.decisionInterface.getDecision();
     if( this.decision.getName == undefined)
-      {
-        this.redirectWithMessage();
-      }
+    {
+      this.redirectWithMessage();
+    }
+    if(this.decision.alternativeArray != null && this.decision.alternativeArray != undefined && this.decision.alternativeArray.length >0 
+        && this.decision.alternativeArray[0].criteriaArray != null && this.decision.alternativeArray[0].criteriaArray != undefined)
+    {
+      this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
+    }
   }
 
   create()
   {
-    let criteria: Criteria = new Criteria();
-    criteria.setName = this.newCriteriaName;
-    this.criteriaArray.push(criteria);
+    this.decision = this.decisionInterface.addCriteria(this.newCriteriaName);
+    this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
   }
 
   redirectWithMessage()
@@ -63,8 +77,8 @@ export class CreateCriteriaComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result != undefined)
       {
-        criteria.setName = result;
-        
+        this.decision = this.decisionInterface.editCriteria(criteria,result);
+        this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
       }
     });
   }
@@ -75,37 +89,18 @@ export class CreateCriteriaComponent implements OnInit {
       data: { name: '' }
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.decisionCreateService.deleteCriteria(criteria, this.criteriaArray);
+      this.decision = this.decisionInterface.deleteCriteria(criteria);
+      this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
     }
   );
 }
 
-  makeEndDecision()
-  {
-    let j = 0;
-    for(let alternative of this.decision.getAlternative )
-    {
-      let i =0;
-    let criteriaArray : Criteria[ ] = [];
-      for(let criteria of this.criteriaArray)
-      {
-        let tmp: Criteria = new Criteria();
-        tmp.setName = criteria.getName;
-        tmp.setId = i + 1 + this.criteriaArray.length*j;
-        criteriaArray.push(tmp);
-        i++;
-      }
-      alternative.setCriteriaArray = criteriaArray;
-      j++;
-    }
-    this.decision.setStage = 2;
-  }
 
   goNext()
   {
     if(this.criteriaArray.length>=2)
     {
-        this.makeEndDecision();
+        this.decision.setStage = 2;
         this.router.navigate(['fillValueCriteria']);
     }
     else{

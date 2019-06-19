@@ -5,6 +5,9 @@ import { DecisionCreateService } from '../../services/decision-create.service';
 import { MatDialog } from '@angular/material';
 import { RedirectWithMessageComponent } from '../create-alternative/redirect-with-message/redirect-with-message.component';
 import { Criteria } from '../../model/criteria';
+import { DecisionInterface } from '../../services/decisionInterface';
+import { DecisionServiceWithAuth } from '../../services/decisionServiceWithAuth';
+import { DecisionServiceWithoutAuth } from '../../services/decisonServiceWithoutAuth';
 
 @Component({
   selector: 'app-paired-comparison-criteria-value',
@@ -24,6 +27,7 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
   kolvoCriteria: number = 0;
   panelOpenState: boolean = false;
   choose:boolean = true;
+  decisionInterface : DecisionInterface;
 
   constructor(private router: Router,
               private decisionCreateService: DecisionCreateService,
@@ -43,25 +47,32 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
 
   ngOnInit() {
     this.numberOfNote = +this.router.url.substring(this.router.url.length-1,this.router.url.length);
-    this.decision = this.decisionCreateService.getDecision();
-    if( this.decision.getName == undefined)
+    if (localStorage.getItem('currentUser') != null) {
+      this.decisionInterface = new DecisionServiceWithAuth();
+    }
+    else {
+      this.decisionInterface = new DecisionServiceWithoutAuth();
+    }
+    this.decision = this.decisionInterface.getDecision();
+    if( this.decision == undefined)
     {
       this.redirectWithMessage();
     }
-    else{
-      this.counter = this.doFact(this.decision.getAlternative.length-1);
+    else
+    {
+      this.counter = this.doFact(this.decision.alternativeArray.length-1);
       this.makeDefaultRageCriteria();
       this.makeCriteriaArray();
-      this.kolvoCriteria = this.decision.getAlternative.length-1;
+      this.kolvoCriteria = this.decision.alternativeArray.length-1;
     }
   }
 
   makeCriteriaArray()
   {
     this.comparisonCriteriaArray = [];
-      for(let alternative of this.decision.getAlternative)
+      for(let alternative of this.decision.alternativeArray)
       {
-        this.comparisonCriteriaArray.push(alternative.getCriteriaArray[this.numberOfNote])
+        this.comparisonCriteriaArray.push(alternative.criteriaArray[this.numberOfNote])
       }
   }
 
@@ -82,10 +93,10 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
 
   makeDefaultRageCriteria()
   {
-    this.rageCriteria = new Array(this.decision.getAlternative[0].getCriteriaArray.length);
-    for(var criteria = 0 ; criteria < this.decision.getAlternative[0].getCriteriaArray.length; criteria++)
+    this.rageCriteria = new Array(this.decision.alternativeArray[0].criteriaArray.length);
+    for(var criteria = 0 ; criteria < this.decision.alternativeArray[0].criteriaArray.length; criteria++)
     {
-        this.rageCriteria[criteria] = new Array(this.decision.getAlternative[0].getCriteriaArray.length);
+        this.rageCriteria[criteria] = new Array(this.decision.alternativeArray[0].criteriaArray.length);
         this.rageCriteria[criteria][criteria] = 1;
     }
   }
@@ -151,12 +162,12 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
           {
             if(flag==-1)
             {
-              this.decisionCreateService.setDecision(this.decision);
+              this.decisionInterface.setDecision(this.decision);
               this.router.navigate(['pairedComparisonCriteria']);
             }
             else
             {
-              this.counter = this.doFact(this.decision.getAlternative[0].getCriteriaArray.length-1);
+              this.counter = this.doFact(this.decision.alternativeArray[0].criteriaArray.length-1);
               this.numberOfNote = flag;
               this.makeDefaultRageCriteria();
               this.makeCriteriaArray();
