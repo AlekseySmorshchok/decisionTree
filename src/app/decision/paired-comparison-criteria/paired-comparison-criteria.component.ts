@@ -146,7 +146,7 @@ export class PairedComparisonCriteriaComponent implements OnInit {
       this.decisionCreateSevice.sendpairedComparisonCirteria(this.decision,this.rageCriteria,2).subscribe(
         data=>
         {
-          this.decisionInterface.setDecision( this.decisionCreateSevice.makeDecisionObject(data));
+          this.decisionInterface.setDecision( new Decision().deserialize(data));
           this.router.navigate(['endTree'])
           
         }

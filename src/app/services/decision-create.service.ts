@@ -209,29 +209,6 @@ export class DecisionCreateService {
 
   }
 
-makeDecisionObject(dec:Decision) 
-{ 
-  let decision = new Decision(); 
-  Object.assign(decision,dec); 
-  let alternativeArray : Alternative[] = []; 
-  for(let alternative of decision.getAlternative) 
-  { 
-    let tmpalternative = new Alternative(); 
-    Object.assign(tmpalternative,alternative); 
-    let criteriaArray : Criteria[] = []; 
-    for(let criteria of tmpalternative.getCriteriaArray) 
-    { 
-      let tmpCriteria = new Criteria(); 
-      Object.assign(tmpCriteria,criteria); 
-      criteriaArray.push(tmpCriteria); 
-    } 
-    tmpalternative.setCriteriaArray = criteriaArray; 
-    alternativeArray.push(tmpalternative); 
-  } 
-  decision.setAlternative = alternativeArray; 
-  return decision; 
-}
-
   makeDefaultDecision()
   {
     let decision = new Decision();

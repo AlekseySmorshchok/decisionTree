@@ -22,7 +22,7 @@ import { DeleteCriteriaComponent } from './decision/create-criteria/delete-crite
 import { FillValueCriteriaComponent } from './decision/fill-value-criteria/fill-value-criteria.component';
 import { InstructionComponent } from './decision/instruction/instruction.component';
 import { PairedComparisonCriteriaComponent } from './decision/paired-comparison-criteria/paired-comparison-criteria.component';
-import { AuthHttp, AuthConfig } from 'angular2-jwt';
+import { AuthHttp, AuthConfig, provideAuth, AuthConfigConsts } from 'angular2-jwt';
 import { PairedComparisonCriteriaValueComponent } from './decision/paired-comparison-criteria-value/paired-comparison-criteria-value.component';
 import { EndTreeComponent } from './decision/end-tree/end-tree.component';
 import { HeaderComponent } from './decision/header/header.component';
@@ -76,6 +76,6 @@ import { FooterComponent } from './decision/footer/footer.component';
 
 export class AppModule { }
 
-export function authHttpServiceFactory(http: Http, options: RequestOptions) {
+export function authHttpServiceFactory(http: Http, options?: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);
 }

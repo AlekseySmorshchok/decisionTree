@@ -4,12 +4,12 @@ import { Criteria } from "../model/criteria";
 
 export interface DecisionInterface
 {
-    getDecision(): Decision;
+    getDecision();
     setDecision(decision: Decision);
-    addAlternative(name: string, flag: boolean) : Decision;
-    editAlternative(alternative: Alternative): Decision;
-    deliteAlternative(alternative: Alternative): Decision;
-    addCriteria(name: string): Decision;
-    editCriteria(criteria: Criteria, result: string): Decision;
-    deleteCriteria(criteria: Criteria): Decision;
+    addAlternative(name: string, flag: boolean) ;
+    editAlternative(alternative: Alternative);
+    deliteAlternative(alternative: Alternative);
+    addCriteria(name: string);
+    editCriteria(criteria: Criteria, result: string);
+    deleteCriteria(criteria: Criteria);
 }

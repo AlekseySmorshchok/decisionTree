@@ -156,7 +156,7 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
     if(this.counter<=0)
     {
       this.decisionCreateService.sendpairedComparisonCirteria(this.decision,this.rageCriteria,1).subscribe( (data )=>{
-        this.decision = this.decisionCreateService.makeDecisionObject(data);
+        this.decision = new Decision().deserialize(data);
         this.decisionCreateService.getAnswer(this.decision).subscribe(
           flag =>
           {
