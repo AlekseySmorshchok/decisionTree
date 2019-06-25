@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
-import { DecisionCreateService } from '../../services/decision-create.service';
 import { Decision } from '../../model/decision';
 import { DecisionInterface } from '../../services/decisionInterface';
 import { DecisionServiceWithAuth } from '../../services/decisionServiceWithAuth';
@@ -17,18 +16,23 @@ export class CreateTreeComponent implements OnInit{
   decision: Decision;
   decisionInterface : DecisionInterface;
   buttonName: string;
+  errorStatus = -1;
   constructor(public snackBar: MatSnackBar,
               private router: Router) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    
     if (localStorage.getItem('currentUser') != null) {
       this.decisionInterface = new DecisionServiceWithAuth();
     }
     else {
       this.decisionInterface = new DecisionServiceWithoutAuth();
     }
-    this.decision = this.decisionInterface.getDecision();
-    if(this.decision == null) {
+    console.log(await this.decisionInterface.getDecision());
+     this.decision = await this.decisionInterface.getDecision();
+
+     console.log(this.decision);
+    if(this.decision == null || this.decision == undefined) {
       this.decision = new Decision();
       this.buttonName = "Создать";
     }
@@ -44,10 +48,18 @@ export class CreateTreeComponent implements OnInit{
     });
   }
 
-  goNext() {
+  async goNext() {
     this.openSnackBar(this.decision.name, 'Create');
-    this.decisionInterface.setDecision(this.decision);
+    this.errorStatus = await this.decisionInterface.setDecision(this.decision);
+    console.log(this.errorStatus);
+    if(this.errorStatus != -1)
+    {
     this.router.navigate(['createAlternative', 1]);
+    }
+    else
+    {
+      this.router.navigate(['']);
+    }
   }
 
 }

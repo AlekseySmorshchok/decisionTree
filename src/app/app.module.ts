@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { Http, HttpModule, RequestOptions } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpXsrfTokenExtractor } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './decision/home/home.component';
@@ -32,6 +32,7 @@ import { SignInComponent } from './decision/header/user/sign-in/sign-in.componen
 import { UserService } from './services/user-service';
 import { ValidationData } from './services/validationData';
 import { FooterComponent } from './decision/footer/footer.component';
+import { DecisionServiceWithAuth } from './services/decisionServiceWithAuth';
 
 
 @NgModule({
@@ -66,15 +67,24 @@ import { FooterComponent } from './decision/footer/footer.component';
     DecisionModule,
     HttpModule,
   ],
-  providers: [DecisionCreateService, {
+  providers: [DecisionCreateService, UserService, ValidationData, DecisionServiceWithAuth, {
     provide: AuthHttp,
     useFactory: authHttpServiceFactory,
     deps: [Http, RequestOptions]
-  }, UserService,ValidationData],
+  },],
   bootstrap: [AppComponent]
 })
 
-export class AppModule { }
+
+export class AppModule {
+  static HTTP: Http; 
+
+  constructor(private http: Http)
+  {
+    AppModule.HTTP = http;
+  }
+
+}
 
 export function authHttpServiceFactory(http: Http, options?: RequestOptions) {
   return new AuthHttp(new AuthConfig(), http, options);

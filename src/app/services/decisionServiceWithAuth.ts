@@ -2,39 +2,53 @@ import { Injectable, Inject } from "@angular/core";
 import { DecisionInterface } from "./decisionInterface";
 import { Decision } from "../model/decision";
 import { AuthConfigConsts, AuthHttp, AuthConfig } from "angular2-jwt";
-import { Http,Headers, ConnectionBackend } from '@angular/http';
+import { Http,Headers } from '@angular/http';
 import { environment } from "../../environments/environment";
 import { Alternative } from "../model/alternative";
 import { Criteria } from "../model/criteria";
-import { authHttpServiceFactory } from "../app.module";
+import { AppModule } from "../app.module";
 
 @Injectable()
 export class DecisionServiceWithAuth implements DecisionInterface
 {
 
     host = environment.host;
-    authHtpp: AuthHttp;
-    
+    authHttp: AuthHttp;
+    @Inject(Http) Http: Http;
+    constructor() {
+      // tslint:disable-next-line:no-unused-expression
+      this.authHttp = new AuthHttp(new AuthConfig() , AppModule.HTTP);
+    }
 
 
-    getDecision() {
-      this.authHtpp = AuthHttp.prototype;
-      console.log(this.authHtpp);
+      async getDecision() {
+        let decision: Decision = null;
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
       headers.append('Authorization', localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME));
-      var id : number = +localStorage.getItem("idDecision");
-      console.log(this.authHtpp.post(this.host + `getDecision`, id, {headers})
-      .map(response => response.json() as Decision));
-      
+      var id  = +localStorage.getItem("idDecision");
+      if(id != 0)
+      {
+         this.authHttp.post(this.host + `getDecision`, id, {headers}) .map(response => response.json() as Decision).subscribe(data=>
+          {
+
+            decision  =  new Decision().deserialize(data);
+          });
+      }
+      return await decision;
     }
 
     setDecision(decision: Decision) {
-      let headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-      headers.append('Authorization', localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME));
-      return AuthHttp.prototype.post(this.host + `saveDecision`, decision,{headers})
-      .map(response => response.json() as string);
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME));
+        this.authHttp.post(this.host + `saveOrUpdateDecision`, decision,{headers})
+        .map(response => response.json() as number).subscribe(
+          data=>
+          {
+            localStorage.setItem("idDecision",data.toString());
+          }
+        );
     }
     
     addAlternative(name: string, flag: boolean): Decision {
