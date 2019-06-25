@@ -5,8 +5,8 @@ import { Decision } from '../../model/decision';
 import { MatDialog } from '@angular/material';
 import { RedirectWithMessageComponent } from '../create-alternative/redirect-with-message/redirect-with-message.component';
 import { DecisionInterface } from '../../services/decisionInterface';
-import { DecisionServiceWithAuth } from '../../services/decisionServiceWithAuth';
-import { DecisionServiceWithoutAuth } from '../../services/decisonServiceWithoutAuth';
+import { DecisionInterfaceWithoutauthService } from '../../services/decision-interface-withoutauth.service';
+import { DecisionInterfaceWithauthService } from '../../services/decision-interface-withauth.service';
 
 @Component({
   selector: 'app-instruction',
@@ -20,20 +20,25 @@ export class InstructionComponent implements OnInit {
 
   constructor(private router: Router,
               private createDecisionService: DecisionCreateService,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private decisionWithouAuth:DecisionInterfaceWithoutauthService,
+              private decisionWithAuth: DecisionInterfaceWithauthService) { }
 
   ngOnInit() {
     if (localStorage.getItem('currentUser') != null) {
-      this.decisionInterface = new DecisionServiceWithAuth();
+      this.decisionInterface = this.decisionWithAuth;
     }
     else {
-      this.decisionInterface = new DecisionServiceWithoutAuth();
+      this.decisionInterface = this.decisionWithouAuth;
     }
-    this.decision = this.decisionInterface.getDecision();
-    if( this.decision == undefined)
-    {
-      this.redirectWithMessage();
-    }
+    this.decisionInterface.getDecision().subscribe(
+      data=>{
+        this.decision  =  new Decision().deserialize(data);
+        if( this.decision == undefined)
+        {
+          this.redirectWithMessage();
+        }
+      });
   }
 
   redirectWithMessage()

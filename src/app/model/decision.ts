@@ -13,8 +13,8 @@ export class Decision  implements Deserializable {
   
   constructor() {
     this.id = 0;
-    this.name = '';
-    this.note = '';
+    this.name = "";
+    this.note = "";
     this.stage = 0;
     this.alternativeArray = [];
   }

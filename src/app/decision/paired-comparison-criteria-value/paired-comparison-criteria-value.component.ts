@@ -6,8 +6,9 @@ import { MatDialog } from '@angular/material';
 import { RedirectWithMessageComponent } from '../create-alternative/redirect-with-message/redirect-with-message.component';
 import { Criteria } from '../../model/criteria';
 import { DecisionInterface } from '../../services/decisionInterface';
-import { DecisionServiceWithAuth } from '../../services/decisionServiceWithAuth';
-import { DecisionServiceWithoutAuth } from '../../services/decisonServiceWithoutAuth';
+import { DecisionInterfaceWithoutauthService } from '../../services/decision-interface-withoutauth.service';
+import { DecisionInterfaceWithauthService } from '../../services/decision-interface-withauth.service';
+
 
 @Component({
   selector: 'app-paired-comparison-criteria-value',
@@ -31,7 +32,9 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
 
   constructor(private router: Router,
               private decisionCreateService: DecisionCreateService,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private decisionWithouAuth:DecisionInterfaceWithoutauthService,
+              private decisionWithAuth: DecisionInterfaceWithauthService) { }
 
   values = [
     {value: 1, viewValue: 'равновесное значение (одинаково важны при выборе)'},
@@ -48,23 +51,26 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
   ngOnInit() {
     this.numberOfNote = +this.router.url.substring(this.router.url.length-1,this.router.url.length);
     if (localStorage.getItem('currentUser') != null) {
-      this.decisionInterface = new DecisionServiceWithAuth();
+      this.decisionInterface = this.decisionWithAuth;
     }
     else {
-      this.decisionInterface = new DecisionServiceWithoutAuth();
+      this.decisionInterface = this.decisionWithouAuth;
     }
-    this.decision = this.decisionInterface.getDecision();
-    if( this.decision == undefined)
-    {
-      this.redirectWithMessage();
-    }
-    else
-    {
-      this.counter = this.doFact(this.decision.alternativeArray.length-1);
-      this.makeDefaultRageCriteria();
-      this.makeCriteriaArray();
-      this.kolvoCriteria = this.decision.alternativeArray.length-1;
-    }
+    this.decisionInterface.getDecision().subscribe(
+      data=>{
+        this.decision  =  new Decision().deserialize(data);
+        if( this.decision == undefined)
+        {
+          this.redirectWithMessage();
+        }
+        else
+        {
+          this.counter = this.doFact(this.decision.alternativeArray.length-1);
+          this.makeDefaultRageCriteria();
+          this.makeCriteriaArray();
+          this.kolvoCriteria = this.decision.alternativeArray.length-1;
+        }
+      });
   }
 
   makeCriteriaArray()

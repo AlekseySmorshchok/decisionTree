@@ -22,7 +22,7 @@
       </form>-->
       <form (ngSubmit)="decisionForm.reset()" #decisionForm="ngForm">  
               <div class="smallContainer">
-              <input type="text" name="name" id="name" value="" [(ngModel)]="decision.name"  placeholder="Название решения" required/>
+              <input type="text" name="name" id="name"  [(ngModel)]="decision.name"  placeholder="Название решения"/>
               </div>
               <p></p>
               <div class="smallContainer">

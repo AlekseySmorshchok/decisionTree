@@ -9,8 +9,8 @@ import { DeletAlternativeComponent } from '../create-alternative/delet-alternati
 import { DeleteCriteriaComponent } from './delete-criteria/delete-criteria.component';
 import { Criteria } from '../../model/criteria';
 import { DecisionInterface } from '../../services/decisionInterface';
-import { DecisionServiceWithAuth } from '../../services/decisionServiceWithAuth';
-import { DecisionServiceWithoutAuth } from '../../services/decisonServiceWithoutAuth';
+import { DecisionInterfaceWithoutauthService } from '../../services/decision-interface-withoutauth.service';
+import { DecisionInterfaceWithauthService } from '../../services/decision-interface-withauth.service';
 
 @Component({
   selector: 'app-create-criteria',
@@ -29,32 +29,40 @@ export class CreateCriteriaComponent implements OnInit {
   constructor(private decisionCreateService: DecisionCreateService,
               private dialog: MatDialog,
               private router: Router,
-              private snackBar: MatSnackBar) { }
+              private snackBar: MatSnackBar,
+              private decisionWithouAuth:DecisionInterfaceWithoutauthService,
+              private decisionWithAuth: DecisionInterfaceWithauthService) { }
 
   ngOnInit() {
     this.path = +this.router.url.substring(this.router.url.length-1,this.router.url.length);
     if (localStorage.getItem('currentUser') != null) {
-      this.decisionInterface = new DecisionServiceWithAuth();
+      this.decisionInterface = this.decisionWithAuth;
     }
     else {
-      this.decisionInterface = new DecisionServiceWithoutAuth();
+      this.decisionInterface = this.decisionWithouAuth;
     }
-    this.decision = this.decisionInterface.getDecision();
-    if( this.decision.getName == undefined)
-    {
-      this.redirectWithMessage();
-    }
-    if(this.decision.alternativeArray != null && this.decision.alternativeArray != undefined && this.decision.alternativeArray.length >0 
-        && this.decision.alternativeArray[0].criteriaArray != null && this.decision.alternativeArray[0].criteriaArray != undefined)
-    {
-      this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
-    }
+    this.decisionInterface.getDecision().subscribe(data=>
+      {
+        this.decision  =  new Decision().deserialize(data);
+        if( this.decision.getName == undefined)
+        {
+          this.redirectWithMessage();
+        }
+        if(this.decision.alternativeArray != null && this.decision.alternativeArray != undefined && this.decision.alternativeArray.length >0 
+            && this.decision.alternativeArray[0].criteriaArray != null && this.decision.alternativeArray[0].criteriaArray != undefined)
+        {
+          this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
+        }
+      })
+    
   }
 
   create()
   {
-    this.decision = this.decisionInterface.addCriteria(this.newCriteriaName);
-    this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
+    this.decisionInterface.addCriteria(this.newCriteriaName).subscribe(data=>{
+      this.decision = new Decision().deserialize(data);
+      this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
+    });
   }
 
   redirectWithMessage()
@@ -77,8 +85,11 @@ export class CreateCriteriaComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result != undefined)
       {
-        this.decision = this.decisionInterface.editCriteria(criteria,result);
-        this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
+        this.decisionInterface.editCriteria(criteria,result).subscribe(data=>
+          {
+            this.decision = new Decision().deserialize(data);
+            this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
+          });
       }
     });
   }
@@ -89,8 +100,11 @@ export class CreateCriteriaComponent implements OnInit {
       data: { name: '' }
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.decision = this.decisionInterface.deleteCriteria(criteria);
-      this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
+      this.decisionInterface.deleteCriteria(criteria).subscribe(data=>
+        {
+          this.decision = new Decision().deserialize(data);
+          this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
+        });
     }
   );
 }

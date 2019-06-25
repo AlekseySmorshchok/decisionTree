@@ -6,8 +6,8 @@ import { Router } from '@angular/router';
 import { RedirectWithMessageComponent } from '../create-alternative/redirect-with-message/redirect-with-message.component';
 import { Alternative } from '../../model/alternative';
 import { DecisionInterface } from '../../services/decisionInterface';
-import { DecisionServiceWithAuth } from '../../services/decisionServiceWithAuth';
-import { DecisionServiceWithoutAuth } from '../../services/decisonServiceWithoutAuth';
+import { DecisionInterfaceWithoutauthService } from '../../services/decision-interface-withoutauth.service';
+import { DecisionInterfaceWithauthService } from '../../services/decision-interface-withauth.service';
 
 @Component({
   selector: 'app-fill-value-criteria',
@@ -24,7 +24,9 @@ export class FillValueCriteriaComponent implements OnInit {
   
   constructor( public snackBar: MatSnackBar,
               private dialog: MatDialog,
-              private router: Router) { }
+              private router: Router,
+              private decisionWithouAuth:DecisionInterfaceWithoutauthService,
+              private decisionWithAuth: DecisionInterfaceWithauthService) { }
 
   ngOnInit() {
     for(let i =0; i< this.disabled.length;i++)
@@ -32,13 +34,16 @@ export class FillValueCriteriaComponent implements OnInit {
       this.disabled[i] = false;
     }
     if (localStorage.getItem('currentUser') != null) {
-      this.decisionInterface = new DecisionServiceWithAuth();
+      this.decisionInterface = this.decisionWithAuth;
     }
     else {
-      this.decisionInterface = new DecisionServiceWithoutAuth();
+      this.decisionInterface = this.decisionWithouAuth;
     }
-    this.decision = this.decisionInterface.getDecision();
-    this.check();
+    this.decisionInterface.getDecision().subscribe(
+      data=>{
+        this.decision  =  new Decision().deserialize(data);
+        this.check();
+      });
     
   }
 

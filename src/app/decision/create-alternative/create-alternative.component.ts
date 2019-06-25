@@ -7,8 +7,8 @@ import { Router } from '@angular/router';
 import { EditAlternativeComponent } from './edit-alternative/edit-alternative.component';
 import { DeletAlternativeComponent } from './delet-alternative/delet-alternative.component';
 import { DecisionInterface } from '../../services/decisionInterface';
-import { DecisionServiceWithAuth } from '../../services/decisionServiceWithAuth';
-import { DecisionServiceWithoutAuth } from '../../services/decisonServiceWithoutAuth';
+import { DecisionInterfaceWithoutauthService } from '../../services/decision-interface-withoutauth.service';
+import { DecisionInterfaceWithauthService } from '../../services/decision-interface-withauth.service';
 import { Alternative } from '../../model/alternative';
 
 @Component({
@@ -28,18 +28,23 @@ export class CreateAlternativeComponent implements OnInit {
   constructor(private decisionCreateService : DecisionCreateService,
               private dialog: MatDialog,
               private router: Router,
-              private snackBar: MatSnackBar) { }
+              private snackBar: MatSnackBar,
+              private decisionWithouAuth:DecisionInterfaceWithoutauthService,
+              private decisionWithAuth: DecisionInterfaceWithauthService) { }
 
   ngOnInit() {
       this.path = +this.router.url.substring(this.router.url.length-1,this.router.url.length);
       if (localStorage.getItem('currentUser') != null) {
-        this.decisionInterface = new DecisionServiceWithAuth();
+        this.decisionInterface = this.decisionWithAuth;
       }
       else {
-        this.decisionInterface = new DecisionServiceWithoutAuth();
+        this.decisionInterface = this.decisionWithouAuth;
       }
-      this.decision = this.decisionInterface.getDecision();
-      this.check();
+      this.decisionInterface.getDecision().subscribe(data=>
+        {
+          this.decision = new Decision().deserialize(data);
+          this.check();
+        });
   }
 
   check()
@@ -64,7 +69,10 @@ export class CreateAlternativeComponent implements OnInit {
     {
       this.redirectWithMessage();
     }
-    this.decision = this.decisionInterface.addAlternative(this.newAlternativeName,this.flag);
+    this.decisionInterface.addAlternative(this.newAlternativeName,this.flag).subscribe(data =>
+      {
+        this.decision = new Decision().deserialize(data);
+      });
   }
 
   redirectWithMessage()
@@ -104,7 +112,10 @@ export class CreateAlternativeComponent implements OnInit {
       data: { name: '' }
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.decision = this.decisionInterface.deliteAlternative(alternative);
+      this.decisionInterface.deliteAlternative(alternative).subscribe(data =>
+        {
+          this.decision = new Decision().deserialize(data);
+        })
     }
   );
 }

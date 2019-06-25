@@ -32,7 +32,8 @@ import { SignInComponent } from './decision/header/user/sign-in/sign-in.componen
 import { UserService } from './services/user-service';
 import { ValidationData } from './services/validationData';
 import { FooterComponent } from './decision/footer/footer.component';
-import { DecisionServiceWithAuth } from './services/decisionServiceWithAuth';
+import { DecisionInterfaceWithauthService } from './services/decision-interface-withauth.service';
+import { DecisionInterfaceWithoutauthService } from './services/decision-interface-withoutauth.service';
 
 
 @NgModule({
@@ -67,7 +68,7 @@ import { DecisionServiceWithAuth } from './services/decisionServiceWithAuth';
     DecisionModule,
     HttpModule,
   ],
-  providers: [DecisionCreateService, UserService, ValidationData, DecisionServiceWithAuth, {
+  providers: [DecisionCreateService, UserService, ValidationData,DecisionInterfaceWithauthService,DecisionInterfaceWithoutauthService, {
     provide: AuthHttp,
     useFactory: authHttpServiceFactory,
     deps: [Http, RequestOptions]

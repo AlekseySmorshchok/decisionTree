@@ -7,8 +7,8 @@ import { RedirectWithMessageComponent } from '../create-alternative/redirect-wit
 import { and } from '@angular/router/src/utils/collection';
 import { Criteria } from '../../model/criteria';
 import { DecisionInterface } from '../../services/decisionInterface';
-import { DecisionServiceWithAuth } from '../../services/decisionServiceWithAuth';
-import { DecisionServiceWithoutAuth } from '../../services/decisonServiceWithoutAuth';
+import { DecisionInterfaceWithoutauthService } from '../../services/decision-interface-withoutauth.service';
+import { DecisionInterfaceWithauthService } from '../../services/decision-interface-withauth.service';
 
 @Component({
   selector: 'app-paired-comparison-criteria',
@@ -43,25 +43,30 @@ export class PairedComparisonCriteriaComponent implements OnInit {
 
   constructor(private decisionCreateSevice: DecisionCreateService,
               private dialog: MatDialog,
-              private router: Router) {  }
+              private router: Router,
+              private decisionWithouAuth:DecisionInterfaceWithoutauthService,
+              private decisionWithAuth: DecisionInterfaceWithauthService) {  }
 
   ngOnInit() {
     if (localStorage.getItem('currentUser') != null) {
-      this.decisionInterface = new DecisionServiceWithAuth();
+      this.decisionInterface = this.decisionWithAuth;
     }
     else {
-      this.decisionInterface = new DecisionServiceWithoutAuth();
+      this.decisionInterface = this.decisionWithouAuth;
     }
-    this.decision = this.decisionInterface.getDecision();
-    if( this.decision == undefined)
-    {
-      this.redirectWithMessage();
-    }
-    else{
-      this.counter = this.doFact(this.decision.alternativeArray[0].criteriaArray.length-1);
-      this.comparisonCriteriaArray = this.decision.alternativeArray[0].criteriaArray;
-      this.makeDefaultRageCriteria();
-    }
+    this.decisionInterface.getDecision().subscribe(
+      data=>{
+        this.decision  =  new Decision().deserialize(data);
+        if( this.decision == undefined)
+        {
+          this.redirectWithMessage();
+        }
+        else{
+          this.counter = this.doFact(this.decision.alternativeArray[0].criteriaArray.length-1);
+          this.comparisonCriteriaArray = this.decision.alternativeArray[0].criteriaArray;
+          this.makeDefaultRageCriteria();
+        }
+      });
   }
 
   doFact(counter: number ): number {
