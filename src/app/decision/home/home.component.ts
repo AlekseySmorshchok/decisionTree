@@ -20,7 +20,6 @@ export class HomeComponent implements OnInit {
                 this.host = environment.host;}
 
   goCreateDesicion() {
-    this.decisionCreateService.setDecision(new Decision());
     this.router.navigate(['createTree']);
   }
 

@@ -44,7 +44,7 @@ export class CreateCriteriaComponent implements OnInit {
     this.decisionInterface.getDecision().subscribe(data=>
       {
         this.decision  =  new Decision().deserialize(data);
-        if( this.decision.getName == undefined)
+        if( this.decision.name == undefined)
         {
           this.redirectWithMessage();
         }
@@ -79,7 +79,7 @@ export class CreateCriteriaComponent implements OnInit {
   editCriteria(criteria : Criteria): void {
     let dialogRef = this.dialog.open(EditCriteriaComponent, {
       width: '250px',
-      data: { name: criteria.getName}
+      data: { name: criteria.name}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -114,7 +114,7 @@ export class CreateCriteriaComponent implements OnInit {
   {
     if(this.criteriaArray.length>=2)
     {
-        this.decision.setStage = 2;
+        this.decision.stage = 2;
         this.router.navigate(['fillValueCriteria']);
     }
     else{

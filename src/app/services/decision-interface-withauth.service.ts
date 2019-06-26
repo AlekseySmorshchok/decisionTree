@@ -41,7 +41,8 @@ export class DecisionInterfaceWithauthService  implements DecisionInterface
       }
     }
 
-    setDecision(decision: Decision) {
+    setDecision(decision: Decision): Observable<string> {
+      return new Observable((observer) => {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME));
@@ -50,8 +51,13 @@ export class DecisionInterfaceWithauthService  implements DecisionInterface
           data=>
           {
             localStorage.setItem("idDecision",data.toString());
+            observer.next('OK');
+            observer.complete();
           }
         );
+        
+      });
+       
     }
     
     addAlternative(name: string, flag: boolean): Observable<Decision> {

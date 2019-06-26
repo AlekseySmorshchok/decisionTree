@@ -12,19 +12,5 @@ export class DecisionWithCompareArray {
                 this.compareArray = compareArray;
                 }
 
-    get getDecision():Decision{
-        return this.decision;
-    }
-    set setDecision(decision:Decision)
-    {
-        this.decision = decision;
-    }
-
-    get getCompareCriteria():number[][]{
-        return this.compareArray;
-    }
-    set setCompareCriteria(compareCriteria:number[][])
-    {
-        this.compareArray = compareCriteria;
-    }
+    
 }

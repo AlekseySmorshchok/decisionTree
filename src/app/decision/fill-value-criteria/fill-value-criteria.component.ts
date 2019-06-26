@@ -97,12 +97,21 @@ export class FillValueCriteriaComponent implements OnInit {
     {
       for(let i in this.decision.alternativeArray[0].criteriaArray)
       {
-        alternative.criteriaArray[i].setMinMaxValue = this.minRate[i]
+        alternative.criteriaArray[i].minMaxValue = this.minRate[i]
       }
     }
     this.checkValueRate();
-    this.decisionInterface.setDecision(this.decision);
-    this.router.navigate(['instruction']);
+    this.decisionInterface.setDecision(this.decision).subscribe(status=>
+      {
+        if(status == 'OK')
+        {
+          this.router.navigate(['instruction']);
+        }
+        else
+        {
+          this.router.navigate(['']);
+        }
+      });
     }
     else
     {
@@ -117,21 +126,39 @@ export class FillValueCriteriaComponent implements OnInit {
     {
       for(let criteria of alternative.criteriaArray)
       {
-        criteria.setValueRate = parseFloat(criteria.value);
+        criteria.valueRate = parseFloat(criteria.value);
       }
     }
   }
 
   goCreateCriterion()
   {
-    this.decisionInterface.setDecision(this.decision);
-    this.router.navigate(['createCriteria',2]);
+    this.decisionInterface.setDecision(this.decision).subscribe(status=>
+      {
+        if(status == 'OK')
+        {
+          this.router.navigate(['createCriteria',2]);
+        }
+        else
+        {
+          this.router.navigate(['']);
+        }
+      });
   }
 
   goCreateAlternative()
   {
-    this.decisionInterface.setDecision(this.decision);
-    this.router.navigate(['createAlternative',2]);
+    this.decisionInterface.setDecision(this.decision).subscribe(status=>
+      {
+        if(status == 'OK')
+        {
+          this.router.navigate(['createAlternative',2]);
+        }
+        else
+        {
+          this.router.navigate(['']);
+        }
+      });
   }
 
   goBack()

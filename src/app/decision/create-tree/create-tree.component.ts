@@ -16,7 +16,6 @@ export class CreateTreeComponent implements OnInit{
   decision: Decision;
   decisionInterface : DecisionInterface;
   buttonName: string;
-  errorStatus = -1;
   constructor(public snackBar: MatSnackBar,
               private router: Router,
               private decisionWithouAuth:DecisionInterfaceWithoutauthService,
@@ -53,17 +52,20 @@ export class CreateTreeComponent implements OnInit{
     });
   }
 
-  async goNext() {
+  goNext() {
     this.openSnackBar(this.decision.name, 'Create');
-    this.errorStatus = this.decisionInterface.setDecision(this.decision);
-    if(this.errorStatus != -1)
-    {
-    this.router.navigate(['createAlternative', 1]);
-    }
-    else
-    {
-      this.router.navigate(['']);
-    }
+     this.decisionInterface.setDecision(this.decision).subscribe(status=>
+      {
+        if(status == 'OK')
+        {
+        this.router.navigate(['createAlternative', 1]);
+        }
+        else
+        {
+          this.router.navigate(['']);
+        }
+      });
+    
   }
 
 }

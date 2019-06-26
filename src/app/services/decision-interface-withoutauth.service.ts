@@ -14,10 +14,12 @@ export class DecisionInterfaceWithoutauthService implements DecisionInterface{
       this.getDecision().subscribe(data=>
         {
           let decision  = new Decision().deserialize(data);
-          decision.getAlternative.push(DecisionCreateService.prototype.makeOneAlternative(name, flag, decision));
-          this.setDecision(decision);
-          observer.next(decision);
-          observer.complete();
+          decision.alternativeArray.push(DecisionCreateService.prototype.makeOneAlternative(name, flag, decision));
+          this.setDecision(decision).subscribe(data=>
+            {
+              observer.next(decision);
+              observer.complete();
+            });
         });  
       
     });
@@ -34,9 +36,11 @@ export class DecisionInterfaceWithoutauthService implements DecisionInterface{
                   alternativeFromArray.name = alternative.name;
               }
           }
-          this.setDecision(decision);
-          observer.next(decision);
-          observer.complete();
+          this.setDecision(decision).subscribe(data=>
+            {
+              observer.next(decision);
+              observer.complete();
+            });
         });  
       
     });
@@ -46,9 +50,11 @@ export class DecisionInterfaceWithoutauthService implements DecisionInterface{
       this.getDecision().subscribe(data=>
         {
           let decision  = DecisionCreateService.prototype.deleteAlternative(alternative,new Decision().deserialize(data));
-          this.setDecision(decision);
-          observer.next(decision);
-          observer.complete();
+          this.setDecision(decision).subscribe(data=>
+            {
+              observer.next(decision);
+              observer.complete();
+            });
         });  
       
     });
@@ -59,9 +65,11 @@ export class DecisionInterfaceWithoutauthService implements DecisionInterface{
         {
           let decision = new Decision().deserialize(data);
           decision = DecisionCreateService.prototype.pushCriteria(name,decision);
-          this.setDecision(decision);
-          observer.next(decision);
-          observer.complete();
+          this.setDecision(decision).subscribe(data=>
+            {
+              observer.next(decision);
+              observer.complete();
+            });
         });  
       
     });
@@ -83,9 +91,11 @@ export class DecisionInterfaceWithoutauthService implements DecisionInterface{
                   }
               }
           }
-          this.setDecision(decision);
-          observer.next(decision);
-          observer.complete();
+          this.setDecision(decision).subscribe(data=>
+            {
+              observer.next(decision);
+              observer.complete();
+            });
         });  
       
     });
@@ -95,9 +105,11 @@ export class DecisionInterfaceWithoutauthService implements DecisionInterface{
       this.getDecision().subscribe(data=>
         {
           let decision  = DecisionCreateService.prototype.deleteCriteriaArray(criteria.name, new Decision().deserialize(data));
-          this.setDecision(decision);
-          observer.next(decision);
-          observer.complete();
+          this.setDecision(decision).subscribe(data =>
+            {
+              observer.next(decision);
+              observer.complete();
+            });
         });  
       
     });
@@ -111,7 +123,12 @@ export class DecisionInterfaceWithoutauthService implements DecisionInterface{
           });
   }    
   
-  setDecision(decision: Decision) {
-      localStorage.setItem("Decision",JSON.stringify(decision));
+  setDecision(decision: Decision): Observable<string> {
+    return new Observable((observer) => {
+      localStorage.setItem("Decision",JSON.stringify(decision));   
+      observer.next('OK');
+      observer.complete();
+    });
+     
   }
 }

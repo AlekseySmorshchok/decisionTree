@@ -19,55 +19,11 @@ export class Decision  implements Deserializable {
     this.alternativeArray = [];
   }
   
-  get getId(): number{
-    return this.id
-  }
-
-  set setId(id:number)
-  {
-    this.id = id;
-  }
-
-  get getName(): string{
-    return this.name;
-  }
-
-  set setName(name : string)
-  {
-    this.name = name;
-  }
-
-  get getNote():string{
-    return this.note
-  }
-
-  set setNote(note:string)
-  {
-    this.note = note;
-  }
-
-  get getAlternative():Alternative[]{
-    return this.alternativeArray
-  }
-
-  set setAlternative(decisionArray: Alternative[])
-  {
-    this.alternativeArray = decisionArray;
-  }
-
-  get getStage()
-  {
-    return this.stage;
-  }
-
-  set setStage(stage : number)
-  {
-    this.stage = stage;
-  }
+  
 
   deserialize(input: any): this {
     Object.assign(this, input);
-    if(this.getName != '') {
+    if(this.name != '') {
       return this;
     }else {
       return null;

@@ -27,7 +27,7 @@ export class SignUpComponent  {
   }
   
   checkPasswordConfirm(){
-    this.formErrors.passwordConfirm = this.validationService.confirmPassword(this.user._password, this.passwordConfirm);
+    this.formErrors.passwordConfirm = this.validationService.confirmPassword(this.user.password, this.passwordConfirm);
     this.isPasswordConfirm = SignUpComponent.setErrors(this.formErrors.passwordConfirm);
   }
   register() {

@@ -19,7 +19,7 @@ export class SignInComponent{
   checkLogin() {}
   checkPassword() {}
   login(data: any) {
-    this.userServise.login(this.user._email, this.user._password)
+    this.userServise.login(this.user.email, this.user.password)
       .flatMap(data => {
         return this.userServise.getMe();
       })

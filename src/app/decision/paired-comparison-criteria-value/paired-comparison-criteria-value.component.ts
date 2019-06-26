@@ -65,12 +65,34 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
         }
         else
         {
-          this.counter = this.doFact(this.decision.alternativeArray.length-1);
+          this.counter = this.doFact(this.decision.alternativeArray[0].criteriaArray.length - 1);
           this.makeDefaultRageCriteria();
           this.makeCriteriaArray();
           this.kolvoCriteria = this.decision.alternativeArray.length-1;
         }
       });
+  }
+
+  getCount(index: number): number
+  {
+      let count = 0;
+      for(let criteria of this.decision.alternativeArray[index].criteriaArray)
+      {
+        let flag = false;
+        for(let criteriaT of this.decision.alternativeArray[index].criteriaArray)
+        {
+            if(criteriaT.name == criteria.name)
+            {
+              flag = true;
+              break;
+            }
+        }
+        if(flag == false)
+        {
+          count ++;
+        }
+      }
+      return count;
   }
 
   makeCriteriaArray()
@@ -168,8 +190,17 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
           {
             if(flag==-1)
             {
-              this.decisionInterface.setDecision(this.decision);
-              this.router.navigate(['pairedComparisonCriteria']);
+              this.decisionInterface.setDecision(this.decision).subscribe(status=>
+                {
+                  if(status == 'OK')
+                  {
+                    this.router.navigate(['pairedComparisonCriteria']);
+                  }
+                  else
+                  {
+                    this.router.navigate(['']);
+                  }
+                });
             }
             else
             {

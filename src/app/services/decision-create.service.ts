@@ -39,13 +39,13 @@ export class DecisionCreateService {
    makeOneAlternative(name : string, flag: boolean, decisionObject: Decision) : Alternative // +
    {
       let alternative = new Alternative();
-      alternative.setName = name;
-      if(decisionObject.getAlternative.length != 0)
+      alternative.name = name;
+      if(decisionObject.alternativeArray.length != 0)
       {
-          alternative.setId = decisionObject.getAlternative[decisionObject.alternativeArray.length - 1].id + 1;
+          alternative.id = decisionObject.alternativeArray[decisionObject.alternativeArray.length - 1].id + 1;
       }
       else{
-          alternative.setId = 1;
+          alternative.id = 1;
       }
       if(flag == true)
       {
@@ -214,8 +214,8 @@ export class DecisionCreateService {
     let decision = new Decision();
     let alternative = new Alternative();
     let criteria = new Criteria();
-    decision.getAlternative.push(alternative);
-    decision.getAlternative[0].getCriteriaArray.push(criteria);
+    decision.alternativeArray.push(alternative);
+    decision.alternativeArray[0].criteriaArray.push(criteria);
     return decision;
   }
 
