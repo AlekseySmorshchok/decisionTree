@@ -25,7 +25,6 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
   firstCompariosnIndex : number = 0;
   secondCompariosnIndex : number = 1;
   selectedValue: number = 1;
-  kolvoCriteria: number = 0;
   panelOpenState: boolean = false;
   choose:boolean = true;
   decisionInterface : DecisionInterface;
@@ -34,7 +33,8 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
               private decisionCreateService: DecisionCreateService,
               private dialog: MatDialog,
               private decisionWithouAuth:DecisionInterfaceWithoutauthService,
-              private decisionWithAuth: DecisionInterfaceWithauthService) { }
+              private decisionWithAuth: DecisionInterfaceWithauthService,
+              private decisionService: DecisionCreateService) { }
 
   values = [
     {value: 1, viewValue: 'равновесное значение (одинаково важны при выборе)'},
@@ -59,16 +59,18 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
     this.decisionInterface.getDecision().subscribe(
       data=>{
         this.decision  =  new Decision().deserialize(data);
-        if( this.decision == undefined)
+        if(this.numberOfNote ==-1)
         {
-          this.redirectWithMessage();
+                this.router.navigate(['pairedComparisonCriteria']);
         }
         else
         {
-          this.counter = this.doFact(this.decision.alternativeArray[0].criteriaArray.length - 1);
+          this.counter = this.doFact(this.getCount(this.numberOfNote)-1);
           this.makeDefaultRageCriteria();
           this.makeCriteriaArray();
-          this.kolvoCriteria = this.decision.alternativeArray.length-1;
+          this.firstCompariosnIndex = 0;
+          this.secondCompariosnIndex  = 1;
+          this.selectedValue =  1;
         }
       });
   }
@@ -100,7 +102,19 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
     this.comparisonCriteriaArray = [];
       for(let alternative of this.decision.alternativeArray)
       {
-        this.comparisonCriteriaArray.push(alternative.criteriaArray[this.numberOfNote])
+        let flag = false;
+        for(let criteriaName of this.comparisonCriteriaArray)
+        {
+          if(criteriaName == alternative.criteriaArray[this.numberOfNote])
+          {
+            flag = true;
+            break;
+          }
+        }
+        if(flag == false)
+        {
+          this.comparisonCriteriaArray.push(alternative.criteriaArray[this.numberOfNote]);
+        }
       }
   }
 
@@ -127,20 +141,52 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
         this.rageCriteria[criteria] = new Array(this.decision.alternativeArray[0].criteriaArray.length);
         this.rageCriteria[criteria][criteria] = 1;
     }
+    for(var alternative = 0 ; alternative < this.decision.alternativeArray.length; alternative ++)
+    {
+        for(var alternativeduble = 0 ; alternativeduble < this.decision.alternativeArray.length; alternativeduble ++)
+        {
+          if(this.decision.alternativeArray[alternative].criteriaArray[this.numberOfNote].value == this.decision.alternativeArray[alternativeduble].criteriaArray[this.numberOfNote].value)
+          {
+            this.rageCriteria[alternative][alternativeduble] = 1;
+            this.rageCriteria[alternativeduble][alternative] = 1;
+          }
+        }
+    }
+    console.log(this.rageCriteria);
+  }
+
+  findIndex(criteriaValue:string):number[]
+  {
+    let indexes : number[] = new Array();
+    for(var index = 0 ; index < this.decision.alternativeArray[this.numberOfNote].criteriaArray.length; index++)
+    {
+      if(criteriaValue == this.decision.alternativeArray[index].criteriaArray[this.numberOfNote].value)
+      {
+        indexes.push(index);
+      }
+    }
+    return indexes;
   }
 
   saveChoose()
   {
-    if(this.choose)
-    {
-      this.rageCriteria[this.firstCompariosnIndex][this.secondCompariosnIndex] = this.selectedValue;
-      this.rageCriteria[this.secondCompariosnIndex][this.firstCompariosnIndex] = 1/this.selectedValue
-    }
-    else
-    {
-      this.rageCriteria[this.firstCompariosnIndex][this.secondCompariosnIndex] = 1/this.selectedValue;
-      this.rageCriteria[this.secondCompariosnIndex][this.firstCompariosnIndex] = this.selectedValue
-    }
+    for(let line of this.findIndex(this.decision.alternativeArray[this.firstCompariosnIndex].criteriaArray[this.numberOfNote].value))
+      {
+        for(let column of this.findIndex(this.decision.alternativeArray[this.secondCompariosnIndex].criteriaArray[this.numberOfNote].value))
+        {
+          if(this.choose)
+          {
+            this.rageCriteria[line][column] = this.selectedValue;
+            this.rageCriteria[column][line] = 1/this.selectedValue
+          }
+          else
+          {
+            this.rageCriteria[line][column] = 1/this.selectedValue;
+            this.rageCriteria[column][line] = this.selectedValue
+          }
+        }
+      }
+    
   }
 
   saveAnswerInRageArray()
@@ -164,7 +210,7 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
     this.counter--;
     if(this.counter==0)
     {
-      this.saveResaultAndgoNext();
+      this.saveResaultAndgoNext(); 
     }
   }
 

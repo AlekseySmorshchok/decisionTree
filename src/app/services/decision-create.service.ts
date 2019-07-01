@@ -238,4 +238,11 @@ export class DecisionCreateService {
       .map(response => response.json() as Decision);
   }
 
+  getCriteriaArray(decision:Decision){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post(this.host + `getCriteriaArray`,decision,{headers})
+    .map(response => response.json() as string[]);
+  }
+
 }
