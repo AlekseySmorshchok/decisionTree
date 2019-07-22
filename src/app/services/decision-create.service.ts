@@ -15,7 +15,7 @@ import { AngularWaitBarrier } from 'blocking-proxy/built/lib/angular_wait_barrie
 export class DecisionCreateService {
 
   decision: Decision;
-  host : string ;
+  host : string ; 
   constructor(private http: Http,
     private authHttp: AuthHttp) {
     this.decision = new Decision();
