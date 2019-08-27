@@ -153,14 +153,9 @@ export class PairedComparisonCriteriaComponent implements OnInit {
         {
           this.decisionInterface.setDecision(new Decision().deserialize(data)).subscribe(status=>
             {
-              if(status == 'OK')
-              {
+              
                 this.router.navigate(['endTree'])
-              }
-              else
-              {
-                this.router.navigate(['']);
-              }
+              
             });
           
         }

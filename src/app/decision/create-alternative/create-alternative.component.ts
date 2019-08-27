@@ -43,6 +43,7 @@ export class CreateAlternativeComponent implements OnInit {
       this.decisionInterface.getDecision().subscribe(data=>
         {
           this.decision = new Decision().deserialize(data);
+          console.log(data);
           this.check();
         });
   }
@@ -101,12 +102,9 @@ export class CreateAlternativeComponent implements OnInit {
       if(result != undefined)
       {
         alternative.name = result;
-        this.decisionInterface.setDecision(this.decision).subscribe(status=>
+        this.decisionInterface.setDecision(this.decision).subscribe(data=>
           {
-            if(status != 'OK')
-            {
-              this.router.navigate(['']);
-            }
+            this.decision = new Decision().deserialize(data);
           });
       }
     });
@@ -133,28 +131,20 @@ export class CreateAlternativeComponent implements OnInit {
       this.decision.stage = 1;
       this.decisionInterface.setDecision(this.decision).subscribe(status=>
         {
-          if(status != 'OK')
-          {
-            this.router.navigate(['']);
-          }
-          else
-          {
+          
               this.router.navigate(['createCriteria', 1]);
-          }
+          
         });
     }
     else{
       
       this.decisionInterface.setDecision(this.decision).subscribe(status=>
         {
-          if(status != 'OK')
-          {
+         
             this.router.navigate(['']);
-          }
-          else
-          {
+          
             this.router.navigate(['fillValueCriteria']);
-          }
+          
         });
       
     }

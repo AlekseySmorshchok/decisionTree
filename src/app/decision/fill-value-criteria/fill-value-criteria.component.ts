@@ -103,14 +103,9 @@ export class FillValueCriteriaComponent implements OnInit {
     this.checkValueRate();
     this.decisionInterface.setDecision(this.decision).subscribe(status=>
       {
-        if(status == 'OK')
-        {
+        
           this.router.navigate(['instruction']);
-        }
-        else
-        {
-          this.router.navigate(['']);
-        }
+        
       });
     }
     else
@@ -135,14 +130,9 @@ export class FillValueCriteriaComponent implements OnInit {
   {
     this.decisionInterface.setDecision(this.decision).subscribe(status=>
       {
-        if(status == 'OK')
-        {
+        
           this.router.navigate(['createCriteria',2]);
-        }
-        else
-        {
-          this.router.navigate(['']);
-        }
+        
       });
   }
 
@@ -150,14 +140,9 @@ export class FillValueCriteriaComponent implements OnInit {
   {
     this.decisionInterface.setDecision(this.decision).subscribe(status=>
       {
-        if(status == 'OK')
-        {
+        
           this.router.navigate(['createAlternative',2]);
-        }
-        else
-        {
-          this.router.navigate(['']);
-        }
+       
       });
   }
 

@@ -56,14 +56,9 @@ export class CreateTreeComponent implements OnInit{
     this.openSnackBar(this.decision.name, 'Create');
      this.decisionInterface.setDecision(this.decision).subscribe(status=>
       {
-        if(status == 'OK')
-        {
+        
         this.router.navigate(['createAlternative', 1]);
-        }
-        else
-        {
-          this.router.navigate(['']);
-        }
+        
       });
     
   }

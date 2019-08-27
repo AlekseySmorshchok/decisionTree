@@ -26,9 +26,9 @@ export class SignInComponent{
       .subscribe(
         data => {
           localStorage.setItem('currentUser', JSON.stringify(data));
+          this.router.navigate(['']);
         }
       );
-      this.router.navigate(['']);
   }
   formReset(form: NgForm){
       form.reset();

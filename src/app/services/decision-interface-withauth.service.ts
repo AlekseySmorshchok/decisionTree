@@ -7,6 +7,7 @@ import { Decision } from '../model/decision';
 import { environment } from '../../environments/environment';
 import { AuthHttp, AuthConfig, AuthConfigConsts } from 'angular2-jwt';
 import { Http,Headers } from '@angular/http';
+import { DecisionCreateService } from './decision-create.service';
 
 @Injectable()
 export class DecisionInterfaceWithauthService  implements DecisionInterface
@@ -22,6 +23,7 @@ export class DecisionInterfaceWithauthService  implements DecisionInterface
 
 
       getDecision(): Observable<Decision> {
+        return new Observable((observer) => {
       let decision: Decision = null;
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
@@ -29,29 +31,31 @@ export class DecisionInterfaceWithauthService  implements DecisionInterface
       var id  = +localStorage.getItem("idDecision");
       if(id != 0)
       {
-        return  this.authHttp.post(this.host + `getDecision`, id, {headers}) .map(response => response.json() as Decision)
+        this.authHttp.post(this.host + `getDecision`, id, {headers}) .map(response => response.json() as Decision).subscribe(data =>
+          {
+            observer.next(data);
+            observer.complete();
+          })
       }
       else
       {
-        return new Observable((observer) => {
-         
           observer.next(new Decision());
           observer.complete();
-        });
-      }
+       
+      } });
     }
 
-    setDecision(decision: Decision): Observable<string> {
+    setDecision(decision: Decision): Observable<Decision> {
       return new Observable((observer) => {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME));
         this.authHttp.post(this.host + `saveOrUpdateDecision`, decision,{headers})
-        .map(response => response.json() as number).subscribe(
+        .map(response => response.json() as Decision).subscribe(
           data=>
           {
-            localStorage.setItem("idDecision",data.toString());
-            observer.next('OK');
+            localStorage.setItem("idDecision",data.id.toString());
+            observer.next(data);
             observer.complete();
           }
         );
@@ -61,7 +65,18 @@ export class DecisionInterfaceWithauthService  implements DecisionInterface
     }
     
     addAlternative(name: string, flag: boolean): Observable<Decision> {
-      throw new Error("Method not implemented.");
+      return new Observable((observer) => {
+        this.getDecision().subscribe(data=>
+          {
+            data.alternativeArray.push(DecisionCreateService.prototype.makeOneAlternativeWithAuth(name, flag, data));
+            this.setDecision(data).subscribe(decision=>
+              {
+                observer.next(decision);
+                observer.complete();
+              });
+          });  
+        
+      });
     }
     editAlternative(alternative: Alternative): Observable<Decision> {
       throw new Error("Method not implemented.");

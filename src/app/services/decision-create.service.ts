@@ -67,6 +67,27 @@ export class DecisionCreateService {
       return alternative;
    }
 
+   makeOneAlternativeWithAuth(name : string, flag: boolean, decisionObject: Decision) : Alternative // +
+   {
+      let alternative = new Alternative();
+      alternative.name = name;
+      if(flag == true)
+      {
+        for( let criteriaFromArray of decisionObject.alternativeArray[0].criteriaArray)
+        {
+          let criteria = new Criteria();
+          criteria.name = criteriaFromArray.name;
+          if(alternative.criteriaArray == null || alternative.criteriaArray == undefined)
+          {
+            alternative.criteriaArray = [];
+          }
+          alternative.criteriaArray.push(criteria);
+        }
+      }
+      return alternative;
+   }
+
+
    getMaxCriteriaId(decisionObect: Decision) : number // +
    {
      var Arrayindex = 1;

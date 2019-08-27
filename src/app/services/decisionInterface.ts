@@ -6,7 +6,7 @@ import { Observable } from "rxjs/Observable";
 export interface DecisionInterface
 {
     getDecision(): Observable<Decision>;
-    setDecision(decision: Decision): Observable<string>;
+    setDecision(decision: Decision): Observable<Decision>;
     addAlternative(name: string, flag: boolean): Observable<Decision> ;
     editAlternative(alternative: Alternative): Observable<Decision> ;
     deliteAlternative(alternative: Alternative): Observable<Decision> ;

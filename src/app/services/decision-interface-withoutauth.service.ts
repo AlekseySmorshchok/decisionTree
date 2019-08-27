@@ -123,10 +123,10 @@ export class DecisionInterfaceWithoutauthService implements DecisionInterface{
           });
   }    
   
-  setDecision(decision: Decision): Observable<string> {
+  setDecision(decision: Decision): Observable<Decision> {
     return new Observable((observer) => {
       localStorage.setItem("Decision",JSON.stringify(decision));   
-      observer.next('OK');
+      observer.next(decision);
       observer.complete();
     });
      
