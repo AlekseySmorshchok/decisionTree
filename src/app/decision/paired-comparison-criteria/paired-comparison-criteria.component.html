@@ -28,7 +28,8 @@
 
 </mat-expansion-panel>
 <br>
-<form>
+<form >
+  <div *ngIf="comparisonCriteriaArray && decision">
     <h1>
         Осуществите попарные сравнения критериев.
     </h1>
@@ -45,7 +46,8 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-
+  </div>
+  <h1 *ngIf="!comparisonCriteriaArray || !decision">Loading...</h1>
   <br>
   <div>
   <button mat-raised-button (click)="swap()">Поменять местами критерии в фразе</button>

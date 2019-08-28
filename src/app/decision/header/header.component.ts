@@ -12,8 +12,10 @@ export class HeaderComponent implements OnInit {
 
   constructor(private dialog: MatDialog,
     private router: Router,) { }
-
+    button = "Войти";
   ngOnInit() {
+     localStorage.getItem("currentUser") ? this.button = "Выйти" : this.button = "Войти";
+    
   }
 
   goAuth()

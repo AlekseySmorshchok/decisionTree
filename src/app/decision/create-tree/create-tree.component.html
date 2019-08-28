@@ -1,7 +1,7 @@
 
 
 <section id="one" class="wrapper style1 special">
-    <div class="containersS">
+    <div *ngIf="decision" class="containersS">
       <header class="major">
           <h2>Создайте решение</h2>
           <p>Введите название решения</p>
@@ -32,4 +32,5 @@
               <button class="button alt big" type="submit" [disabled]="decisionForm.form.invalid" (click)="goNext()">{{buttonName}}</button>
       </form>
 </div>
+<h1 *ngIf="!decision">Loading...</h1>
 </section>

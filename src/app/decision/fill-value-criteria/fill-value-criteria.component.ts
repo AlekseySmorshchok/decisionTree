@@ -29,10 +29,7 @@ export class FillValueCriteriaComponent implements OnInit {
               private decisionWithAuth: DecisionInterfaceWithauthService) { }
 
   ngOnInit() {
-    for(let i =0; i< this.disabled.length;i++)
-    {
-      this.disabled[i] = false;
-    }
+    
     if (localStorage.getItem('currentUser') != null) {
       this.decisionInterface = this.decisionWithAuth;
     }
@@ -42,6 +39,10 @@ export class FillValueCriteriaComponent implements OnInit {
     this.decisionInterface.getDecision().subscribe(
       data=>{
         this.decision  =  new Decision().deserialize(data);
+        for(let i =0; i< this.decision.alternativeArray[0].criteriaArray.length;i++)
+        {
+          this.disabled[i] = false;
+        }
         this.check();
       });
     
@@ -57,7 +58,7 @@ export class FillValueCriteriaComponent implements OnInit {
       {
         for(let criteria of this.decision.alternativeArray[0].criteriaArray)
         {
-          this.minRate.push(false);
+          this.minRate.push(criteria.minMaxValue);
         }
       }
   }

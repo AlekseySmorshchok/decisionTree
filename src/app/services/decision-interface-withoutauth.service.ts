@@ -9,6 +9,27 @@ import { DecisionCreateService } from './decision-create.service';
 @Injectable()
 export class DecisionInterfaceWithoutauthService implements DecisionInterface{
 
+  deleteDecisionFromInterface(): Observable<String> {
+      return new Observable((observer) => {
+          localStorage.removeItem("Decision");
+          observer.next("OK");
+          observer.complete();
+      });
+    }
+
+  createDecision(name: string, note: string): Observable<Decision> {
+    return new Observable((observer) => {
+      var decision = new Decision();
+      decision.name = name;
+      decision.note = note;
+      this.setDecision(decision).subscribe(data=>
+        {
+          observer.next(decision);
+          observer.complete();
+        });
+    });
+  }
+
   addAlternative(name: string, flag: boolean): Observable<Decision> {
     return new Observable((observer) => {
       this.getDecision().subscribe(data=>
@@ -31,7 +52,7 @@ export class DecisionInterfaceWithoutauthService implements DecisionInterface{
           let decision  = new Decision().deserialize(data);
           for(let alternativeFromArray of decision.alternativeArray)
           {
-              if(alternativeFromArray.id = alternative.id)
+              if(alternativeFromArray.id == alternative.id)
               {
                   alternativeFromArray.name = alternative.name;
               }

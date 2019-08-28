@@ -73,7 +73,7 @@ export class EndTreeComponent implements OnInit {
   }
   changeTree()
   {
-    this.router.navigate(['createTree']);
+    this.router.navigate(['editTree']);
   }
 
 }

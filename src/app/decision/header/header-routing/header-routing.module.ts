@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { UserComponent } from '../user/user.component';
 import { HomeComponent } from '../../home/home.component';
+import { HeaderComponent } from '../header.component';
 
 const routes: Routes = [
   {

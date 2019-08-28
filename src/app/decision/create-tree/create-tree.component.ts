@@ -13,9 +13,10 @@ import { DecisionInterfaceWithauthService } from '../../services/decision-interf
 })
 export class CreateTreeComponent implements OnInit{
 
-  decision: Decision;
+  decision :Decision;
   decisionInterface : DecisionInterface;
   buttonName: string;
+  isnewDecision = true;
   constructor(public snackBar: MatSnackBar,
               private router: Router,
               private decisionWithouAuth:DecisionInterfaceWithoutauthService,
@@ -29,20 +30,25 @@ export class CreateTreeComponent implements OnInit{
     else {
       this.decisionInterface = this.decisionWithouAuth;
     }
-     this.decisionInterface.getDecision().subscribe(
-        data=>{
-          this.decision  =  new Decision().deserialize(data);
-          if(this.decision == null || this.decision == undefined) {
-            this.decision = new Decision();
-            this.buttonName = "Создать";
-          }
-          else
-          {
-            this.buttonName = "Далее";
-          }
-         }
-      );
-     
+    if(this.router.url == "/createTree")
+    {
+      this.decisionInterface.deleteDecisionFromInterface().subscribe(data=>{});
+    }
+    this.decisionInterface.getDecision().subscribe(
+      data=>{
+        this.decision  =  new Decision().deserialize(data);
+        if(this.decision == null || this.decision == undefined) {
+          this.decision = new Decision();
+          this.buttonName = "Создать";
+        }
+        else
+        {
+          this.isnewDecision = false;
+          this.buttonName = "Далее";
+        }
+        }
+    );
+    
    
   }
 
@@ -53,13 +59,20 @@ export class CreateTreeComponent implements OnInit{
   }
 
   goNext() {
-    this.openSnackBar(this.decision.name, 'Create');
-     this.decisionInterface.setDecision(this.decision).subscribe(status=>
-      {
-        
-        this.router.navigate(['createAlternative', 1]);
-        
-      });
+    if(this.isnewDecision == true)
+    {
+      this.openSnackBar(this.decision.name, 'Create');
+      this.decisionInterface.createDecision(this.decision.name, this.decision.note).subscribe(status=>
+        {
+          
+          this.router.navigate(['createAlternative', 1]);
+          
+        });
+    }
+    else
+    {
+      this.router.navigate(['createAlternative', 1]);
+    }
     
   }
 

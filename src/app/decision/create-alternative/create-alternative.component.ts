@@ -43,7 +43,6 @@ export class CreateAlternativeComponent implements OnInit {
       this.decisionInterface.getDecision().subscribe(data=>
         {
           this.decision = new Decision().deserialize(data);
-          console.log(data);
           this.check();
         });
   }
@@ -102,7 +101,7 @@ export class CreateAlternativeComponent implements OnInit {
       if(result != undefined)
       {
         alternative.name = result;
-        this.decisionInterface.setDecision(this.decision).subscribe(data=>
+        this.decisionInterface.editAlternative(alternative).subscribe(data=>
           {
             this.decision = new Decision().deserialize(data);
           });

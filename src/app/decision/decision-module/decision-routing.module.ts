@@ -21,6 +21,9 @@ const routes: Routes = [
     path:'', component : HomeComponent
   },
   {
+    path:'editTree', component: CreateTreeComponent
+  },
+  {
     path:'createTree', component: CreateTreeComponent
   },
   {
