@@ -26,7 +26,8 @@ export class FillValueCriteriaComponent implements OnInit {
               private dialog: MatDialog,
               private router: Router,
               private decisionWithouAuth:DecisionInterfaceWithoutauthService,
-              private decisionWithAuth: DecisionInterfaceWithauthService) { }
+              private decisionWithAuth: DecisionInterfaceWithauthService,
+              private decisionService: DecisionCreateService) { }
 
   ngOnInit() {
     
@@ -101,13 +102,19 @@ export class FillValueCriteriaComponent implements OnInit {
         alternative.criteriaArray[i].minMaxValue = this.minRate[i]
       }
     }
-    this.checkValueRate();
-    this.decisionInterface.setDecision(this.decision).subscribe(status=>
+    this.decisionService.checkValueRate(this.decision).subscribe(
+      editDecision => 
       {
-        
-          this.router.navigate(['instruction']);
-        
-      });
+        this.decision = editDecision;
+        this.decisionInterface.setDecision(this.decision).subscribe(status=>
+          {
+            
+              this.router.navigate(['instruction']);
+            
+          });
+      }
+    )
+    
     }
     else
     {

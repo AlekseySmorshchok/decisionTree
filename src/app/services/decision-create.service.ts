@@ -266,4 +266,13 @@ export class DecisionCreateService {
     .map(response => response.json() as string[]);
   }
 
+  checkValueRate(decision: Decision){
+    let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      headers.append('Authorization', localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME));
+      return this.http.post(this.host + `checkValueRate`, decision, {headers})
+      .map(response => response.json() as Decision);
+  }
+
+
 }

@@ -1,0 +1,5 @@
+<h1 mat-dialog-title>У вас уже есть созданное решение. Хотите начать новое?</h1>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Нет</button>
+  <button mat-button  [mat-dialog-close]="answer" cdkFocusInitial>Да</button>
+</div>

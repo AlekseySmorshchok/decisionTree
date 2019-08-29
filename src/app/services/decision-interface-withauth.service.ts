@@ -20,6 +20,13 @@ export class DecisionInterfaceWithauthService  implements DecisionInterface
       this.authHttp = new AuthHttp(new AuthConfig() , http);
     }
 
+    isNewDecision(): Observable<Boolean> {
+      return new Observable((observer) => {
+          observer.next(localStorage.getItem("idDecision")!=null ? true : false);
+          observer.complete();
+      });
+    }
+
     deleteDecisionFromInterface(): Observable<String> {
       return new Observable((observer) => {
           localStorage.removeItem("idDecision");

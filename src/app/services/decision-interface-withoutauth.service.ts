@@ -8,6 +8,14 @@ import { DecisionCreateService } from './decision-create.service';
 
 @Injectable()
 export class DecisionInterfaceWithoutauthService implements DecisionInterface{
+ 
+ 
+  isNewDecision(): Observable<Boolean> {
+    return new Observable((observer) => {
+        observer.next(localStorage.getItem("Decision")!=null ? true : false);
+        observer.complete();
+    });
+  }
 
   deleteDecisionFromInterface(): Observable<String> {
       return new Observable((observer) => {

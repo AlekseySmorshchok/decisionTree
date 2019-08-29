@@ -15,6 +15,7 @@ import { PairedComparisonCriteriaComponent } from '../paired-comparison-criteria
 import { PairedComparisonCriteriaValueComponent } from '../paired-comparison-criteria-value/paired-comparison-criteria-value.component';
 import { EndTreeComponent } from '../end-tree/end-tree.component';
 import { UserComponent } from '../header/user/user.component';
+import { IsNewTreeComponent } from '../create-tree/is-new-tree/is-new-tree.component';
 
 const routes: Routes = [
   {
@@ -69,6 +70,6 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
   entryComponents: [RedirectWithMessageComponent, EditAlternativeComponent, DeletAlternativeComponent, EditCriteriaComponent,
-                    DeleteCriteriaComponent]
+                    DeleteCriteriaComponent, IsNewTreeComponent]
 })      
 export class DecisionRoutingModule { }

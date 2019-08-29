@@ -15,4 +15,5 @@ export interface DecisionInterface
     deleteCriteria(criteria: Criteria): Observable<Decision> ;
     createDecision(name: String, note:String): Observable<Decision> ;
     deleteDecisionFromInterface(): Observable<String>;
+    isNewDecision(): Observable<Boolean>;
 }

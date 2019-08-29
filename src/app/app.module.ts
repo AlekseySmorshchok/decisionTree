@@ -34,6 +34,7 @@ import { ValidationData } from './services/validationData';
 import { FooterComponent } from './decision/footer/footer.component';
 import { DecisionInterfaceWithauthService } from './services/decision-interface-withauth.service';
 import { DecisionInterfaceWithoutauthService } from './services/decision-interface-withoutauth.service';
+import { IsNewTreeComponent } from './decision/create-tree/is-new-tree/is-new-tree.component';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { DecisionInterfaceWithoutauthService } from './services/decision-interfa
     UserComponent,
     SignUpComponent,
     SignInComponent,
-    FooterComponent
+    FooterComponent,
+    IsNewTreeComponent
   ],
   imports: [
     BrowserModule,

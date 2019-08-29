@@ -239,7 +239,7 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
               this.decisionInterface.setDecision(this.decision).subscribe(status=>
                 {
                   
-                    //this.router.navigate(['pairedComparisonCriteria']);
+                    this.router.navigate(['pairedComparisonCriteria']);
                   
                 });
             }

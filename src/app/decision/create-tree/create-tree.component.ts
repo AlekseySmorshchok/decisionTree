@@ -1,10 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Decision } from '../../model/decision';
 import { DecisionInterface } from '../../services/decisionInterface';
 import { DecisionInterfaceWithoutauthService } from '../../services/decision-interface-withoutauth.service';
 import { DecisionInterfaceWithauthService } from '../../services/decision-interface-withauth.service';
+import { IsNewTreeComponent } from './is-new-tree/is-new-tree.component';
+import { identifierModuleUrl } from '@angular/compiler';
 
 @Component({
   selector: 'app-create-tree',
@@ -19,6 +21,7 @@ export class CreateTreeComponent implements OnInit{
   isnewDecision = true;
   constructor(public snackBar: MatSnackBar,
               private router: Router,
+              private dialog: MatDialog,
               private decisionWithouAuth:DecisionInterfaceWithoutauthService,
               private decisionWithAuth: DecisionInterfaceWithauthService) { }
 
@@ -32,8 +35,46 @@ export class CreateTreeComponent implements OnInit{
     }
     if(this.router.url == "/createTree")
     {
-      this.decisionInterface.deleteDecisionFromInterface().subscribe(data=>{});
+      this.decisionInterface.isNewDecision().subscribe( data=>
+        {
+          setTimeout(() => {
+            if(data)
+          {
+            let dialogRef = this.dialog.open(IsNewTreeComponent, {
+              width: '250px'
+            });
+        
+            dialogRef.afterClosed().subscribe(result => {
+              if(result)
+              {
+                this.decisionInterface.deleteDecisionFromInterface().subscribe(data=>
+                  {
+                    this.initForm();
+                  });
+              }
+              else
+              {
+                this.initForm();
+              }
+            });
+          }
+          else
+          {
+            this.initForm();
+          }
+          }, )
+        });
     }
+    else
+    {
+      this.initForm();
+    }
+    
+   
+  }
+  
+  initForm()
+  {
     this.decisionInterface.getDecision().subscribe(
       data=>{
         this.decision  =  new Decision().deserialize(data);
@@ -48,8 +89,6 @@ export class CreateTreeComponent implements OnInit{
         }
         }
     );
-    
-   
   }
 
   openSnackBar(message: string, action: string) {
