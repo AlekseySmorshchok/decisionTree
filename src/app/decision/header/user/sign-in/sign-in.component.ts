@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { User } from '../../../../model/user';
 import { UserService } from '../../../../services/user-service';
+import { HeaderComponent } from '../../header.component';
 
 @Component({
   selector: 'app-sign-in',

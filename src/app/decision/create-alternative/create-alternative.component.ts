@@ -115,10 +115,14 @@ export class CreateAlternativeComponent implements OnInit {
       data: { name: '' }
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.decisionInterface.deliteAlternative(alternative).subscribe(data =>
-        {
-          this.decision = new Decision().deserialize(data);
-        })
+      if(result)
+      {
+        this.decisionInterface.deliteAlternative(alternative).subscribe(data =>
+          {
+            this.decision = new Decision().deserialize(data);
+          })
+      }
+      
     }
   );
 }

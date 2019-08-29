@@ -100,11 +100,15 @@ export class CreateCriteriaComponent implements OnInit {
       data: { name: '' }
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.decisionInterface.deleteCriteria(criteria).subscribe(data=>
-        {
-          this.decision = new Decision().deserialize(data);
-          this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
-        });
+      if(result)
+      {
+        this.decisionInterface.deleteCriteria(criteria).subscribe(data=>
+          {
+            this.decision = new Decision().deserialize(data);
+            this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
+          });
+      }
+      
     }
   );
 }

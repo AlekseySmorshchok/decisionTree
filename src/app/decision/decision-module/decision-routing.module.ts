@@ -16,8 +16,12 @@ import { PairedComparisonCriteriaValueComponent } from '../paired-comparison-cri
 import { EndTreeComponent } from '../end-tree/end-tree.component';
 import { UserComponent } from '../header/user/user.component';
 import { IsNewTreeComponent } from '../create-tree/is-new-tree/is-new-tree.component';
+import { AppComponent } from '../../app.component';
 
 const routes: Routes = [
+  {
+    path:'#', component: AppComponent
+  },
   {
     path:'', component : HomeComponent
   },

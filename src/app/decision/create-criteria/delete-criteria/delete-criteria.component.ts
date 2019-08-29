@@ -8,12 +8,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class DeleteCriteriaComponent {
 
-  name = "";
+  name = true;
   constructor(
     public dialogRef: MatDialogRef<DeleteCriteriaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   onNoClick(): void {
+    this.name = false;
     this.dialogRef.close();
   }
 
