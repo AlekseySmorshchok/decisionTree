@@ -1,0 +1,22 @@
+<br>
+<br><br><br><br><br><br><br>
+<table *ngIf="decision">
+  <thead>
+    <tr>
+      <th></th>
+      <th *ngFor="let alternative of decision.decisionArray">{{ alternative.name }}<sup>{{ alternative.finalRate}}%</sup></th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let number of decision.decisionArray[0].criteriaArray; index as i">
+        <th> {{number.name}}<sup>{{number.rate}}</sup></th>
+        <th *ngFor="let alternative of decision.decisionArray">
+          <div> 
+            <p id = {{alternative.criteriaArray[i].id}}>
+                    {{alternative.criteriaArray[i].value}}<sup>{{alternative.criteriaArray[i].valuePriority}}</sup>
+            </p>
+          </div>
+           </th>
+      </tr>
+  </tbody>
+</table>

@@ -8,11 +8,6 @@ import { DecisionCreateService } from './decision-create.service';
 
 @Injectable()
 export class DecisionInterfaceWithoutauthService implements DecisionInterface{
-  
-  getDecisions(): Observable<Decision[]> {
-    throw new Error("Method not implemented.");
-  }
- 
  
   isNewDecision(): Observable<Boolean> {
     return new Observable((observer) => {

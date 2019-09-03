@@ -33,6 +33,7 @@ export class HeaderComponent implements OnInit {
       this.loginStateService.sendData();
       localStorage.removeItem("currentUser");
       localStorage.removeItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
+      this.router.navigate(['']);
     }
     else
     {

@@ -38,6 +38,7 @@ import { IsNewTreeComponent } from './decision/create-tree/is-new-tree/is-new-tr
 import { LoginStateCommunicationService } from './services/component-communication/login-state-communication.service';
 import { ViewDecisionComponent } from './decision/view-decision/view-decision.component';
 import { DecisionsListComponent } from './decision/view-decision/decisions-list/decisions-list.component';
+import { DecisionDetailComponent } from './decision/view-decision/decision-detail/decision-detail.component';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { DecisionsListComponent } from './decision/view-decision/decisions-list/
     FooterComponent,
     IsNewTreeComponent,
     ViewDecisionComponent,
-    DecisionsListComponent
+    DecisionsListComponent,
+    DecisionDetailComponent
   ],
   imports: [
     BrowserModule,
