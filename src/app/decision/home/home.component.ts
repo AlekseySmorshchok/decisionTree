@@ -4,6 +4,7 @@ import { DecisionCreateService } from '../../services/decision-create.service';
 import { Decision } from '../../model/decision';
 import { Http } from '@angular/http';
 import { environment } from '../../../environments/environment';
+import { AuthConfigConsts } from 'angular2-jwt';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,7 @@ import { environment } from '../../../environments/environment';
 })
 export class HomeComponent implements OnInit {
   title = 'Decision App';
-
+  isLogIn = false;
   host : string ;
   constructor(private router: Router, 
               private decisionCreateService: DecisionCreateService,
@@ -28,6 +29,6 @@ export class HomeComponent implements OnInit {
   }
   
   ngOnInit() {
-  
+    this.isLogIn = localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME) ? true : false;
   }
 }

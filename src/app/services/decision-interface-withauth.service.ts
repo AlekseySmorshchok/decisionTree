@@ -12,6 +12,7 @@ import { DecisionCreateService } from './decision-create.service';
 @Injectable()
 export class DecisionInterfaceWithauthService  implements DecisionInterface
 {
+ 
 
     host = environment.host;
     authHttp: AuthHttp;
@@ -201,5 +202,21 @@ export class DecisionInterfaceWithauthService  implements DecisionInterface
     });
   }
     
+  getDecisions(): Observable<Decision[]> {
+    return new Observable((observer) => {
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      headers.append('Authorization', localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME));
+      this.authHttp.post(this.host + `getDecisions`,{headers})
+      .map(response => response.json() as Decision[]).subscribe(
+        data=>
+        {
+          observer.next(data);
+          observer.complete();
+        }
+      );
+      
+    });
+  }
 
  }

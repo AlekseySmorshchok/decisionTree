@@ -1,0 +1,22 @@
+.mat-list-icon {
+   color : rgba (0, 0, 0, 0.54);
+}
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 700px;
+  min-width: 300px;
+}
+
+.example-header {
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  padding-left: 24px;
+  font-size: 20px;
+}
+
+.mat-table {
+  overflow: auto;
+}

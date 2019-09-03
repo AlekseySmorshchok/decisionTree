@@ -17,6 +17,8 @@ import { EndTreeComponent } from '../end-tree/end-tree.component';
 import { UserComponent } from '../header/user/user.component';
 import { IsNewTreeComponent } from '../create-tree/is-new-tree/is-new-tree.component';
 import { AppComponent } from '../../app.component';
+import { ViewDecisionComponent } from '../view-decision/view-decision.component';
+import { DecisionsListComponent } from '../view-decision/decisions-list/decisions-list.component';
 
 const routes: Routes = [
   {
@@ -59,6 +61,19 @@ const routes: Routes = [
   {
     path:'endTree', component: EndTreeComponent
   },
+  { path: 'decisionViewList',
+  component: ViewDecisionComponent,
+  children: [
+    {
+      path: '',
+      component: DecisionsListComponent
+    }/*,
+    {
+      path: ':id',
+      component: DecisionDetailComponent
+    },*/
+  ]
+},
   {
     path:'pairedComparisonCriteriaValue', component: PairedComparisonCriteriaValueComponent,
     children: [

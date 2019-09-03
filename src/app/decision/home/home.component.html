@@ -6,6 +6,12 @@
         <button class="button big" mat-raised-button (click)="goCreateDesicion()">Начать</button>
     </li>
   </ul>
+  <div *ngIf="isLogIn"> <ul class="actions" >
+    <li>
+        <button class="button big" mat-raised-button (click)="viewDecisionList()">Просмотреть созданные решения</button>
+    </li>
+  </ul></div>
+  
 </section>
  <!-- One -->
  <section id="one" class="wrapper style1 special">

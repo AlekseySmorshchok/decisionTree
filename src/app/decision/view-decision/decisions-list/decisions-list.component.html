@@ -1,0 +1,55 @@
+<div class="example-container mat-elevation-z8">
+  <div class="example-header">
+    <mat-input-container floatPlaceholder="never">
+      <input matInput #filter placeholder="Filter decision">
+    </mat-input-container>
+  </div>
+
+  <mat-table #table [dataSource]="dataSource" matSort>
+
+    <ng-container cdkColumnDef="decisionId">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header> ID </mat-header-cell>
+      <mat-cell *cdkCellDef="let row"> {{row.id}} </mat-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="decisionName">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header> Decision Name </mat-header-cell>
+      <mat-cell *cdkCellDef="let row"> {{row.name}} </mat-cell>
+    </ng-container>
+
+    <!--<ng-container cdkColumnDef="createDate">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header> Create Date </mat-header-cell>
+      <mat-cell *cdkCellDef="let row"> {{row.dateCreate | date: 'dd.MM.yyyy'}} </mat-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="alternatives">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header> Number of alternatives </mat-header-cell>
+      <mat-cell *cdkCellDef="let row"> {{row.decisionArray.length}} </mat-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="criterion">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header> Number of Criteria </mat-header-cell>
+      <mat-cell *cdkCellDef="let row">
+          <div *ngIf="row.decisionArray[0].criteriaArray !== undefined; else elseBlock"> {{row.decisionArray[0].criteriaArray.length}} </div>
+          <ng-template #elseBlock> 0 </ng-template>
+      </mat-cell>
+    </ng-container>-->
+
+    <ng-container cdkColumnDef="note">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header> Note </mat-header-cell>
+      <mat-cell *cdkCellDef="let row"> {{row.note}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *cdkRowDef="let row; columns: displayedColumns;"
+            (click)="onSelect(row)">
+    </mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator
+                [length]="decisionData.data.length"
+                [pageIndex]="0"
+                [pageSize]="25"
+                [pageSizeOptions]="[5, 10, 25, 100]">
+  </mat-paginator>
+</div>

@@ -36,6 +36,8 @@ import { DecisionInterfaceWithauthService } from './services/decision-interface-
 import { DecisionInterfaceWithoutauthService } from './services/decision-interface-withoutauth.service';
 import { IsNewTreeComponent } from './decision/create-tree/is-new-tree/is-new-tree.component';
 import { LoginStateCommunicationService } from './services/component-communication/login-state-communication.service';
+import { ViewDecisionComponent } from './decision/view-decision/view-decision.component';
+import { DecisionsListComponent } from './decision/view-decision/decisions-list/decisions-list.component';
 
 
 @NgModule({
@@ -60,7 +62,9 @@ import { LoginStateCommunicationService } from './services/component-communicati
     SignUpComponent,
     SignInComponent,
     FooterComponent,
-    IsNewTreeComponent
+    IsNewTreeComponent,
+    ViewDecisionComponent,
+    DecisionsListComponent
   ],
   imports: [
     BrowserModule,
