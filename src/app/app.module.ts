@@ -35,6 +35,7 @@ import { FooterComponent } from './decision/footer/footer.component';
 import { DecisionInterfaceWithauthService } from './services/decision-interface-withauth.service';
 import { DecisionInterfaceWithoutauthService } from './services/decision-interface-withoutauth.service';
 import { IsNewTreeComponent } from './decision/create-tree/is-new-tree/is-new-tree.component';
+import { LoginStateCommunicationService } from './services/component-communication/login-state-communication.service';
 
 
 @NgModule({
@@ -70,7 +71,7 @@ import { IsNewTreeComponent } from './decision/create-tree/is-new-tree/is-new-tr
     DecisionModule,
     HttpModule,
   ],
-  providers: [DecisionCreateService, UserService, ValidationData,DecisionInterfaceWithauthService,DecisionInterfaceWithoutauthService, {
+  providers: [DecisionCreateService, UserService, ValidationData,DecisionInterfaceWithauthService,DecisionInterfaceWithoutauthService, LoginStateCommunicationService, {
     provide: AuthHttp,
     useFactory: authHttpServiceFactory,
     deps: [Http, RequestOptions]

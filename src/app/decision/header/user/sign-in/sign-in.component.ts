@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { User } from '../../../../model/user';
 import { UserService } from '../../../../services/user-service';
 import { HeaderComponent } from '../../header.component';
+import { LoginStateCommunicationService } from '../../../../services/component-communication/login-state-communication.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -15,7 +16,8 @@ export class SignInComponent{
   public change: boolean = false;
   public user: User = new User();
   constructor(private userServise: UserService,
-              private router: Router) {
+              private router: Router,
+              private loginStateService : LoginStateCommunicationService) {
   }
   checkLogin() {}
   checkPassword() {}
@@ -27,6 +29,8 @@ export class SignInComponent{
       .subscribe(
         data => {
           localStorage.setItem('currentUser', JSON.stringify(data));
+          this.loginStateService.setData(true);
+          this.loginStateService.sendData();
           this.router.navigate(['']);
         }
       );

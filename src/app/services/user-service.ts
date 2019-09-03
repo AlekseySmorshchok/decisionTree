@@ -18,7 +18,15 @@ export class UserService {
     this.host = environment.host;
   }
   register(user: User){
-    return this.http.post(this.host +`registration`,user).map((response:Response) => response);
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Access-Control-Allow-Origin', ' *');
+    return this.http.post(this.host +`registration`,user, {headers}).map(res => {
+      return res.json();
+    })
+    .do(token => {
+      localStorage.setItem(AuthConfigConsts.DEFAULT_TOKEN_NAME, token.token);
+    });
   }
 
   login(email: string, password: string) {

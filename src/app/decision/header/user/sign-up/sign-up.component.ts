@@ -3,6 +3,8 @@ import { FormGroup } from '@angular/forms';
 import { User } from '../../../../model/user';
 import { UserService } from '../../../../services/user-service';
 import { ValidationData } from '../../../../services/validationData';
+import { LoginStateCommunicationService } from '../../../../services/component-communication/login-state-communication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -19,7 +21,9 @@ export class SignUpComponent  {
     passwordConfirm: ''
   };
   constructor(private userService: UserService,
-              private validationService:ValidationData)
+              private validationService:ValidationData,
+              private router: Router,
+              private loginStateService : LoginStateCommunicationService)
   {}
 
   static setErrors(answer: string) {
@@ -32,8 +36,22 @@ export class SignUpComponent  {
   }
   register() {
     this.userService.register(this.user).subscribe(
-      error =>{
-        console.log(this.errorMessage = error.json().message);
+      data =>{
+        console.log(data.toString());
+        
+        this.userService.login(this.user.email, this.user.password)
+          .flatMap(data => {
+            return this.userService.getMe();
+          })
+          .subscribe(
+            data => {
+              localStorage.setItem('currentUser', JSON.stringify(data));
+              this.loginStateService.setData(true);
+              this.loginStateService.sendData();
+              this.router.navigate(['']);
+            }
+          );
+       
       })
   }
 }

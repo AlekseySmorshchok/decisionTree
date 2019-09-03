@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '../../../../node_modules/@angular/material';
 import { UserComponent } from './user/user.component';
 import { Router } from '@angular/router';
+import { LoginStateCommunicationService } from '../../services/component-communication/login-state-communication.service';
+import { AuthConfigConsts } from 'angular2-jwt';
 
 @Component({
   selector: 'app-header',
@@ -10,17 +12,32 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
+  isLogin = false;
   constructor(private dialog: MatDialog,
-    private router: Router,) { }
-    button = "Войти";
+    private router: Router,
+    private loginStateService: LoginStateCommunicationService) { }
+
   ngOnInit() {
-     localStorage.getItem("currentUser") ? this.button = "Выйти" : this.button = "Войти";
-    
+    this.isLogin = localStorage.getItem("currentUser") ? true : false;
+    this.loginStateService.dataTransferEvent$.subscribe(data=>
+      {
+        this.isLogin = data;
+      });
   }
 
   goAuth()
   {
-    this.router.navigate(['/auth']);
+    if(this.isLogin)
+    {
+      this.loginStateService.setData(false);
+      this.loginStateService.sendData();
+      localStorage.removeItem("currentUser");
+      localStorage.removeItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
+    }
+    else
+    {
+      this.router.navigate(['/auth']);
+    }
   }
 
 }
