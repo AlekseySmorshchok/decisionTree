@@ -19,6 +19,7 @@ import { IsNewTreeComponent } from '../create-tree/is-new-tree/is-new-tree.compo
 import { AppComponent } from '../../app.component';
 import { ViewDecisionComponent } from '../view-decision/view-decision.component';
 import { DecisionsListComponent } from '../view-decision/decisions-list/decisions-list.component';
+import { DecisionDetailComponent } from '../view-decision/decision-detail/decision-detail.component';
 
 const routes: Routes = [
   {
@@ -67,11 +68,11 @@ const routes: Routes = [
     {
       path: '',
       component: DecisionsListComponent
-    }/*,
+    },
     {
       path: ':id',
       component: DecisionDetailComponent
-    },*/
+    },
   ]
 },
   {

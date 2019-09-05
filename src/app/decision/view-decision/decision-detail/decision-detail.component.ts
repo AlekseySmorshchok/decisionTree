@@ -6,6 +6,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import { Decision } from '../../../model/decision';
 import { DecisionCreateService } from '../../../services/decision-create.service';
+import { DecisionInterfaceWithauthService } from '../../../services/decision-interface-withauth.service';
 
 @Component({
   selector: 'app-decision-detail',
@@ -18,7 +19,7 @@ export class DecisionDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private decisionService: DecisionCreateService
+    private decisionService: DecisionInterfaceWithauthService
   ) {}
 
   ngOnInit() {

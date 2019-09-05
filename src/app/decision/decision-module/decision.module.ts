@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CdkTableModule } from '@angular/cdk/table';
 import { DecisionRoutingModule } from './decision-routing.module';
-import { MatMenuModule, MatToolbarModule, MatListModule, MatIconModule, MatButtonModule, MatInputModule, MatGridListModule, MatTableModule, MatSortModule, MatExpansionModule, MatSnackBarModule, MatPaginatorModule, MatSelectModule, MatCheckboxModule, MatFormFieldModule, MatDialogModule, MatSnackBar } from '@angular/material';
+import { MatMenuModule, MatToolbarModule, MatListModule, MatIconModule, MatButtonModule, MatInputModule, MatGridListModule, MatTableModule, MatSortModule, MatExpansionModule, MatSnackBarModule, MatPaginatorModule, MatSelectModule, MatCheckboxModule, MatFormFieldModule, MatDialogModule, MatSnackBar, MatSort } from '@angular/material';
 import { HeaderRoutingModule } from '../header/header-routing/header-routing.module';
 
 @NgModule({

@@ -1,0 +1,7 @@
+
+
+.app-wrapper{
+    background: #F5F5F5;
+    height: calc(100vh - 192px);
+    overflow-y: overlay;
+}

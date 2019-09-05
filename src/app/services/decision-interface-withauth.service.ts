@@ -78,6 +78,22 @@ export class DecisionInterfaceWithauthService  implements DecisionInterface
     } });
   }
 
+  getDecisionById(id: number): Observable<Decision> {
+    return new Observable((observer) => {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME));
+    
+      this.authHttp.post(this.host + `getDecision`, id, {headers}) .map(response => response.json() as Decision).subscribe(data =>
+        {
+          observer.next(data);
+          observer.complete();
+        })
+    }
+     );
+  }
+
+
   setDecision(decision: Decision): Observable<Decision> {
     return new Observable((observer) => {
       let headers = new Headers();

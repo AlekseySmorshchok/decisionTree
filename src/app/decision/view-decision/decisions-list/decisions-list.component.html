@@ -21,12 +21,10 @@
       <mat-header-cell *cdkHeaderCellDef mat-sort-header> Create Date </mat-header-cell>
       <mat-cell *cdkCellDef="let row"> {{row.dateCreate | date: 'dd.MM.yyyy'}} </mat-cell>
     </ng-container>
-
     <ng-container cdkColumnDef="alternatives">
       <mat-header-cell *cdkHeaderCellDef mat-sort-header> Number of alternatives </mat-header-cell>
       <mat-cell *cdkCellDef="let row"> {{row.decisionArray.length}} </mat-cell>
     </ng-container>
-
     <ng-container cdkColumnDef="criterion">
       <mat-header-cell *cdkHeaderCellDef mat-sort-header> Number of Criteria </mat-header-cell>
       <mat-cell *cdkCellDef="let row">

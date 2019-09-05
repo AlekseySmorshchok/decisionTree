@@ -16,11 +16,7 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/fromEvent';
 import { Decision } from '../../../model/decision';
-import { DecisionCreateService } from '../../../services/decision-create.service';
-import { DecisionInterfaceWithoutauthService } from '../../../services/decision-interface-withoutauth.service';
 import { DecisionInterfaceWithauthService } from '../../../services/decision-interface-withauth.service';
-import { DecisionInterface } from '../../../services/decisionInterface';
-
 @Component({
   selector: 'app-decisions-list',
   templateUrl: './decisions-list.component.html',
@@ -31,41 +27,31 @@ export class DecisionsListComponent implements OnInit {
   decisions: Decision[];
   decisionData: DecisionData;
   dataSource: DecisionDataSource | null;
-  decisionInterface : DecisionInterface;
+
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('filter') filter: ElementRef;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private router: Router,
-    private decisionService: DecisionCreateService,
-    private decisionWithouAuth:DecisionInterfaceWithoutauthService,
-              private decisionWithAuth: DecisionInterfaceWithauthService) {
+    private decisionService: DecisionInterfaceWithauthService) {
     this.decisions = [];
   }
 
   ngOnInit() {
-    this.decisionInterface = this.decisionWithAuth;
-    this.decisionInterface.getDecision().subscribe(data=>
-      {
-        
-        
-          this.decisionData = new DecisionData(this.decisionInterface.getDecisions());
-          this.dataSource = new DecisionDataSource(this.decisionData, this.sort, this.paginator);
-          Observable.fromEvent(this.filter.nativeElement, 'keyup')
-            .debounceTime(150)
-            .distinctUntilChanged()
-            .subscribe(() => {
-              if (!this.dataSource) { return; }
-              this.dataSource.filter = this.filter.nativeElement.value;
-        
-        });
-        
-      });
+    this.decisionData = new DecisionData(this.decisionService.getDecisions());
+    this.dataSource = new DecisionDataSource(this.decisionData, this.sort, this.paginator);
+     Observable.fromEvent(this.filter.nativeElement, 'keyup')
+      .debounceTime(150)
+      .distinctUntilChanged()
+      .subscribe(() => {
+        if (!this.dataSource) { return; }
+        this.dataSource.filter = this.filter.nativeElement.value;
+    });
   }
 
   onSelect(decision: Decision) {
-    this.router.navigate(['/viewdecision/', decision.id]);
+    this.router.navigate(['/decisionViewList/', decision.id]);
   }
 }
 
@@ -128,7 +114,7 @@ export class DecisionDataSource extends DataSource<any> {
       switch (this._sort.active) {
         case 'decisionId': [propertyA, propertyB] = [a.id, b.id]; break;
         //case 'decisionName': [propertyA, propertyB] = [a.title, b.title]; break;
-        //case 'alternatives': [propertyA, propertyB] = [a.decisionArray.length, b.decisionArray.length]; break;
+        //case 'alternatives': [propertyA, propertyB] = [a.decisionArray.length, b._decisionArray.length]; break;
       }
 
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
