@@ -49,7 +49,6 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
   ];
 
   ngOnInit() {
-    this.numberOfNote = +this.router.url.substring(this.router.url.length-1,this.router.url.length);
     if (localStorage.getItem('currentUser') != null) {
       this.decisionInterface = this.decisionWithAuth;
     }
@@ -59,19 +58,30 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
     this.decisionInterface.getDecision().subscribe(
       data=>{
         this.decision  =  new Decision().deserialize(data);
-        if(this.numberOfNote ==-1)
-        {
-                this.router.navigate(['pairedComparisonCriteria']);
-        }
-        else
-        {
-          this.counter = this.doFact(this.getCount(this.numberOfNote)-1);
-          this.makeDefaultRageCriteria();
-          this.makeCriteriaArray();
-          this.firstCompariosnIndex = 0;
-          this.secondCompariosnIndex  = 1;
-          this.selectedValue =  1;
-        }
+        this.decisionCreateService.getAnswer(this.decision).subscribe(
+          flag =>
+          {
+            if(flag==-1)
+            {
+              this.decisionInterface.setDecision(this.decision).subscribe(status=>
+                {
+                  
+                    this.router.navigate(['pairedComparisonCriteria']);
+                  
+                });
+            }
+            else
+            {
+              this.counter = this.doFact(this.decision.alternativeArray[0].criteriaArray.length);
+              this.numberOfNote = flag;
+              this.makeDefaultRageCriteria();
+              this.makeCriteriaArray();
+              this.firstCompariosnIndex = 0;
+              this.secondCompariosnIndex  = 1;
+              this.selectedValue =  1;
+            }
+          }
+        );
       });
   }
 
@@ -135,10 +145,10 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
 
   makeDefaultRageCriteria()
   {
-    this.rageCriteria = new Array(this.decision.alternativeArray[0].criteriaArray.length);
-    for(var criteria = 0 ; criteria < this.decision.alternativeArray[0].criteriaArray.length; criteria++)
+    this.rageCriteria = new Array(this.decision.alternativeArray[0].criteriaArray.length + 1);
+    for(var criteria = 0 ; criteria < this.decision.alternativeArray[0].criteriaArray.length + 1; criteria++)
     {
-        this.rageCriteria[criteria] = new Array(this.decision.alternativeArray[0].criteriaArray.length);
+        this.rageCriteria[criteria] = new Array(this.decision.alternativeArray[0].criteriaArray.length + 1);
         this.rageCriteria[criteria][criteria] = 1;
     }
     for(var alternative = 0 ; alternative < this.decision.alternativeArray.length; alternative ++)
@@ -152,14 +162,15 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
           }
         }
     }
-    console.log(this.rageCriteria);
   }
 
   findIndex(criteriaValue:string):number[]
   {
     let indexes : number[] = new Array();
-    for(var index = 0 ; index < this.decision.alternativeArray[this.numberOfNote].criteriaArray.length; index++)
+    for(var index = 0 ; index < this.decision.alternativeArray[0].criteriaArray.length+1; index++)
     {
+      console.log(criteriaValue);
+      console.log(this.decision.alternativeArray[index].criteriaArray[this.numberOfNote].value);
       if(criteriaValue == this.decision.alternativeArray[index].criteriaArray[this.numberOfNote].value)
       {
         indexes.push(index);
@@ -194,7 +205,7 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
     this.saveChoose();
     if(this.secondCompariosnIndex== this.rageCriteria.length-1)
     {
-      if(this.firstCompariosnIndex== this.rageCriteria.length-2 && this.secondCompariosnIndex== this.rageCriteria.length-1 )
+      if(this.firstCompariosnIndex == this.rageCriteria.length-2 && this.secondCompariosnIndex== this.rageCriteria.length-1 )
       {
         
       }
@@ -206,7 +217,6 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
     else{
       this.secondCompariosnIndex += 1;
     }
-
     this.counter--;
     if(this.counter==0)
     {

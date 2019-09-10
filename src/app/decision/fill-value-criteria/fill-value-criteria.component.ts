@@ -95,26 +95,25 @@ export class FillValueCriteriaComponent implements OnInit {
     }
     if(canGoNext == true)
     {
-      for(let alternative of this.decision.alternativeArray)
-    {
-      for(let i in this.decision.alternativeArray[0].criteriaArray)
-      {
-        alternative.criteriaArray[i].minMaxValue = this.minRate[i]
-      }
-    }
-    this.decisionService.checkValueRate(this.decision).subscribe(
-      editDecision => 
-      {
-        this.decision = editDecision;
-        this.decisionInterface.setDecision(this.decision).subscribe(status=>
+          for(let alternative of this.decision.alternativeArray)
           {
-            
-              this.router.navigate(['instruction']);
-            
-          });
-      }
-    )
-    
+            for(let i in this.decision.alternativeArray[0].criteriaArray)
+            {
+              alternative.criteriaArray[i].minMaxValue = this.minRate[i]
+            }
+          }
+          this.decisionService.checkValueRate(this.decision).subscribe(
+            editDecision => 
+            {
+              this.decision = editDecision;
+              this.decisionInterface.setDecision(this.decision).subscribe(status=>
+                {
+                  
+                    this.router.navigate(['instruction']);
+                  
+                });
+          }
+        )
     }
     else
     {
@@ -126,6 +125,13 @@ export class FillValueCriteriaComponent implements OnInit {
   checkValueRate()
   {
     for(let alternative of this.decision.alternativeArray)
+          {
+            for(let i in this.decision.alternativeArray[0].criteriaArray)
+            {
+              alternative.criteriaArray[i].minMaxValue = this.minRate[i]
+            }
+          }
+    for(let alternative of this.decision.alternativeArray)
     {
       for(let criteria of alternative.criteriaArray)
       {
@@ -136,6 +142,13 @@ export class FillValueCriteriaComponent implements OnInit {
 
   goCreateCriterion()
   {
+    for(let alternative of this.decision.alternativeArray)
+          {
+            for(let i in this.decision.alternativeArray[0].criteriaArray)
+            {
+              alternative.criteriaArray[i].minMaxValue = this.minRate[i]
+            }
+          }
     this.decisionInterface.setDecision(this.decision).subscribe(status=>
       {
         
