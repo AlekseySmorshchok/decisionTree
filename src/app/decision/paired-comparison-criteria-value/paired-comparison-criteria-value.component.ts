@@ -72,7 +72,7 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
             }
             else
             {
-              this.counter = this.doFact(this.decision.alternativeArray[0].criteriaArray.length);
+              this.counter = this.doFact(this.decision.alternativeArray.length-1);
               this.numberOfNote = flag;
               this.makeDefaultRageCriteria();
               this.makeCriteriaArray();
@@ -145,10 +145,10 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
 
   makeDefaultRageCriteria()
   {
-    this.rageCriteria = new Array(this.decision.alternativeArray[0].criteriaArray.length + 1);
-    for(var criteria = 0 ; criteria < this.decision.alternativeArray[0].criteriaArray.length + 1; criteria++)
+    this.rageCriteria = new Array(this.decision.alternativeArray.length);
+    for(var criteria = 0 ; criteria < this.decision.alternativeArray.length; criteria++)
     {
-        this.rageCriteria[criteria] = new Array(this.decision.alternativeArray[0].criteriaArray.length + 1);
+        this.rageCriteria[criteria] = new Array(this.decision.alternativeArray.length);
         this.rageCriteria[criteria][criteria] = 1;
     }
     for(var alternative = 0 ; alternative < this.decision.alternativeArray.length; alternative ++)
@@ -167,10 +167,8 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
   findIndex(criteriaValue:string):number[]
   {
     let indexes : number[] = new Array();
-    for(var index = 0 ; index < this.decision.alternativeArray[0].criteriaArray.length+1; index++)
+    for(var index = 0 ; index < this.decision.alternativeArray.length; index++)
     {
-      console.log(criteriaValue);
-      console.log(this.decision.alternativeArray[index].criteriaArray[this.numberOfNote].value);
       if(criteriaValue == this.decision.alternativeArray[index].criteriaArray[this.numberOfNote].value)
       {
         indexes.push(index);
@@ -255,7 +253,7 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
             }
             else
             {
-              this.counter = this.doFact(this.decision.alternativeArray[0].criteriaArray.length-1);
+              this.counter = this.doFact(this.decision.alternativeArray.length-1);
               this.numberOfNote = flag;
               this.makeDefaultRageCriteria();
               this.makeCriteriaArray();
