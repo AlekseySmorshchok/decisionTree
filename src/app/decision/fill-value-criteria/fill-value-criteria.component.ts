@@ -42,7 +42,7 @@ export class FillValueCriteriaComponent implements OnInit {
         this.decision  =  new Decision().deserialize(data);
         for(let i =0; i< this.decision.alternativeArray[0].criteriaArray.length;i++)
         {
-          this.disabled[i] = false;
+          this.checkForLetters(this.decision.alternativeArray[0].criteriaArray[i].id);
         }
         this.check();
       });
@@ -179,7 +179,7 @@ export class FillValueCriteriaComponent implements OnInit {
       var flag : boolean = false;
       for(let alternative of this.decision.alternativeArray)
       {
-        if(alternative.criteriaArray[index].value!=null)
+        if( alternative.criteriaArray[index].value!=null)
         {
             if(alternative.criteriaArray[index].value.search(regexp) != -1)
           {
