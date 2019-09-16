@@ -12,17 +12,46 @@ import { LoginStateCommunicationService } from '../../../../services/component-c
   styleUrls: ['./sign-in.component.css']
 })
 export class SignInComponent{
-  error: string;
+  errorMessage: string;
+  emailMessage: string;
+  passwordMessage: string;
   public change: boolean = false;
   public user: User = new User();
+  
   constructor(private userServise: UserService,
               private router: Router,
               private loginStateService : LoginStateCommunicationService) {
+               
   }
-  checkLogin() {}
-  checkPassword() {}
+
+  checkLogin() {
+    this.emailMessage = "";
+    if(this.user.email == "")
+    {
+      this.user.email = null;
+      
+    }
+    this.user.email == null ? this.emailMessage = "Адрес электронной почты должен быть заполнен" : 
+    this.user.email.search(new RegExp(".+@.+\..+")) == -1 ? this.emailMessage ="Неккоретный адрес электронной почты (user@example.com)": "";
+    
+  }
+
+  checkPassword() {
+    this.passwordMessage = "";
+    if(this.user.password == "")
+    {
+      this.user.password = null;
+    }
+    this.user.password == null ? this.passwordMessage = "Пароль должен быть заполнен" : "";
+  }
+
   login(data?: any) {
-    this.userServise.login(this.user.email, this.user.password)
+    this.errorMessage = "";
+    this.checkLogin();
+    this.checkPassword();
+    if(this.emailMessage == "" && this.passwordMessage == "")
+    {
+      this.userServise.login(this.user.email, this.user.password)
       .flatMap(data => {
         return this.userServise.getMe();
       })
@@ -32,8 +61,13 @@ export class SignInComponent{
           this.loginStateService.setData(true);
           this.loginStateService.sendData();
           this.router.navigate(['']);
+        },
+        error => {
+          this.errorMessage = error.json().message;
         }
       );
+    }
+    
   }
   formReset(form: NgForm){
       form.reset();

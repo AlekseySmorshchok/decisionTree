@@ -13,45 +13,94 @@ import { Router } from '@angular/router';
 })
 export class SignUpComponent  {
   public user: User = new User();
-  isPasswordConfirm = false;
-  passwordConfirm: string;
   public errorMessage: string;
   form: FormGroup;
-  formErrors = {
-    passwordConfirm: ''
-  };
+  nameMessage = "";
+  emailMessage = "";
+  passwordMessage ="";
+  confirmPasswordMessage = "";
+  passwordConfirm = "";
   constructor(private userService: UserService,
               private validationService:ValidationData,
               private router: Router,
               private loginStateService : LoginStateCommunicationService)
   {}
 
-  static setErrors(answer: string) {
-    return answer === null;
-  }
-  
-  checkPasswordConfirm(){
-    this.formErrors.passwordConfirm = this.validationService.confirmPassword(this.user.password, this.passwordConfirm);
-    this.isPasswordConfirm = SignUpComponent.setErrors(this.formErrors.passwordConfirm);
-  }
-  register() {
-    this.userService.register(this.user).subscribe(
-      data =>{
-        console.log(data.toString());
+    checkName()
+    {
+      this.nameMessage = "";
+      if(this.user.username == "")
+      {
+        this.user.username = null;
+      }
+      this.user.username == null ? this.nameMessage = "Имя должно быть заполненно" : "";
+    }
+
+    checkLogin() {
+      this.emailMessage = "";
+      if(this.user.email == "")
+      {
+        this.user.email = null;
         
-        this.userService.login(this.user.email, this.user.password)
-          .flatMap(data => {
-            return this.userService.getMe();
-          })
-          .subscribe(
-            data => {
-              localStorage.setItem('currentUser', JSON.stringify(data));
-              this.loginStateService.setData(true);
-              this.loginStateService.sendData();
-              this.router.navigate(['']);
-            }
-          );
-       
-      })
+      }
+      this.user.email == null ? this.emailMessage = "Адрес электронной почты должен быть заполнен" : 
+      this.user.email.search(new RegExp(".+@.+\..+")) == -1 ? this.emailMessage ="Неккоретный адрес электронной почты (user@example.com)": "";
+      
+    }
+
+    checkPassword() {
+      this.passwordMessage = "";
+      if(this.user.password == "")
+      {
+        this.user.password = null;
+      }
+      this.user.password == null ? this.passwordMessage = "Пароль должен быть заполнен" : 
+      this.user.password.search(new RegExp("(^[A-Za-z0-9]+$)")) == -1 ? this.passwordMessage ="Пароль должен содержать только латинские символы и цифры":
+      this.user.password.search(new RegExp("((?=.*[0-9]).(?=.*[a-z]).{7,})")) == -1 ? this.passwordMessage ="Пароль должен содержать минимум 8 символов,одну латинскую букву и одну цифру": "";
+    }
+
+    checkConfirmPassword() {
+      this.confirmPasswordMessage = "";
+      if(this.passwordConfirm == "")
+      {
+        this.passwordConfirm = null;
+      }
+      this.passwordConfirm == null ? this.confirmPasswordMessage = "Пароли не совпадают" : 
+      this.user.password != this.passwordConfirm ?  this.confirmPasswordMessage = "Пароли не совпадают" : "";
+    }
+
+  register() {
+
+    this.errorMessage = null;
+    this.checkName();
+    this.checkLogin();
+    this.checkPassword();
+    this.checkConfirmPassword();
+    if(this.nameMessage == "" && this.emailMessage == "" && this.passwordMessage =="" && this.confirmPasswordMessage == "")
+    {
+      this.userService.register(this.user).subscribe(
+        data =>{
+          this.userService.login(this.user.email, this.user.password)
+            .flatMap(data => {
+              return this.userService.getMe();
+            })
+            .subscribe(
+              data => {
+                localStorage.setItem('currentUser', JSON.stringify(data));
+                this.loginStateService.setData(true);
+                this.loginStateService.sendData();
+                this.router.navigate(['']);
+              },
+              error => {
+                this.errorMessage = error.json().message;
+              }
+            );
+         
+        },
+        error => {
+          this.errorMessage = error.json().message;
+        })
+    }
+    
   }
 }

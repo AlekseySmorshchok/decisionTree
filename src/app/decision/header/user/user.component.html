@@ -1,9 +1,9 @@
 <div class="containerAuth">
-  <div  >
-    <a  id="login-form-link" [class.active]="activeLinkLogin" (click)="changeActiveLogin()" tabindex="0"  style="display: block; ">LOGIN</a>
+  <div  *ngIf="activeLinkRegister">
+    <a  id="login-form-link" [class.active]="activeLinkLogin" (click)="changeActiveLogin()">ВОЙТИ</a>
   </div>
-    <div  >
-      <a  id="register-form-link" [class.active]="activeLinkRegister" (click)="changeActiveRegister()" tabindex="1" style="display: block;" >REGISTER</a>
+    <div  *ngIf="activeLinkLogin">
+      <a  id="register-form-link" [class.active]="activeLinkRegister" (click)="changeActiveRegister()" >РЕГИСТРАЦИЯ</a>
       <br>
   </div>
   <div id="login" *ngIf="activeLinkLogin" >

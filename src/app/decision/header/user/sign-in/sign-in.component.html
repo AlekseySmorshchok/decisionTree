@@ -1,10 +1,13 @@
 
-  <label for="username">Username</label>
+  <label for="username">Адрес электронной почты</label>
   <input class="form-styling" type="text" [(ngModel)]="user.email" placeholder=""/>
-  <label for="password">Password</label>
-  <input class="form-styling" type="text"[(ngModel)]="user.password" placeholder=""/>
+  <div class="alert" style=" left: 50px;color: red">{{emailMessage}}</div>
+  <label for="password">Пароль</label>
+  <input class="form-styling" type="password"[(ngModel)]="user.password" placeholder=""/>
+  <div class="alert" style=" left: 50px;color: red">{{passwordMessage}}</div>
   <input type="checkbox" id="checkbox"/>
-  <label for="checkbox" ><span class="ui"></span>Keep me signed in</label>
+  <label for="checkbox" style="display:none;"><span class="ui"></span>Keep me signed in</label>
+  <div class="alert" style=" left: 50px;color: red">{{errorMessage}}</div>
   <div class="modal-footer">
-    <button  type="button" class="btn-default btn" data-dismiss="modal" (click)="login()" >Sign in</button>
+    <button  type="button" class="btn-default btn" data-dismiss="modal" (click)="login()" >Войти</button>
   </div>
