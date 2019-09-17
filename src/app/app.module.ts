@@ -87,12 +87,12 @@ import { DecisionDetailComponent } from './decision/view-decision/decision-detai
 
 
 export class AppModule {
-  static HTTP: Http; 
+  /*static HTTP: Http; 
 
   constructor(private http: Http)
   {
     AppModule.HTTP = http;
-  }
+  }*/
 
 }
 

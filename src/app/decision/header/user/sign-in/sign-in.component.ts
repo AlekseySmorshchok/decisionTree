@@ -58,17 +58,15 @@ export class SignInComponent implements OnInit{
     if(this.emailMessage == "" && this.passwordMessage == "")
     {
       this.userServise.login(this.user.email, this.user.password)
-      .flatMap(data => {
-        return this.userServise.getMe();
-      })
       .subscribe(
         data => {
           localStorage.setItem('currentUser', JSON.stringify(data));
           this.loginStateService.setData("Выйти");
           this.loginStateService.sendData();
-          this.router.navigate(['']);
+          //this.router.navigate(['']);
         },
         error => {
+          console.log(error);
           this.errorMessage = error.json().message;
         }
       );

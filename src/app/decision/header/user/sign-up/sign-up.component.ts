@@ -85,9 +85,6 @@ export class SignUpComponent  implements OnInit{
       this.userService.register(this.user).subscribe(
         data =>{
           this.userService.login(this.user.email, this.user.password)
-            .flatMap(data => {
-              return this.userService.getMe();
-            })
             .subscribe(
               data => {
                 localStorage.setItem('currentUser', JSON.stringify(data));
