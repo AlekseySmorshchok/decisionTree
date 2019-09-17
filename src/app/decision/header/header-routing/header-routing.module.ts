@@ -9,6 +9,7 @@ import { HeaderComponent } from '../header.component';
 const routes: Routes = [
   {
     path: 'auth', component : UserComponent
+    
   },
   {
     path:'', component : HomeComponent

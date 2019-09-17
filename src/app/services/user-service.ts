@@ -20,7 +20,7 @@ export class UserService {
   register(user: User){
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    headers.append('Access-Control-Allow-Origin', ' *');
+    headers.append('Access-Control-Allow-Origin', '*');
     return this.http.post(this.host +`registration`,user, {headers}).map(res => {
       return res.json();
     })
@@ -32,7 +32,8 @@ export class UserService {
   login(email: string, password: string) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    headers.append('Access-Control-Allow-Origin', ' *');
+    headers.append('Access-Control-Allow-Methods','POST');
+    headers.append('Access-Control-Allow-Origin', '*');
     return this.http
       .post(
         this.host + `login`,

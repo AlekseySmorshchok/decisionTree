@@ -11,7 +11,11 @@ import { Router } from '@angular/router';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css']
 })
-export class SignUpComponent  {
+export class SignUpComponent  implements OnInit{
+  ngOnInit(): void {
+    this.loginStateService.setData("Войти");
+                this.loginStateService.sendData();
+  }
   public user: User = new User();
   public errorMessage: string;
   form: FormGroup;
@@ -87,7 +91,7 @@ export class SignUpComponent  {
             .subscribe(
               data => {
                 localStorage.setItem('currentUser', JSON.stringify(data));
-                this.loginStateService.setData(true);
+                this.loginStateService.setData("Выйти");
                 this.loginStateService.sendData();
                 this.router.navigate(['']);
               },

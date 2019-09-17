@@ -11,7 +11,8 @@ import { LoginStateCommunicationService } from '../../../../services/component-c
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.css']
 })
-export class SignInComponent{
+export class SignInComponent implements OnInit{
+ 
   errorMessage: string;
   emailMessage: string;
   passwordMessage: string;
@@ -22,6 +23,11 @@ export class SignInComponent{
               private router: Router,
               private loginStateService : LoginStateCommunicationService) {
                
+  }
+
+  ngOnInit(): void {
+    this.loginStateService.setData("Регистрация");
+                this.loginStateService.sendData();
   }
 
   checkLogin() {
@@ -58,7 +64,7 @@ export class SignInComponent{
       .subscribe(
         data => {
           localStorage.setItem('currentUser', JSON.stringify(data));
-          this.loginStateService.setData(true);
+          this.loginStateService.setData("Выйти");
           this.loginStateService.sendData();
           this.router.navigate(['']);
         },

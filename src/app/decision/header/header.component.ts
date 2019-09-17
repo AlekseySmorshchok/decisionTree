@@ -13,31 +13,54 @@ import { AuthConfigConsts } from 'angular2-jwt';
 export class HeaderComponent implements OnInit {
 
   isLogin = false;
+  buttonText = "";
   constructor(private dialog: MatDialog,
     private router: Router,
     private loginStateService: LoginStateCommunicationService) { }
 
   ngOnInit() {
     this.isLogin = localStorage.getItem("currentUser") ? true : false;
+    this.buttonText = this.isLogin  ? "Выйти" : "Войти";
     this.loginStateService.dataTransferEvent$.subscribe(data=>
       {
-        this.isLogin = data;
+        this.buttonText = data;
+        if(this.buttonText == "Выйти")
+        {
+          this.isLogin = true;
+        }
+        else
+        {
+          false;
+        }
       });
   }
 
   goAuth()
   {
-    if(this.isLogin)
+    if(this.buttonText == "Войти" || this.buttonText == "Регистрация")
     {
-      this.loginStateService.setData(false);
-      this.loginStateService.sendData();
-      localStorage.removeItem("currentUser");
-      localStorage.removeItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
-      this.router.navigate(['']);
+      if(this.buttonText == "Регистрация")
+      {
+        this.loginStateService.setData("Войти");
+        this.loginStateService.sendData();
+      }
+      else
+      {
+        this.loginStateService.setData("Регистрация");
+        this.loginStateService.sendData();
+      }
+      
+      this.router.navigate(['/auth']);
     }
     else
     {
-      this.router.navigate(['/auth']);
+      this.loginStateService.setData("Войти");
+      this.loginStateService.sendData();
+          localStorage.removeItem("currentUser");
+          localStorage.removeItem("idDecision");
+          localStorage.removeItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
+          this.router.navigate(['']);
+      
     }
   }
 
