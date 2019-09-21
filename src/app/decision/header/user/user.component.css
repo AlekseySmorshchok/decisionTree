@@ -127,7 +127,7 @@ button:hover {
 
 .containerAuth
 {
-  height: 100%;
+  min-height: 100%;
   width: 100%;
   background: #e8e8cb;
 }
@@ -144,4 +144,34 @@ button:hover {
   height: 100%;
   width: 20%;
   margin-left: 40%;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10%;
+}
+
+.login-container>div:not(:last-child) {
+  width: 300px;
+  margin-bottom: 15px;
+}
+
+.login-container div label {
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.login-container div input {
+  width: 300px;
+  height: 50px;
+  margin-bottom: 5px;
+}
+
+.login-container .modal-footer button {
+  font-size: 20px;
+  width: 300px;
+  height: 50px;
 }
