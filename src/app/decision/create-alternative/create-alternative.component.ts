@@ -117,11 +117,6 @@ export class CreateAlternativeComponent implements OnInit {
             this.openSnackBar("Название альтернативы измененно","");
           });
       }
-      else
-      {
-        
-        this.openSnackBar("Изменение названия альтернативы заврешилось с ошибкой","");
-      }
     });
   }
 

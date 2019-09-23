@@ -4,22 +4,7 @@
     <div *ngIf="decision" class="containersS">
       <header class="major">
           <h2>Создайте решение</h2>
-          <!--<p>Введите название решения</p>-->
         </header>
-       
-      <!--<form class="example-form" (ngSubmit)="decisionForm.reset()" #decisionForm="ngForm">
-          <div class="row uniform 50%">
-              <div class="12u$(4)">
-                  <input  id="name" name = "name" [(ngModel)]="newDecisionTitle" placeholder="Название решения" required>
-                </div>
-              <mat-form-field>
-                <textarea matInput name="note" [(ngModel)]="note" placeholder="Комментарий" ></textarea>
-              </mat-form-field>
-          </div>
-          <div class="form-field-btn">
-              <button mat-raised-button type="submit" [disabled]="decisionForm.form.invalid" (click)="goNext()">Создать</button>
-            </div>
-      </form>-->
       <form (ngSubmit)="decisionForm.reset()" #decisionForm="ngForm">  
               <div class="smallContainer">
                   <input type="text" name="name" id="name" (blur)="checkDecisionName()" (input)="clearDecisionErrorMEssage()" [(ngModel)]="decision.name"  placeholder="Название решения"/>

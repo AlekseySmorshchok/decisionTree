@@ -8,8 +8,9 @@
 <form class="example-form" (ngSubmit)="create(); criteriaForm.reset()" #criteriaForm="ngForm">
  
   <mat-input-container class="example-full-width">
-    <input matInput name="title" [(ngModel)]="newCriteriaName" placeholder="Название критерия">
+    <input matInput name="title" (input)="clearCriteriaErrorMessage()" [(ngModel)]="newCriteriaName" placeholder="Название критерия">
   </mat-input-container>
+  <div class="alert" style=" left: 50px;color: red">{{criteriaErrorMessage}}</div>
   <button mat-button type="submit">Добавить</button>
 </form>
 

@@ -19,13 +19,12 @@ import { DecisionInterfaceWithauthService } from '../../services/decision-interf
 })
 export class CreateCriteriaComponent implements OnInit {
   
-  title = 'Create Criterion';
   newCriteriaName: string = '';
   path: number;
   decision : Decision;
   criteriaArray: Criteria[] = [];
   decisionInterface : DecisionInterface;
-
+  criteriaErrorMessage = "";
   constructor(private decisionCreateService: DecisionCreateService,
               private dialog: MatDialog,
               private router: Router,
@@ -59,10 +58,42 @@ export class CreateCriteriaComponent implements OnInit {
 
   create()
   {
-    this.decisionInterface.addCriteria(this.newCriteriaName).subscribe(data=>{
-      this.decision = new Decision().deserialize(data);
-      this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
-    });
+    this.criteriaErrorMessage=="";
+    if( this.decision == null)
+    {
+      this.redirectWithMessage();
+    }
+    if(this.newCriteriaName)
+    {
+      if(!this.isDuplicateName(this.newCriteriaName)){
+        this.decisionInterface.addCriteria(this.newCriteriaName).subscribe(data=>{
+          this.decision = new Decision().deserialize(data);
+          this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
+        });
+      }
+      else
+      {
+        this.criteriaErrorMessage = "Наименование критерия должно быть уникальным";
+      }
+    }
+    else
+    {
+      this.criteriaErrorMessage = "Введите наименование критерия";
+    }
+    
+  }
+
+  isDuplicateName(name: string)
+  {
+    for( let criteria of this.decision.alternativeArray[0].criteriaArray)
+    {
+      if(name == criteria.name)
+      {
+        return true;
+      }
+    }
+    return false;
+    
   }
 
   redirectWithMessage()
@@ -85,11 +116,17 @@ export class CreateCriteriaComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result != undefined)
       {
+        if(!this.isDuplicateName(result)){
         this.decisionInterface.editCriteria(criteria,result).subscribe(data=>
           {
             this.decision = new Decision().deserialize(data);
             this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
-          });
+            this.openSnackBar("Критерий изменен","");
+          });}
+          else
+          {
+            this.openSnackBar("Наименование критерия должно быть уникальным","");
+          }
       }
     });
   }
@@ -106,6 +143,7 @@ export class CreateCriteriaComponent implements OnInit {
           {
             this.decision = new Decision().deserialize(data);
             this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
+            this.openSnackBar("Критерий удален","");
           });
       }
       
@@ -140,6 +178,11 @@ export class CreateCriteriaComponent implements OnInit {
     this.snackBar.open(message, action, {
       duration: 3000
     });
+  }
+
+  clearCriteriaErrorMessage()
+  {
+    this.criteriaErrorMessage = "";
   }
 
 }
