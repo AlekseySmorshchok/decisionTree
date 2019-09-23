@@ -1,13 +1,13 @@
 <div class="login-container">
   <div>
     <label for="username">Адрес электронной почты</label>
-    <input class="form-styling" type="text" [(ngModel)]="user.email" placeholder=""/>
+    <input class="form-styling" (blur)="checkLogin()" (input)="clearMessage('email')" type="text" [(ngModel)]="user.email" placeholder=""/>
     <div class="alert" style=" left: 50px;color: red">{{emailMessage}}</div>
   </div>
 
   <div>
     <label for="password">Пароль</label>
-    <input class="form-styling" type="password" [(ngModel)]="user.password" placeholder=""/>
+    <input class="form-styling" (blur)="checkPassword()" (input)="clearMessage('password')" type="password" [(ngModel)]="user.password" placeholder=""/>
     <div class="alert" style=" left: 50px;color: red">{{passwordMessage}}</div>
   </div>
   <div>

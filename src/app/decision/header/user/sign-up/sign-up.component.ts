@@ -107,4 +107,34 @@ export class SignUpComponent  implements OnInit{
     }
     
   }
+
+  clearMessage(messageForClear: string)
+  {
+    if(messageForClear == "email")
+    {
+      this.emailMessage = "";
+    }
+    else
+    {
+      if(messageForClear == "username")
+      {
+        this.nameMessage = "";
+      }
+      else
+      {
+        if(messageForClear == "password")
+        {
+          this.passwordMessage = "";
+        }
+        else
+        {
+          if(messageForClear == "passwordConfirm")
+          {
+            this.confirmPasswordMessage = "";
+          }
+        }
+      }
+    }
+  }
+
 }

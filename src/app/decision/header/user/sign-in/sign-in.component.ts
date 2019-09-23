@@ -53,28 +53,45 @@ export class SignInComponent implements OnInit{
 
   login(data?: any) {
     this.errorMessage = "";
-    this.checkLogin();
-    this.checkPassword();
-    if(this.emailMessage == "" && this.passwordMessage == "")
+    if(this.passwordMessage == "" && this.emailMessage == "")
     {
-      this.userServise.login(this.user.email, this.user.password)
-      .flatMap(data => {
-        return this.userServise.getMe();
-      })
-      .subscribe(
-        data => {
-          localStorage.setItem('currentUser', JSON.stringify(data));
-          this.loginStateService.setData("Выйти");
-          this.loginStateService.sendData();
-          this.router.navigate(['']);
-        },
-        error => {
-          this.errorMessage = error.json().message;
-        }
-      );
+      this.checkLogin();
+      this.checkPassword();
+      if(this.emailMessage == "" && this.passwordMessage == "")
+      {
+        this.userServise.login(this.user.email, this.user.password)
+        .flatMap(data => {
+          return this.userServise.getMe();
+        })
+        .subscribe(
+          data => {
+            localStorage.setItem('currentUser', JSON.stringify(data));
+            this.loginStateService.setData("Выйти");
+            this.loginStateService.sendData();
+            this.router.navigate(['']);
+          },
+          error => {
+            this.errorMessage = error.json().message;
+          }
+        );
+      }
     }
     
+    
   }
+
+  clearMessage(messageForClear: string)
+  {
+    if(messageForClear == "email")
+    {
+      this.emailMessage = "";
+    }
+    else
+    {
+      this.passwordMessage = "";
+    }
+  }
+
   formReset(form: NgForm){
       form.reset();
   }

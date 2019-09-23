@@ -1,22 +1,22 @@
 <div class="form-signup login-container">
   <div>
     <label for="fullname">Имя</label>
-    <input class="form-styling" type="text" [(ngModel)]="user.username" placeholder=""/>
+    <input class="form-styling" type="text" (blur)="checkName()"  (input)="clearMessage('username')" [(ngModel)]="user.username" placeholder="" />
     <div class="alert" style=" left: 50px;color: red">{{nameMessage}}</div>
   </div>
   <div>
     <label for="email">Адрес электронной почты</label>
-    <input class="form-styling" type="text" [(ngModel)]="user.email" placeholder=""/>
+    <input class="form-styling" type="text" (blur)="checkLogin()"  (input)="clearMessage('email')" [(ngModel)]="user.email" placeholder=""/>
     <div class="alert" style=" left: 50px;color: red">{{emailMessage}}</div>
   </div>
   <div>
     <label for="password">Пароль</label>
-    <input class="form-styling" type="password" [(ngModel)]="user.password" placeholder=""/>
+    <input class="form-styling" type="password" (blur)="checkPassword()" (input)="clearMessage('password')" [(ngModel)]="user.password" placeholder=""/>
     <div class="alert" style=" left: 50px;color: red">{{passwordMessage}}</div>
   </div>
   <div>
     <label for="confirmpassword">Потвредите пароль</label>
-    <input class="form-styling" type="password" [(ngModel)]="passwordConfirm" placeholder=""/>
+    <input class="form-styling" type="password"  (blur)="checkConfirmPassword()" (input)="clearMessage('passwordConfirm')" [(ngModel)]="passwordConfirm" placeholder=""/>
     <div class="alert" style=" left: 50px;color: red">{{confirmPasswordMessage}}</div>
     <div class="alert" style=" left: 50px;color: red">{{errorMessage}}</div>
   </div>
