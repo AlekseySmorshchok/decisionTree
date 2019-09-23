@@ -60,7 +60,7 @@ export class SignUpComponent  implements OnInit{
       }
       this.user.password == null ? this.passwordMessage = "Пароль должен быть заполнен" : 
       this.user.password.search(new RegExp("(^[A-Za-z0-9]+$)")) == -1 ? this.passwordMessage ="Пароль должен содержать только латинские символы и цифры":
-      this.user.password.search(new RegExp("((?=.*[0-9]).(?=.*[a-z]).{7,})")) == -1 ? this.passwordMessage ="Пароль должен содержать минимум 8 символов,одну латинскую букву и одну цифру": "";
+      this.user.password.search(new RegExp("((?=.*[0-9]).(?=.*[a-z A-z]).{7,})")) == -1 ? this.passwordMessage ="Пароль должен содержать минимум 8 символов,одну латинскую букву и одну цифру": "";
     }
 
     checkConfirmPassword() {
