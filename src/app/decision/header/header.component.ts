@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
         }
         else
         {
-          false;
+          this.isLogin = false;
         }
       });
   }

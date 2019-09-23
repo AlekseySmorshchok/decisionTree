@@ -5,6 +5,7 @@ import { Decision } from '../../model/decision';
 import { Http } from '@angular/http';
 import { environment } from '../../../environments/environment';
 import { AuthConfigConsts } from 'angular2-jwt';
+import { LoginStateCommunicationService } from '../../services/component-communication/login-state-communication.service';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,7 @@ export class HomeComponent implements OnInit {
   isLogIn = false;
   host : string ;
   constructor(private router: Router, 
-              private decisionCreateService: DecisionCreateService,
+              private loginStateService : LoginStateCommunicationService,
               private http: Http){
                 this.host = environment.host;}
 
@@ -30,5 +31,16 @@ export class HomeComponent implements OnInit {
   
   ngOnInit() {
     this.isLogIn = localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME) ? true : false;
+    this.loginStateService.dataTransferEvent$.subscribe(data=>
+      {
+        if(data == "Выйти")
+        {
+          this.isLogIn = true;
+        }
+        else
+        {
+          this.isLogIn = false;
+        }
+      });
   }
 }

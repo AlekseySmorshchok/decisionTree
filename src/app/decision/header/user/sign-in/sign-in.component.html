@@ -10,6 +10,9 @@
     <input class="form-styling" type="password" [(ngModel)]="user.password" placeholder=""/>
     <div class="alert" style=" left: 50px;color: red">{{passwordMessage}}</div>
   </div>
+  <div>
+    <div class="alert" style=" left: 50px;color: red">{{errorMessage}}</div>
+  </div>
   <div class="modal-footer">
     <button type="button" class="btn-default btn" data-dismiss="modal" (click)="login()">Войти</button>
   </div>
