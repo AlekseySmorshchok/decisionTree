@@ -44,13 +44,14 @@
         <div class="6u(2) 12u$(3)">
           <ul class="actions vertical">
             <li><header class="major"><p>Для сравнения нужно ввести минимум 2 альтернативы</p></header></li>
-            <li><input type="text" class="input large" name="name" id="name" value="" [(ngModel)]="newAlternativeName" placeholder="Название варианта альтернативы" required></li>
-            <li><button class="button alt large" type="submit" [disabled]="alternativeForm.form.invalid">Добавить</button></li>
+            <li><input type="text" class="input large" name="name" id="name" value="" [(ngModel)]="newAlternativeName" placeholder="Название варианта альтернативы" ></li>
+            <div class="alert" style=" left: 50px;color: red">{{alternativeErrorMessage}}</div>
+            <li><button class="button alt large" type="submit" >Добавить</button></li>
           </ul>
         </div>
       </div>
     </form>
-          <mat-nav-list *ngIf="decision?.alternativeArray && decision.alternativeArray.length>0">
+          <mat-nav-list *ngIf="decision && decision?.alternativeArray && decision.alternativeArray.length>0">
               <header class="major">
                   <p>Список созданных альтернатив</p>
               </header>

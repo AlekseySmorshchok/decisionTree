@@ -10,6 +10,7 @@ import { DecisionInterface } from '../../services/decisionInterface';
 import { DecisionInterfaceWithoutauthService } from '../../services/decision-interface-withoutauth.service';
 import { DecisionInterfaceWithauthService } from '../../services/decision-interface-withauth.service';
 import { Alternative } from '../../model/alternative';
+import { a } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-create-alternative',
@@ -19,12 +20,13 @@ import { Alternative } from '../../model/alternative';
 export class CreateAlternativeComponent implements OnInit {
 
   title = 'Create Alternative';
-  newAlternativeName = '';
+  newAlternativeName = "";
   decision : Decision;
   path: number;
   flag = false;
   decisionInterface : DecisionInterface;
-  
+  alternativeErrorMessage = "";
+
   constructor(private decisionCreateService : DecisionCreateService,
               private dialog: MatDialog,
               private router: Router,
@@ -65,14 +67,22 @@ export class CreateAlternativeComponent implements OnInit {
 
   create()
   {
+    this.alternativeErrorMessage = "";
     if( this.decision == null)
     {
       this.redirectWithMessage();
     }
-    this.decisionInterface.addAlternative(this.newAlternativeName,this.flag).subscribe(data =>
-      {
-        this.decision = new Decision().deserialize(data);
-      });
+    if(this.newAlternativeName)
+    {
+      this.decisionInterface.addAlternative(this.newAlternativeName,this.flag).subscribe(data =>
+        {
+          this.decision = new Decision().deserialize(data);
+        });
+    }
+    else
+    {
+      this.alternativeErrorMessage = "Введите название альтернативы"
+    }
   }
 
   redirectWithMessage()
@@ -93,23 +103,30 @@ export class CreateAlternativeComponent implements OnInit {
       this.redirectWithMessage();
     }
     let dialogRef = this.dialog.open(EditAlternativeComponent, {
-      width: '250px',
+      width: '20%',
       data: { name: alternative.name }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result != undefined)
+      if(result)
       {
         alternative.name = result;
         this.decisionInterface.editAlternative(alternative).subscribe(data=>
           {
             this.decision = new Decision().deserialize(data);
+            this.openSnackBar("Название альтернативы измененно","");
           });
+      }
+      else
+      {
+        
+        this.openSnackBar("Изменение названия альтернативы заврешилось с ошибкой","");
       }
     });
   }
 
   delete(alternative: Alternative) {
+    let name = alternative.name;
     let dialogRef = this.dialog.open(DeletAlternativeComponent, {
       width: '250px',
       data: { name: '' }
@@ -120,6 +137,7 @@ export class CreateAlternativeComponent implements OnInit {
         this.decisionInterface.deliteAlternative(alternative).subscribe(data =>
           {
             this.decision = new Decision().deserialize(data);
+            this.openSnackBar("Альтернатива "+ name+" удалена","");
           })
       }
       

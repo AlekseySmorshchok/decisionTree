@@ -2,10 +2,11 @@
 <div mat-dialog-content>
   <p>Введите новое название</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="name">
+    <input matInput (input)="clearNameErrorMessage()" [(ngModel)]="name">
   </mat-form-field>
+  <div class="alert" style=" left: 50px;color: red">{{nameErrorMessage}}</div>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Назад</button>
-  <button mat-button  [mat-dialog-close]="name" cdkFocusInitial>Сохранить</button>
+  <button mat-button  (click)="checkName()" cdkFocusInitial>Сохранить</button>
 </div>

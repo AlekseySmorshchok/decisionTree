@@ -19,6 +19,7 @@ export class CreateTreeComponent implements OnInit{
   decisionInterface : DecisionInterface;
   buttonName: string;
   isnewDecision = true;
+  decisionErrorMessage = "";
   constructor(public snackBar: MatSnackBar,
               private router: Router,
               private dialog: MatDialog,
@@ -73,6 +74,22 @@ export class CreateTreeComponent implements OnInit{
    
   }
   
+  checkDecisionName()
+  {
+    this.decisionErrorMessage = "";
+    
+    if(this.decision.name == "")
+    {
+      this.decision.name = null;
+    }
+    this.decision.name == null ? this.decisionErrorMessage = "Введите название решения" : "";
+  }
+
+  clearDecisionErrorMEssage()
+  {
+    this.decisionErrorMessage = "";
+  }
+
   initForm()
   {
     this.decisionInterface.getDecision().subscribe(
@@ -98,21 +115,30 @@ export class CreateTreeComponent implements OnInit{
   }
 
   goNext() {
-    if(this.isnewDecision == true)
+    this.checkDecisionName();
+    if(this.decisionErrorMessage == "")
     {
-      this.openSnackBar(this.decision.name, 'Create');
-      this.decisionInterface.createDecision(this.decision.name, this.decision.note).subscribe(status=>
-        {
-          
-          this.router.navigate(['createAlternative', 1]);
-          
-        });
-    }
-    else
-    {
-      this.router.navigate(['createAlternative', 1]);
-    }
-    
+        this.decisionInterface.createDecision(this.decision.name, this.decision.note).subscribe(status=>
+          {
+            if(this.isnewDecision == true)
+            {
+              this.openSnackBar(this.decision.name, 'Решение создано');
+            }
+            else
+            {
+              this.openSnackBar(this.decision.name, 'Решение обновлено');
+            }
+            this.router.navigate(['createAlternative', 1]);
+            
+          },
+          error=>
+          {
+            this.decisionErrorMessage = error;
+            
+          });
+     
+     
+    } 
   }
 
 }

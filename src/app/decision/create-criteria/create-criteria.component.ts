@@ -44,7 +44,7 @@ export class CreateCriteriaComponent implements OnInit {
     this.decisionInterface.getDecision().subscribe(data=>
       {
         this.decision  =  new Decision().deserialize(data);
-        if( this.decision.name == undefined)
+        if(!this.decision || this.decision.name == undefined  )
         {
           this.redirectWithMessage();
         }

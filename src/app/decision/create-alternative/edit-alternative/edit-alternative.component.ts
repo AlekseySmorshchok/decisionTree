@@ -9,6 +9,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 export class EditAlternativeComponent {
 
   name = "";
+  nameErrorMessage = "";
   constructor(
     public dialogRef: MatDialogRef<EditAlternativeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -16,5 +17,22 @@ export class EditAlternativeComponent {
   onNoClick(): void {
     this.dialogRef.close();
   }
+ 
+  clearNameErrorMessage()
+  {
+    this.nameErrorMessage = "";
+  }
 
+  checkName()
+  {
+    this.nameErrorMessage = "";
+    if(this.name)
+    {
+      this.dialogRef.close(this.name);
+    }
+    else
+    {
+      this.nameErrorMessage = "Введите новое наименование альтернативы";
+    }
+  }
 }

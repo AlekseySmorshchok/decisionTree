@@ -4,7 +4,7 @@
     <div *ngIf="decision" class="containersS">
       <header class="major">
           <h2>Создайте решение</h2>
-          <p>Введите название решения</p>
+          <!--<p>Введите название решения</p>-->
         </header>
        
       <!--<form class="example-form" (ngSubmit)="decisionForm.reset()" #decisionForm="ngForm">
@@ -22,7 +22,8 @@
       </form>-->
       <form (ngSubmit)="decisionForm.reset()" #decisionForm="ngForm">  
               <div class="smallContainer">
-              <input type="text" name="name" id="name"  [(ngModel)]="decision.name"  placeholder="Название решения"/>
+                  <input type="text" name="name" id="name" (blur)="checkDecisionName()" (input)="clearDecisionErrorMEssage()" [(ngModel)]="decision.name"  placeholder="Название решения"/>
+                  <div class="alert" style=" left: 50px;color: red">{{decisionErrorMessage}}</div>
               </div>
               <p></p>
               <div class="smallContainer">

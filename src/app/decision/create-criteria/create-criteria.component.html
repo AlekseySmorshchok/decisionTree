@@ -1,16 +1,16 @@
 <mat-toolbar color="primary">
   <header>
-    <h1>{{ title }}</h1>
+    <h1>Добавьте критерий:</h1>
   </header>
 </mat-toolbar>
 <div class="container">
   <div class="alt-wrapper">
 <form class="example-form" (ngSubmit)="create(); criteriaForm.reset()" #criteriaForm="ngForm">
-  <p>Добавьте критерий:</p>
+ 
   <mat-input-container class="example-full-width">
-    <input matInput name="title" [(ngModel)]="newCriteriaName" placeholder="Название критерия" required>
+    <input matInput name="title" [(ngModel)]="newCriteriaName" placeholder="Название критерия">
   </mat-input-container>
-  <button mat-button type="submit" [disabled]="criteriaForm.form.invalid">Добавить</button>
+  <button mat-button type="submit">Добавить</button>
 </form>
 
 <mat-nav-list *ngIf="criteriaArray.length">
