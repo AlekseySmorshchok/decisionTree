@@ -66,6 +66,7 @@ export class SignInComponent implements OnInit{
         .subscribe(
           data => {
             localStorage.setItem('currentUser', JSON.stringify(data));
+            localStorage.removeItem('Decision');
             this.loginStateService.setData("Выйти");
             this.loginStateService.sendData();
             this.router.navigate(['']);

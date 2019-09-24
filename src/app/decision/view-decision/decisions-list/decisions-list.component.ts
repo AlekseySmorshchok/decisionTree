@@ -17,13 +17,15 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/fromEvent';
 import { Decision } from '../../../model/decision';
 import { DecisionInterfaceWithauthService } from '../../../services/decision-interface-withauth.service';
+import { Alternative } from '../../../model/alternative';
+import { Criteria } from '../../../model/criteria';
 @Component({
   selector: 'app-decisions-list',
   templateUrl: './decisions-list.component.html',
   styleUrls: ['./decisions-list.component.css']
 })
 export class DecisionsListComponent implements OnInit {
-  displayedColumns = ['decisionId', 'decisionName', /*'createDate', 'alternatives', 'criterion',*/ 'note'];
+  displayedColumns = [/*'decisionId'*/, 'decisionName', /*'createDate',*/ 'alternatives', 'criterion', 'note'];
   decisions: Decision[];
   decisionData: DecisionData;
   dataSource: DecisionDataSource | null;
@@ -53,6 +55,14 @@ export class DecisionsListComponent implements OnInit {
   onSelect(decision: Decision) {
     this.router.navigate(['/decisionViewList/', decision.id]);
   }
+
+  public getAlternativeNames(array: Array<Alternative>): string {
+    return array.map(item=> item['name']).join("; ");
+  }
+
+  public getCriteriaNames(array: Array<Criteria>): string {
+    return array.map(item=> item['name']).join("; ");
+  }
 }
 
 export class DecisionData {
@@ -68,6 +78,7 @@ export class DecisionData {
       }
     });
   }
+  
 }
 
 export class DecisionDataSource extends DataSource<any> {
@@ -99,6 +110,7 @@ export class DecisionDataSource extends DataSource<any> {
 
   disconnect() {}
 
+  
   getSortedData(): Decision[] {
     const data = this._decisionData.data.slice().filter((item: Decision) => {
       const searchStr = (/*item.title + */""+item.id).toLowerCase();
