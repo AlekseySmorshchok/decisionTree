@@ -106,6 +106,7 @@ export class CreateTreeComponent implements OnInit{
         }
         }
     );
+    
   }
 
   openSnackBar(message: string, action: string) {
@@ -118,24 +119,31 @@ export class CreateTreeComponent implements OnInit{
     this.checkDecisionName();
     if(this.decisionErrorMessage == "")
     {
-        this.decisionInterface.createDecision(this.decision.name, this.decision.note).subscribe(status=>
-          {
-            if(this.isnewDecision == true)
+      if(this.isnewDecision == true)
             {
               this.openSnackBar(this.decision.name, 'Решение создано');
+              this.decisionInterface.createDecision(this.decision.name, this.decision.note).subscribe(status=>
+                {
+                  
+                  
+                  
+                },
+                error=>
+                {
+                  this.decisionErrorMessage = error;
+                  
+                });
             }
             else
             {
-              this.openSnackBar(this.decision.name, 'Решение обновлено');
+              this.decisionInterface.setDecision(this.decision).subscribe( data=>
+              {
+
+                this.openSnackBar(this.decision.name, 'Решение обновлено');
+                this.router.navigate(['createAlternative', 1]);
+              });
             }
-            this.router.navigate(['createAlternative', 1]);
-            
-          },
-          error=>
-          {
-            this.decisionErrorMessage = error;
-            
-          });
+        
      
      
     } 
