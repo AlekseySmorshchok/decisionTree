@@ -6,13 +6,18 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
   templateUrl: './edit-alternative.component.html',
   styleUrls: ['./edit-alternative.component.css']
 })
-export class EditAlternativeComponent {
+export class EditAlternativeComponent implements OnInit {
+  
 
   name = "";
   nameErrorMessage = "";
   constructor(
     public dialogRef: MatDialogRef<EditAlternativeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+    ngOnInit(): void {
+      this.name = this.data.name;
+    }
 
   onNoClick(): void {
     this.dialogRef.close();

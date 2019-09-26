@@ -6,9 +6,15 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
   templateUrl: './edit-criteria.component.html',
   styleUrls: ['./edit-criteria.component.css']
 })
-export class EditCriteriaComponent  {
+export class EditCriteriaComponent implements OnInit {
+  
 
   name = "";
+  nameErrorMessage = "";
+  ngOnInit(): void {
+    this.name = this.data.name;
+  }
+
   constructor(
     public dialogRef: MatDialogRef<EditCriteriaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -16,4 +22,23 @@ export class EditCriteriaComponent  {
   onNoClick(): void {
     this.dialogRef.close();
   }
+
+  clearNameErrorMessage()
+  {
+    this.nameErrorMessage = "";
+  }
+
+  checkName()
+  {
+    this.nameErrorMessage = "";
+    if(this.name)
+    {
+      this.dialogRef.close(this.name);
+    }
+    else
+    {
+      this.nameErrorMessage = "Введите новое наименование альтернативы";
+    }
+  }
+
 }

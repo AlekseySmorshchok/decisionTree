@@ -44,6 +44,7 @@ export class CreateAlternativeComponent implements OnInit {
       }
       this.decisionInterface.getDecision().subscribe(data=>
         {
+          console.log(data);
           this.decision = new Decision().deserialize(data);
           this.check();
         });
