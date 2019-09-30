@@ -42,7 +42,7 @@ export class CreateTreeComponent implements OnInit{
             if(data)
           {
             let dialogRef = this.dialog.open(IsNewTreeComponent, {
-              width: '250px'
+              width: '500px'
             });
         
             dialogRef.afterClosed().subscribe(result => {

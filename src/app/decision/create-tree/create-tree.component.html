@@ -1,22 +1,24 @@
-
-
 <section id="one" class="wrapper style1 special">
-    <div *ngIf="decision" class="containersS">
-      <header class="major">
-          <h2>Создайте решение</h2>
-        </header>
-      <form (ngSubmit)="decisionForm.reset()" #decisionForm="ngForm">  
-              <div class="smallContainer">
-                  <input type="text" name="name" id="name" (blur)="checkDecisionName()" (input)="clearDecisionErrorMEssage()" [(ngModel)]="decision.name"  placeholder="Название решения"/>
-                  <div class="alert" style=" left: 50px;color: red">{{decisionErrorMessage}}</div>
-              </div>
-              <p></p>
-              <div class="smallContainer">
-                <textarea name="message" id="message"  [(ngModel)]="decision.note" placeholder="Комментарий" rows="6"></textarea>
-              </div>
-              <p></p>
-              <button class="button alt big" type="submit" [disabled]="decisionForm.form.invalid" (click)="goNext()">{{buttonName}}</button>
-      </form>
-</div>
-<h1 *ngIf="!decision">Loading...</h1>
+  <div *ngIf="decision" class="containersS">
+    <header class="major">
+      <h2>Создайте решение</h2>
+    </header>
+    <form (ngSubmit)="decisionForm.reset()" #decisionForm="ngForm">
+      <div class="smallContainer">
+        <input type="text" name="name" id="name" (blur)="checkDecisionName()" (input)="clearDecisionErrorMEssage()"
+               [(ngModel)]="decision.name" placeholder="Название решения"/>
+        <span class="alert" style="color: red">{{decisionErrorMessage}}</span>
+      </div>
+      <p></p>
+      <div class="smallContainer">
+        <textarea name="message" id="message" [(ngModel)]="decision.note" placeholder="Комментарий" rows="6"></textarea>
+      </div>
+      <p></p>
+      <div id='loader'></div>
+      <button class="button big" type="submit" [disabled]="decisionForm.form.invalid" (click)="goNext()">
+        {{buttonName}}
+      </button>
+    </form>
+  </div>
+  <h1 *ngIf="!decision"></h1>
 </section>
