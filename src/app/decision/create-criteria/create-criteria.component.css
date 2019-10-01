@@ -31,6 +31,7 @@ input {
     margin-left: 10px;
 }
 
-.mat-raised-button:hover {
-    background-color: cyan;
+.criteria-table {
+  width: 50%;
+  margin-bottom: 20px;
 }

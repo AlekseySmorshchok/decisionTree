@@ -48,7 +48,10 @@
             </li>
             <li><input type="text" class="input large" name="name" id="name" value="" [(ngModel)]="newAlternativeName"
                        placeholder="Название варианта альтернативы"></li>
-            <span class="alert" style="color: red">{{alternativeErrorMessage}}</span>
+
+            <li>
+              <span class="alert" style="color: red">{{alternativeErrorMessage}}</span>
+            </li>
             <li>
               <button class="button large" type="submit">Добавить</button>
             </li>

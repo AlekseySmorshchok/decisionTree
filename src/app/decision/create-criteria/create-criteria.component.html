@@ -11,10 +11,10 @@
     <input matInput name="title" (input)="clearCriteriaErrorMessage()" [(ngModel)]="newCriteriaName" placeholder="Название критерия">
   </mat-input-container>
   <div class="alert" style=" left: 50px;color: red">{{criteriaErrorMessage}}</div>
-  <button mat-button type="submit">Добавить</button>
+  <button class="button" type="submit">Добавить</button>
 </form>
 
-<mat-nav-list *ngIf="criteriaArray.length">
+<mat-nav-list class="criteria-table" *ngIf="criteriaArray.length">
   <h3 mat-subheader>Список критериев</h3>
   <mat-list-item *ngFor="let criteria of criteriaArray">
     <h4 mat-line>{{criteria.name}}</h4>
@@ -22,11 +22,10 @@
     <button mat-icon-button (click)="editCriteria(criteria)"><mat-icon>edit</mat-icon></button>
     <button mat-icon-button (click)="delete(criteria)"><mat-icon calss="exampple-icon">delete_forever</mat-icon></button>
   </mat-list-item>
-  <mat-divider></mat-divider>
 </mat-nav-list>
 </div>
   <div class="alt-btns">
-<button mat-raised-button (click)="goBack()">Вернуться назад</button>
-<button mat-raised-button type="submit" (click)="goNext()">Далее</button>
+<button class="button" (click)="goBack()">Вернуться назад</button>
+<button class="button" type="submit" (click)="goNext()">Далее</button>
 </div>
 </div>
