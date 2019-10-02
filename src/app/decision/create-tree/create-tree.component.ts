@@ -124,9 +124,7 @@ export class CreateTreeComponent implements OnInit{
               this.openSnackBar(this.decision.name, 'Решение создано');
               this.decisionInterface.createDecision(this.decision.name, this.decision.note).subscribe(status=>
                 {
-                  
-                  
-                  
+                  this.router.navigate(['createAlternative', 1]);
                 },
                 error=>
                 {

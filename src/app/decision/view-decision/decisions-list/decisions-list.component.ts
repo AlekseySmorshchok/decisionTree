@@ -113,7 +113,7 @@ export class DecisionDataSource extends DataSource<any> {
   
   getSortedData(): Decision[] {
     const data = this._decisionData.data.slice().filter((item: Decision) => {
-      const searchStr = (/*item.title + */""+item.id).toLowerCase();
+      const searchStr = (item.name).toLowerCase();
       return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
     });
 

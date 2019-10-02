@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  host: 'http://localhost:8080/decisions/'
-  //host: 'http://93.125.115.115:8080/decisions/'
+  //host: 'http://localhost:8080/decisions/'
+  host: 'http://93.125.115.115:8080/decisions/'
 };

@@ -1,5 +1,7 @@
-<h1 mat-dialog-title>У вас уже есть созданное решение. Хотите начать новое?</h1>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Нет</button>
-  <button mat-button  [mat-dialog-close]="answer" cdkFocusInitial>Да</button>
+<div style="text-align: center;">
+  <h1 mat-dialog-title>У вас уже есть созданное решение. Хотите начать новое?</h1>
+  <div mat-dialog-actions >
+    <button mat-button style=" margin: 0 auto;" (click)="onNoClick()">Нет</button>
+    <button mat-button  style=" margin: 0 auto;" [mat-dialog-close]="answer" cdkFocusInitial>Да</button>
+  </div>
 </div>
