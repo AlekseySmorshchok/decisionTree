@@ -8,10 +8,12 @@ import { environment } from '../../environments/environment';
 import { AuthHttp, AuthConfig, AuthConfigConsts } from 'angular2-jwt';
 import { Http,Headers } from '@angular/http';
 import { DecisionCreateService } from './decision-create.service';
+import { DecisionWithCompareArray } from '../model/decisionWithCompareArray';
 
 @Injectable()
 export class DecisionInterfaceWithauthService  implements DecisionInterface
 {
+  
  
 
     host = environment.host;
@@ -19,6 +21,41 @@ export class DecisionInterfaceWithauthService  implements DecisionInterface
     
     constructor(private http: Http) {
       this.authHttp = new AuthHttp(new AuthConfig() , http);
+    }
+
+    sendpairedComparisonCirteria(decision: Decision, rageCriteria: number[][]): Observable<Decision> {
+      return new Observable((observer) => {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME));
+        this.authHttp.post(this.host + `sendpairedComparisonCirteriaWithSave`, new DecisionWithCompareArray(decision,rageCriteria),{headers})
+        .map(response => response.json() as Decision).subscribe(
+          data=>
+          {
+            localStorage.setItem("idDecision",data.id.toString());
+            observer.next(data);
+            observer.complete();
+          }
+        );
+        
+      });
+    }
+    sendpairedComparisonCirteriaValue(decision: Decision, rageCriteria: number[][]): Observable<Decision> {
+      return new Observable((observer) => {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME));
+        this.authHttp.post(this.host + `sendpairedComparisonCirteriaValueWithSave`, new DecisionWithCompareArray(decision,rageCriteria),{headers})
+        .map(response => response.json() as Decision).subscribe(
+          data=>
+          {
+            localStorage.setItem("idDecision",data.id.toString());
+            observer.next(data);
+            observer.complete();
+          }
+        );
+        
+      });
     }
 
     isNewDecision(): Observable<Boolean> {

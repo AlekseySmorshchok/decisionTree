@@ -5,9 +5,52 @@ import { Criteria } from '../model/criteria';
 import { Observable } from 'rxjs/Observable';
 import { Decision } from '../model/decision';
 import { DecisionCreateService } from './decision-create.service';
+import { DecisionWithCompareArray } from '../model/decisionWithCompareArray';
+import { environment } from '../../environments/environment';
+import { Http,Headers} from '@angular/http';
 
 @Injectable()
 export class DecisionInterfaceWithoutauthService implements DecisionInterface{
+
+  host = environment.host;
+  
+  constructor(private http: Http) {
+  }
+
+  sendpairedComparisonCirteria(decision: Decision, rageCriteria: number[][]): Observable<Decision> {
+    return new Observable((observer) => {
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      headers.append('Access-Control-Allow-Origin', '*');
+        this.http.post(this.host + `sendpairedComparisonCirteria`, new DecisionWithCompareArray(decision,rageCriteria),{headers})
+        .map(response => response.json() as Decision).subscribe(
+          data=>
+          {
+            localStorage.setItem("Decision",JSON.stringify(data));   
+            observer.next(data);
+            observer.complete();
+          }
+        );
+        
+      });
+  }
+  sendpairedComparisonCirteriaValue(decision: Decision, rageCriteria: number[][]): Observable<Decision> {
+    return new Observable((observer) => {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Access-Control-Allow-Origin', '*');
+      this.http.post(this.host + `sendpairedComparisonCirteriaValue`, new DecisionWithCompareArray(decision,rageCriteria),{headers})
+      .map(response => response.json() as Decision).subscribe(
+        data=>
+        {
+            localStorage.setItem("Decision",JSON.stringify(data));   
+            observer.next(data);
+            observer.complete();
+        }
+      );
+      
+    });
+  }
  
   isNewDecision(): Observable<Boolean> {
     return new Observable((observer) => {

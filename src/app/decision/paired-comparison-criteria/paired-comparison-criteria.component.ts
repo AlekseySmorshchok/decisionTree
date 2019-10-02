@@ -41,8 +41,7 @@ export class PairedComparisonCriteriaComponent implements OnInit {
     {value: 9, viewValue: 'высшее превосходство'}
   ];
 
-  constructor(private decisionCreateSevice: DecisionCreateService,
-              private dialog: MatDialog,
+  constructor(private dialog: MatDialog,
               private router: Router,
               private decisionWithouAuth:DecisionInterfaceWithoutauthService,
               private decisionWithAuth: DecisionInterfaceWithauthService) {  }
@@ -148,7 +147,7 @@ export class PairedComparisonCriteriaComponent implements OnInit {
   {
     if(this.counter<=0)
     {
-      this.decisionCreateSevice.sendpairedComparisonCirteria(this.decision,this.rageCriteria,2).subscribe(
+      this.decisionInterface.sendpairedComparisonCirteria(this.decision,this.rageCriteria).subscribe(
         data=>
         {
           this.decisionInterface.setDecision(new Decision().deserialize(data)).subscribe(status=>

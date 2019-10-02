@@ -178,7 +178,7 @@ export class DecisionCreateService {
   
   
 
-  sendpairedComparisonCirteria(decision:Decision, rageCriteria:number[][], number:number): Observable<Decision>
+  /*sendpairedComparisonCirteria(decision:Decision, rageCriteria:number[][], number:number): Observable<Decision>
   {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -220,12 +220,20 @@ export class DecisionCreateService {
       return this.http.post(this.host + `sendpairedComparisonCirteriaValue`, new DecisionWithCompareArray(decision,rageCriteria) ,{headers})
       .map(response =>  response.json() as Decision);
     }
-  }
+  }*/
 
   getAnswer(decision:Decision){
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     return this.http.post(this.host+`getAnswer`, decision,{headers})
+    .map(response => response.json() as number);
+
+  }
+
+  setAllInWorkAndGetAnswer(decision:Decision){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post(this.host+`setAllInWorkAndGetAnswer`, decision,{headers})
     .map(response => response.json() as number);
 
   }

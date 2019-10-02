@@ -40,11 +40,11 @@ export class FillValueCriteriaComponent implements OnInit {
     this.decisionInterface.getDecision().subscribe(
       data=>{
         this.decision  =  new Decision().deserialize(data);
+        this.check();
         for(let i =0; i< this.decision.alternativeArray[0].criteriaArray.length;i++)
         {
           this.checkForLetters(this.decision.alternativeArray[0].criteriaArray[i].id);
         }
-        this.check();
       });
     
   }
@@ -57,9 +57,11 @@ export class FillValueCriteriaComponent implements OnInit {
       }
       else
       {
+        let index = 0;
         for(let criteria of this.decision.alternativeArray[0].criteriaArray)
         {
-          this.minRate.push(criteria.minMaxValue);
+          this.minRate[index] = criteria.minMaxValue;
+          index ++;
         }
       }
   }

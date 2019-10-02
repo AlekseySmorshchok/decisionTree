@@ -16,4 +16,6 @@ export interface DecisionInterface
     createDecision(name: String, note:String): Observable<Decision> ;
     deleteDecisionFromInterface(): Observable<String>;
     isNewDecision(): Observable<Boolean>;
+    sendpairedComparisonCirteria(decision:Decision, rageCriteria:number[][]): Observable<Decision> ;
+    sendpairedComparisonCirteriaValue(decision:Decision, rageCriteria:number[][]): Observable<Decision> ;
 }

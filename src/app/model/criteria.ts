@@ -11,6 +11,7 @@ export class Criteria implements Deserializable{
   public criterionPriority: number;
   public valuePriority: number;
   public minMaxValue: boolean;
+  public inWork: boolean;
 
   constructor() {
     this.id = 0;
@@ -21,6 +22,7 @@ export class Criteria implements Deserializable{
     this.criterionPriority = 0;
     this.valuePriority = 0;
     this.minMaxValue = false;
+    this.inWork = true;
   }
 
 
