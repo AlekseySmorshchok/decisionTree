@@ -1,7 +1,7 @@
 <div class="example-container mat-elevation-z8">
   <div class="example-header">
     <mat-input-container floatPlaceholder="never">
-      <input matInput #filter placeholder="Filter decision">
+      <input matInput #filter placeholder="Поиск">
     </mat-input-container>
   </div>
 
@@ -45,6 +45,7 @@
   </mat-table>
 
   <mat-paginator #paginator
+                [label] = ""
                 [length]="decisionData.data.length"
                 [pageIndex]="0"
                 [pageSize]="25"

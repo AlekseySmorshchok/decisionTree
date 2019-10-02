@@ -110,10 +110,19 @@ export class DecisionDataSource extends DataSource<any> {
 
   disconnect() {}
 
-  
+  public getAlternativeNames(array: Array<Alternative>): string {
+    return array.map(item=> item['name']).join("; ");
+  }
+
+  public getCriteriaNames(array: Array<Criteria>): string {
+    return array.map(item=> item['name']).join("; ");
+  }
+
   getSortedData(): Decision[] {
+    
     const data = this._decisionData.data.slice().filter((item: Decision) => {
-      const searchStr = (item.name).toLowerCase();
+      const searchStr = (item.name + item.note + this.getAlternativeNames(item.alternativeArray) + 
+      (item.alternativeArray!=undefined && item.alternativeArray.length>0 ? this.getCriteriaNames(item.alternativeArray[0].criteriaArray) : "")).toLowerCase();
       return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
     });
 
