@@ -61,9 +61,8 @@
     </form>
     <div class="alternative-table" *ngIf="decision && decision?.alternativeArray && decision.alternativeArray.length>0">
       <header class="alternative-major"><p>Список созданных альтернатив</p></header>
-      <div class="alternative-list" *ngFor="let alternative of decision.alternativeArray">
-        <div>id: {{alternative.id}}</div>
-        <div class="alternative-list-name">name: {{alternative.name}}</div>
+      <div class="alternative-list" *ngFor="let alternative of decision.alternativeArray; index as i">
+        <div class="alternative-list-name">Альтернатива {{i+1}}: {{alternative.name}}</div>
         <button mat-icon-button (click)="editAlternative(alternative)">
           <mat-icon>edit</mat-icon>
         </button>

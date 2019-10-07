@@ -25,7 +25,7 @@ import { Criteria } from '../../../model/criteria';
   styleUrls: ['./decisions-list.component.css']
 })
 export class DecisionsListComponent implements OnInit {
-  displayedColumns = [/*'decisionId'*/, 'decisionName', /*'createDate',*/ 'alternatives', 'criterion', 'note'];
+  displayedColumns = [/*'decisionId'*/, 'decisionName', 'createDate', 'alternatives', 'criterion', 'note'];
   decisions: Decision[];
   decisionData: DecisionData;
   dataSource: DecisionDataSource | null;
@@ -118,10 +118,25 @@ export class DecisionDataSource extends DataSource<any> {
     return array.map(item=> item['name']).join("; ");
   }
 
+  public dateConvert(date: Date)
+  {
+    let day = 0;
+    let month = 0;
+    let year = 0;
+    let convertDate = new Date(date);
+    day = convertDate.getUTCDate();
+    month = (convertDate.getUTCMonth() + 1);
+    year = convertDate.getUTCFullYear();
+    return (day > 9 ? day : ("0"+ day)) + "." +( month>9 ? month : "0"+month) + "." + year;
+  }
+
   getSortedData(): Decision[] {
     
     const data = this._decisionData.data.slice().filter((item: Decision) => {
-      const searchStr = (item.name + item.note + this.getAlternativeNames(item.alternativeArray) + 
+     
+      const searchStr = (item.name + item.note + 
+        item.dateCreate!= undefined && item.dateCreate != null ? this.dateConvert(item.dateCreate): ''
+        + this.getAlternativeNames(item.alternativeArray) + 
       (item.alternativeArray!=undefined && item.alternativeArray.length>0 ? this.getCriteriaNames(item.alternativeArray[0].criteriaArray) : "")).toLowerCase();
       return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
     });

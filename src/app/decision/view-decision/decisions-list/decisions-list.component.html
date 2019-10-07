@@ -17,10 +17,10 @@
       <mat-cell *cdkCellDef="let row"> {{row.name}} </mat-cell>
     </ng-container>
 
-    <!--<ng-container cdkColumnDef="createDate">
-      <mat-header-cell *cdkHeaderCellDef mat-sort-header> Create Date </mat-header-cell>
+    <ng-container cdkColumnDef="createDate">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header> Дата создания решения </mat-header-cell>
       <mat-cell *cdkCellDef="let row"> {{row.dateCreate | date: 'dd.MM.yyyy'}} </mat-cell>
-    </ng-container>-->
+    </ng-container>
     <ng-container cdkColumnDef="alternatives">
       <mat-header-cell *cdkHeaderCellDef mat-sort-header> Альтернативы: </mat-header-cell>
       <mat-cell *cdkCellDef="let row"> {{getAlternativeNames(row.alternativeArray)}} </mat-cell>

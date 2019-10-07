@@ -84,7 +84,7 @@ export class FillValueCriteriaComponent implements OnInit {
     {
       for(let criteria of alternative.criteriaArray)
       {
-        if(criteria.value == null)
+        if(criteria.value == null || criteria.value == "")
         {
           canGoNext = false;
           break;
@@ -104,6 +104,7 @@ export class FillValueCriteriaComponent implements OnInit {
               alternative.criteriaArray[i].minMaxValue = this.minRate[i]
             }
           }
+          this.checkValueRate();
           this.decisionService.checkValueRate(this.decision).subscribe(
             editDecision => 
             {

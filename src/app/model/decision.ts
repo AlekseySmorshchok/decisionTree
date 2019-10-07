@@ -10,12 +10,14 @@ export class Decision  implements Deserializable {
   public name: string;
   public note: string;
   public stage: number;
+  public dateCreate: Date;
   
   constructor() {
     this.id = 0;
     this.name = "";
     this.note = "";
     this.stage = 0;
+    this.dateCreate = new Date();
     this.alternativeArray = [];
   }
   
