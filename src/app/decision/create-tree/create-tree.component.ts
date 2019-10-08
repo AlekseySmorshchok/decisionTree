@@ -15,8 +15,8 @@ import { identifierModuleUrl } from '@angular/compiler';
 })
 export class CreateTreeComponent implements OnInit{
 
-  decision :Decision;
-  decisionInterface : DecisionInterface;
+  decision: Decision;
+  decisionInterface: DecisionInterface;
   buttonName: string;
   isnewDecision = true;
   decisionErrorMessage = "";
