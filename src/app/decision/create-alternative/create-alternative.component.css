@@ -52,15 +52,8 @@ div.mat-list-item-content {
   margin-bottom: 20px;
 }
 
-.alternative-list-name {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  /*width: 100px;*/
-}
-
 .alternative-list {
-  width: 50%;
+  min-width: 35%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

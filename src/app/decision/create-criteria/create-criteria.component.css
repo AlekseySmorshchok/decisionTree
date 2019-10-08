@@ -1,37 +1,61 @@
-.mat-toolbar.mat-primary {
-    background: none;
-    color: #474747;
-    width: 1200px;
-    margin: auto;
+.line
+{
+  margin-left: 10% ;
 }
 
-.mat-toolbar-row, .mat-toolbar-single-row {
-    padding: 0;
+ul.ctions.vertical {
+  margin: auto;
 }
 
-h1 {
-    font-size: 30px;
+div.row.uniform {
+  display: flex;
+  margin: auto;
 }
 
-form p {
-    font-size: 24px;
-}
-
-input {
-    font-size: 20px;
+div.row.uniform>div {
+  display: flex;
+  margin: auto;
 }
 
 .mat-raised-button {
-    border-radius: 5px;
-    width: 144px;
-    margin-top: 10px;
+  border-radius: 5px;
+  width: 144px;
+  margin-top: 10px;
 }
 
 .mat-raised-button:last-child {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
-.criteria-table {
-  width: 50%;
+
+div.mat-list-item-content {
+  display: flex;
+  justify-content: center !important;
+}
+
+.alternative-table {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.alternative-table-bar .button {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.alternative-major {
+  font-size: 25px;
+  color: #474747;
   margin-bottom: 20px;
+}
+
+.alternative-list {
+  min-width: 35%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }

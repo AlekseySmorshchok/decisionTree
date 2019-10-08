@@ -1,30 +1,49 @@
-<mat-toolbar color="primary">
-  <header>
-    <h1>Добавьте критерий:</h1>
-  </header>
-</mat-toolbar>
-<div class="container">
-  <div class="alt-wrapper">
-<form class="example-form" (ngSubmit)="create(); criteriaForm.reset()" #criteriaForm="ngForm">
- 
-  <mat-input-container class="example-full-width">
-    <input matInput name="title" (input)="clearCriteriaErrorMessage()" [(ngModel)]="newCriteriaName" placeholder="Название критерия">
-  </mat-input-container>
-  <div class="alert" style=" left: 50px;color: red">{{criteriaErrorMessage}}</div>
-  <button class="button" type="submit">Добавить</button>
-</form>
+<section id="one" class="wrapper style1 special">
+  <div class="containersS">
+    <header class="major">
+      <h2>Добавить критерий: </h2>
+    </header>
+  </div>
+  <div class="specialContainer">
+    <form class="example-form" (ngSubmit)="create(); criteriaForm.reset()" #criteriaForm="ngForm">
+      <div class="row uniform 50%">
+        <div class="6u(2) 12u$(3)">
+          <ul class="actions vertical">
+            <li>
+              <header class="major"><p>Введите назване критерия</p></header>
+            </li>
+            <li>
+              <input  width="100%" type="text" class="input large" name="title" (input)="clearCriteriaErrorMessage()" [(ngModel)]="newCriteriaName"
+                     placeholder="Название критерия">
+            </li>
+            <li>
+              <div class="alert" style=" left: 50px;color: red">{{criteriaErrorMessage}}</div>
+            </li>
+            <li>
+              <button class="button" type="submit">Добавить</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </form>
 
-<mat-nav-list class="criteria-table" *ngIf="criteriaArray.length">
-  <h3 mat-subheader>Список критериев</h3>
-  <mat-list-item *ngFor="let criteria of criteriaArray; index as i">
-    <h4 mat-line>Критерий {{i+1}}: {{criteria.name}}</h4> 
-    <button mat-icon-button (click)="editCriteria(criteria)"><mat-icon>edit</mat-icon></button>
-    <button mat-icon-button (click)="delete(criteria)"><mat-icon calss="exampple-icon">delete_forever</mat-icon></button>
-  </mat-list-item>
-</mat-nav-list>
-</div>
-  <div class="alt-btns">
-<button class="button" (click)="goBack()">Вернуться назад</button>
-<button class="button" type="submit" (click)="goNext()">Далее</button>
-</div>
-</div>
+    <mat-nav-list class="alternative-table" *ngIf="criteriaArray.length">
+      <header class="alternative-major"><p>Список критериев</p></header>
+      <div class="alternative-list" *ngFor="let criteria of criteriaArray; index as i">
+        <div class=" alternative-list-name">Критерий {{i+1}}: {{criteria.name}}</div>
+        <div class="alternative-actions">
+          <button mat-icon-button (click)="editCriteria(criteria)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="delete(criteria)">
+            <mat-icon calss="exampple-icon">delete_forever</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-nav-list>
+    <div class="alternative-table-ba">
+      <button class="button" (click)="goBack()">Вернуться назад</button>
+      <button class="button" type="submit" (click)="goNext()">Далее</button>
+    </div>
+  </div>
+</section>

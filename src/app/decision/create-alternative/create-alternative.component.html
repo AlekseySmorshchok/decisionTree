@@ -46,9 +46,10 @@
             <li>
               <header class="major"><p>Для сравнения нужно ввести минимум 2 альтернативы</p></header>
             </li>
-            <li><input type="text" class="input large" name="name" id="name" value="" [(ngModel)]="newAlternativeName"
-                       placeholder="Название варианта альтернативы"></li>
-
+            <li>
+              <input type="text" class="input large" name="name" id="name" value="" [(ngModel)]="newAlternativeName"
+                     placeholder="Название варианта альтернативы">
+            </li>
             <li>
               <span class="alert" style="color: red">{{alternativeErrorMessage}}</span>
             </li>
@@ -63,12 +64,14 @@
       <header class="alternative-major"><p>Список созданных альтернатив</p></header>
       <div class="alternative-list" *ngFor="let alternative of decision.alternativeArray; index as i">
         <div class="alternative-list-name">Альтернатива {{i+1}}: {{alternative.name}}</div>
-        <button mat-icon-button (click)="editAlternative(alternative)">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button (click)="delete(alternative)">
-          <mat-icon calss="exampple-icon">delete_forever</mat-icon>
-        </button>
+        <div class="alternative-actions">
+          <button mat-icon-button (click)="editAlternative(alternative)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="delete(alternative)">
+            <mat-icon calss="exampple-icon">delete_forever</mat-icon>
+          </button>
+        </div>
       </div>
       <mat-divider></mat-divider>
     </div>
