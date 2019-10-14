@@ -1,13 +1,16 @@
 <main>
-  <div class="container-fluid">
-<br>
-<h1>Инструкция</h1>
-<h2 style="text-align:center">
-  Далее необходимо осуществить парные сравнения смысловых <br>
-  значений критериев выбора для расчёта приоритетов
-</h2>
-<pre>
-  <p>
+  <div class="container-fluid instruction-container">
+    <br>
+    <div>
+      <h1 style="text-align:center">Инструкция</h1>
+      <h2 style="text-align:center">
+        Далее необходимо осуществить парные сравнения смысловых <br>
+        значений критериев выбора для расчёта приоритетов
+      </h2>
+    </div>
+    <div class="second-instruction-block">
+    <pre>
+    <p>
     Сравните на сколько одно из значений критерия важнее для Вас чем другое в соответствии со шкалой:
     - равнозначные критерии (одинаково важны при выборе)
     - между равнозначностью и умеренным превосходством
@@ -18,11 +21,11 @@
     - очень сильное превосходство одного критерия над другим
     - между очень сильным и высшим превосходством
     - высшее (крайнее) превосходство  одного критерия над другим.
-
-  </p>
-</pre>
+    </p>
+    </pre>
+    </div>
     <div class="btn">
-      <button mat-raised-button type="submit" (click)="goNext()" style="width:200px">Далее</button>
-</div>
-</div>
+      <button class="button" type="submit" (click)="goNext()" style="width:200px">Далее</button>
+    </div>
+  </div>
 </main>

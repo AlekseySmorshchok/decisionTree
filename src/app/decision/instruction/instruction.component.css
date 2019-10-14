@@ -1,8 +1,3 @@
-pre {
-    width: 920px;
-    margin: auto;
-}
-
 .mat-raised-button {
     margin: auto;
     display: flex;
@@ -11,4 +6,23 @@ pre {
 
 .mat-raised-button:hover {
     background-color: cyan;
+}
+
+.instruction-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.instruction-container h1 {
+  margin: 0 auto;
+}
+
+.second-instruction-block pre,
+.second-instruction-block p {
+  width: 70%;
+  font-family: "Courier New", monospace;
+  font-size: 0.9em;
+  margin-bottom: 0;
 }
