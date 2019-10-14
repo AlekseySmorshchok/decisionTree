@@ -1,37 +1,47 @@
-table th{
-    font-weight: 400 !important;
+table th {
+  font-weight: 400 !important;
 }
 
 .mat-raised-button {
-    border-radius: 5px;
-    width: 199px;
-    margin-top: 10px;
+  border-radius: 5px;
+  width: 199px;
+  margin-top: 10px;
 }
 
 .mat-raised-button:nth-child(2) {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 .mat-raised-button:hover {
-    background-color: cyan;
+  background-color: cyan;
 }
 
 .btns {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
+}
+
+.btns .button {
+  margin-right: 5px;
+  margin-left: 5px;
 }
 
 .btns-next .mat-raised-button {
-    width: 250px;
-    margin-top: 25px;
+  width: 250px;
+  margin-top: 25px;
 }
 
 .btns-next {
-    display: flex;
-    justify-content: center;
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
 }
 
 .btns-next .mat-raised-button:hover {
-    background-color: cyan;
+  background-color: cyan;
+}
+
+.crit-table {
+  width: 700px !important;
 }
 
