@@ -40,6 +40,10 @@ export class EndTreeComponent implements OnInit {
         {
           this.redirectWithMessage();
         }
+        else
+        {
+          this.getTitle();
+        }
       });
   }
 
