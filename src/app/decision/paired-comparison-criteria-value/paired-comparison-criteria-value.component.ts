@@ -72,13 +72,14 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
             }
             else
             {
-              this.counter = this.doFact(this.decision.alternativeArray.length-1);
               this.numberOfNote = flag;
-              this.makeDefaultRageCriteria();
-              this.makeCriteriaArray();
               this.firstCompariosnIndex = 0;
               this.secondCompariosnIndex  = 1;
               this.selectedValue =  1;
+              this.makeDefaultRageCriteria();
+              this.makeCriteriaArray();
+              this.counter = this.doFact(this.comparisonCriteriaArray.length-1);
+              
             }
           }
         );
@@ -115,7 +116,7 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
         let flag = false;
         for(let criteriaName of this.comparisonCriteriaArray)
         {
-          if(criteriaName == alternative.criteriaArray[this.numberOfNote])
+          if(criteriaName.value == alternative.criteriaArray[this.numberOfNote].value)
           {
             flag = true;
             break;
@@ -220,6 +221,7 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
     {
       this.saveResaultAndgoNext(); 
     }
+    console.log(this.rageCriteria);
   }
 
   swap()
@@ -237,9 +239,9 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
   {
     if(this.counter<=0)
     {
+      console.log(this.rageCriteria);
       this.decisionInterface.sendpairedComparisonCirteriaValue(this.decision,this.rageCriteria).subscribe( (data )=>{
         this.decision = new Decision().deserialize(data);
-        console.log(this.decision);
         this.decisionCreateService.getAnswer(this.decision).subscribe(
           flag =>
           {
@@ -253,14 +255,14 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
                 });
             }
             else
-            {
-              this.counter = this.doFact(this.decision.alternativeArray.length-1);
+            { 
               this.numberOfNote = flag;
-              this.makeDefaultRageCriteria();
-              this.makeCriteriaArray();
               this.firstCompariosnIndex = 0;
               this.secondCompariosnIndex  = 1;
               this.selectedValue =  1;
+              this.makeDefaultRageCriteria();
+              this.makeCriteriaArray();
+              this.counter = this.doFact(this.comparisonCriteriaArray.length-1);
             }
           }
         );
