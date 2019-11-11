@@ -28,7 +28,7 @@ export class DecisionsListComponent implements OnInit {
   displayedColumns = [/*'decisionId'*/, 'decisionName', 'createDate', 'alternatives', 'criterion', 'note'];
   decisions: Decision[];
   decisionData: DecisionData;
-  dataSource: DecisionDataSource | null;
+  dataSource: DecisionDataSource = null;
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('filter') filter: ElementRef;
@@ -50,6 +50,9 @@ export class DecisionsListComponent implements OnInit {
         if (!this.dataSource) { return; }
         this.dataSource.filter = this.filter.nativeElement.value;
     });
+    
+    
+     
   }
 
   onSelect(decision: Decision) {
