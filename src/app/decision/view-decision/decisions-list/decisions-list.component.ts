@@ -56,7 +56,8 @@ export class DecisionsListComponent implements OnInit {
   }
 
   onSelect(decision: Decision) {
-    this.router.navigate(['/decisionViewList/', decision.id]);
+    localStorage.setItem("idDecision",decision.id.toString());
+    this.router.navigate(['endTree']);
   }
 
   public getAlternativeNames(array: Array<Alternative>): string {
