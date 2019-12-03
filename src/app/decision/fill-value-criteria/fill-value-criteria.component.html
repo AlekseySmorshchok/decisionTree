@@ -1,31 +1,26 @@
-<div class="container-fluid">
+<div class="container-fluid fil-value">
+  <div class="fil-value-margin">
+    <br>
 
-  <br>
-  <mat-expansion-panel (opened)="panelOpenState = true"
-                       (closed)="panelOpenState = false">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
+    <mat-expansion-panel (opened)="panelOpenState = false"
+                         (closed)="panelOpenState = true">
+      <mat-expansion-panel-header>
+        <div class="fil-value-margin">
+          {{panelOpenState ? 'Инструкция' : 'Инструкция'}}
+        </div>
+      </mat-expansion-panel-header>
 
-      </mat-panel-title>
-      <mat-panel-description>
-        {{panelOpenState ? 'Инструкция' : 'Инструкция'}}
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-
-    <pre>
     <h3>
-      Необходимо заполнить значения критериев
-
-      Значения критериев нужно вводить в одних единицах измерения.
-      
-      Если ВАЖНО минимальное значение, нужно отметить критерий в левом столбце.    
-
+      Необходимо заполнить значения критериев <br>
+      Значения критериев нужно вводить в одних единицах измерения. <br>
+      Если ВАЖНО минимальное значение, нужно отметить критерий в левом столбце. <br>
     </h3>
-  </pre>
 
-  </mat-expansion-panel>
+    </mat-expansion-panel>
+  </div>
   <br>
   <br>
+  <div class="fil-value-margin">
   <table *ngIf="decision" class="crit-table">
     <thead>
     <tr>
@@ -50,6 +45,7 @@
     </tbody>
   </table>
   <br>
+  </div>
   <div class="btns">
     <button class="button" (click)="goCreateCriterion()">Добавить критерий</button>
     <button class="button" (click)="goCreateAlternative()">Добавить альтернативу</button>

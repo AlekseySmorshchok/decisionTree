@@ -30,6 +30,12 @@
 		display: none;
 	}
 
+.app-wrapper{
+  background: #F5F5F5;
+  height: calc(100vh - 50px) !important;
+  overflow-y: overlay;
+}
+
 /* Banner */
 
 	#banner {

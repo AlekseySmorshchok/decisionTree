@@ -45,3 +45,17 @@ table th {
   width: 700px !important;
 }
 
+.fil-value {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.fil-value .mat-expansion-panel {
+  width: 700px;
+}
+
+.fil-value-margin {
+  margin: 0 auto;
+}
