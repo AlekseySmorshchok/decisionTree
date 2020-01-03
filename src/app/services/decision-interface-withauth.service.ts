@@ -60,8 +60,29 @@ export class DecisionInterfaceWithauthService  implements DecisionInterface
 
     isNewDecision(): Observable<Boolean> {
       return new Observable((observer) => {
-          observer.next(localStorage.getItem("idDecision")!=null ? true : false);
+        if(localStorage.getItem("idDecision")!=null)
+        {
+            this.getDecision().subscribe(data =>
+              {
+                if(data.stage == -1)
+                {
+                  observer.next(false);
+                  observer.complete();
+                }
+                else
+                {
+                  observer.next(true);
+                  observer.complete();
+                }
+              });
+        }
+        else
+        {
+          observer.next(false);
           observer.complete();
+        }
+          this.getDecision()
+          
       });
     }
 

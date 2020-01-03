@@ -67,7 +67,7 @@ export class InstructionComponent implements OnInit {
     {
       if(data != -1)
       {
-        this.router.navigate(['pairedComparisonCriteriaValue',data]);
+        this.router.navigate(['pairedComparisonCriteriaValue']);
       }
     }
     });

@@ -56,8 +56,68 @@ export class CreateTreeComponent implements OnInit{
               }
               else
               {
-                this.initForm();
-              }
+                this.decisionInterface.getDecision().subscribe(
+                  data=>{
+                    this.decision  =  new Decision().deserialize(data);
+                        if(this.decision.stage == 0)
+                        {
+                          this.router.navigate(['createAlternative', 1]);
+                        }
+                        else
+                        {
+                          if(this.decision.stage == 1)
+                          {
+                            this.router.navigate(['createCriteria', 1]);
+                          }
+                          else
+                          {
+                            if(this.decision.stage == 2)
+                            {
+                              this.router.navigate(['fillValueCriteria', 1]);
+                            }
+                            else
+                            {
+                              if(this.decision.stage == 3)
+                              {
+                                this.router.navigate(['createAlternative', 2]);
+                              }
+                              else
+                              {
+                                if(this.decision.stage == 4)
+                                {
+                                  this.router.navigate(['createCriteria', 2]);
+                                }
+                                else
+                                {
+                                  if(this.decision.stage == 5)
+                                  {
+                                    this.router.navigate(['instruction']);
+                                  }
+                                  else
+                                  {
+                                    if(this.decision.stage == 6)
+                                    {
+                                      this.router.navigate(['pairedComparisonCriteriaValue']);
+                                    }
+                                    else
+                                    {
+                                      if(this.decision.stage == 7)
+                                      {
+                                        this.router.navigate(['pairedComparisonCriteria']);
+                                      }
+                                      else
+                                      {
+                                        this.initForm();
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      });
+                  }
             });
           }
           else
@@ -107,7 +167,7 @@ export class CreateTreeComponent implements OnInit{
         }
         
         this.isLoaderView = false;
-        });
+      });
     
   }
 
@@ -124,7 +184,7 @@ export class CreateTreeComponent implements OnInit{
     {
       if(this.isnewDecision == true)
             {
-             
+              
               this.decisionInterface.createDecision(this.decision.name, this.decision.note).subscribe(status=>
                 {
                   this.router.navigate(['createAlternative', 1]);
@@ -142,6 +202,7 @@ export class CreateTreeComponent implements OnInit{
             }
             else
             {
+              this.decision.stage = 0;
               this.decisionInterface.setDecision(this.decision).subscribe( data=>
               {
                 if (localStorage.getItem('token') != null) {

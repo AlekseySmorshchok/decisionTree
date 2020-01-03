@@ -56,29 +56,63 @@ export class DecisionsListComponent implements OnInit {
   }
 
   onSelect(decision: Decision) {
-    console.log(decision);
     localStorage.setItem("idDecision",decision.id.toString());
-    if(decision.stage = 8)
+    if(decision.stage == 0)
     {
-        this.router.navigate(['endTree']);
+      this.router.navigate(['createAlternative', 1]);
     }
     else
     {
-      if(decision.alternativeArray.length!=0 && decision.alternativeArray[0].criteriaArray.length!=0)
+      if(decision.stage == 1)
       {
-        this.router.navigate(['fillValueCriteria']);
+        this.router.navigate(['createCriteria', 1]);
       }
       else
       {
-        if(decision.alternativeArray.length==0)
+        if(decision.stage == 2)
         {
-          this.router.navigate(['createAlternative',1]);
+          this.router.navigate(['fillValueCriteria', 1]);
         }
         else
         {
-          if(decision.alternativeArray[0].criteriaArray.length==0)
+          if(decision.stage == 3)
           {
-            this.router.navigate(['createCriteria',1]);
+            this.router.navigate(['createAlternative', 2]);
+          }
+          else
+          {
+            if(decision.stage == 4)
+            {
+              this.router.navigate(['createCriteria', 2]);
+            }
+            else
+            {
+              if(decision.stage == 5)
+              {
+                this.router.navigate(['instruction']);
+              }
+              else
+              {
+                if(decision.stage == 6)
+                {
+                  this.router.navigate(['pairedComparisonCriteriaValue']);
+                }
+                else
+                {
+                  if(decision.stage == 7)
+                  {
+                    this.router.navigate(['pairedComparisonCriteria']);
+                  }
+                  else
+                  {
+                    if(decision.stage == 8)
+                  {
+                    this.router.navigate(['endTree']);
+                  }
+                  }
+                }
+              }
+            }
           }
         }
       }

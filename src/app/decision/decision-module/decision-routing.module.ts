@@ -29,9 +29,6 @@ const routes: Routes = [
     path:'', component : HomeComponent
   },
   {
-    path:'editTree', component: CreateTreeComponent
-  },
-  {
     path:'createTree', component: CreateTreeComponent
   },
   {
@@ -76,13 +73,7 @@ const routes: Routes = [
   ]
 },
   {
-    path:'pairedComparisonCriteriaValue', component: PairedComparisonCriteriaValueComponent,
-    children: [
-      {
-        path: ':numberOfNote',
-        component: PairedComparisonCriteriaValueComponent
-      },
-    ]
+    path:'pairedComparisonCriteriaValue', component: PairedComparisonCriteriaValueComponent
   }
 ];
 

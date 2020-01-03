@@ -81,7 +81,11 @@ export class EndTreeComponent implements OnInit {
   changeTree()
   {
     this.isLoaderView = true;
-    this.router.navigate(['editTree']);
+    this.decision.stage = -1;
+    this.decisionInterface.setDecision(this.decision).subscribe( data=>
+    {
+      this.router.navigate(['createTree']);
+    });
   }
 
 }

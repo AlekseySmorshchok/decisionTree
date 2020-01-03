@@ -193,6 +193,7 @@ export class CreateAlternativeComponent implements OnInit {
 
   goBack()
   {
+    this.isLoaderView = true;
     if(this.path == 1)
     {
       this.decision.stage = -1;
