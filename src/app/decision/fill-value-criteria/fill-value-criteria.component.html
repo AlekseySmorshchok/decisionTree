@@ -20,8 +20,8 @@
   </div>
   <br>
   <br>
-  <div class="fil-value-margin">
-  <table *ngIf="decision" class="crit-table">
+  <div class="fil-value-margin" *ngIf="decision">
+  <table  class="crit-table">
     <thead>
     <tr>
       <th>Важно минимальное значение</th>
@@ -45,12 +45,13 @@
     </tbody>
   </table>
   <br>
-  </div>
-  <div class="btns">
-    <button class="button" (click)="goCreateCriterion()">Добавить критерий</button>
-    <button class="button" (click)="goCreateAlternative()">Добавить альтернативу</button>
-  </div>
-  <div class="btns-next">
-    <button class="button" (click)="goNext()">Далее</button>
+    <div class="btns">
+      <button class="button" (click)="goCreateCriterion()" [disabled]="!decision || isLoaderView">Добавить критерий</button>
+      <button class="button" (click)="goCreateAlternative()" [disabled]="!decision || isLoaderView">Добавить альтернативу</button>
+    </div>
+    <div class="btns-next">
+      <button class="button" (click)="goNext()" [disabled]="!decision || isLoaderView">Далее</button>
+    </div>
   </div>
 </div>
+<h1 *ngIf="!decision || isLoaderView"><div id="spin-loader"></div></h1>

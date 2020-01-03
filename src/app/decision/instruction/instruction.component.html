@@ -25,7 +25,8 @@
     </pre>
     </div>
     <div class="btn">
-      <button class="button" type="submit" (click)="goNext()" style="width:200px">Далее</button>
+      <button class="button" type="submit" (click)="goNext()" style="width:200px" [disabled]="!decision || isLoaderView">Далее</button>
     </div>
   </div>
+  <h1 *ngIf="!decision || isLoaderView"><div id="spin-loader"></div></h1>
 </main>

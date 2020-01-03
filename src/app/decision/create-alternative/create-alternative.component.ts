@@ -26,6 +26,7 @@ export class CreateAlternativeComponent implements OnInit {
   flag = false;
   decisionInterface : DecisionInterface;
   alternativeErrorMessage = "";
+  isLoaderView = false;
 
   constructor(private decisionCreateService : DecisionCreateService,
               private dialog: MatDialog,
@@ -36,7 +37,7 @@ export class CreateAlternativeComponent implements OnInit {
 
   ngOnInit() {
       this.path = +this.router.url.substring(this.router.url.length-1,this.router.url.length);
-      if (localStorage.getItem('currentUser') != null) {
+      if (localStorage.getItem('token') != null) {
         this.decisionInterface = this.decisionWithAuth;
       }
       else {
@@ -44,7 +45,6 @@ export class CreateAlternativeComponent implements OnInit {
       }
       this.decisionInterface.getDecision().subscribe(data=>
         {
-          console.log(data);
           this.decision = new Decision().deserialize(data);
           this.check();
         });
@@ -68,6 +68,7 @@ export class CreateAlternativeComponent implements OnInit {
 
   create()
   {
+    this.isLoaderView = true;
     this.alternativeErrorMessage = "";
     if( this.decision == null)
     {
@@ -77,11 +78,13 @@ export class CreateAlternativeComponent implements OnInit {
     {
       this.decisionInterface.addAlternative(this.newAlternativeName,this.flag).subscribe(data =>
         {
+          this.isLoaderView = false;
           this.decision = new Decision().deserialize(data);
         });
     }
     else
     {
+      this.isLoaderView = false;
       this.alternativeErrorMessage = "Введите название альтернативы"
     }
   }
@@ -111,11 +114,13 @@ export class CreateAlternativeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result)
       {
+        this.isLoaderView = true;
         alternative.name = result;
         this.decisionInterface.editAlternative(alternative).subscribe(data=>
           {
             this.decision = new Decision().deserialize(data);
             this.openSnackBar("Название альтернативы измененно","");
+            this.isLoaderView = false;
           });
       }
     });
@@ -128,12 +133,15 @@ export class CreateAlternativeComponent implements OnInit {
       data: { name: '' }
     });
     dialogRef.afterClosed().subscribe(result => {
+
       if(result)
       {
+        this.isLoaderView = true;
         this.decisionInterface.deliteAlternative(alternative).subscribe(data =>
           {
             this.decision = new Decision().deserialize(data);
             this.openSnackBar("Альтернатива "+ name+" удалена","");
+            this.isLoaderView = false;
           })
       }
       
@@ -154,20 +162,25 @@ export class CreateAlternativeComponent implements OnInit {
         });
     }
     else{
-      
-      this.decisionInterface.setDecision(this.decision).subscribe(status=>
-        {
-         
-            this.router.navigate(['']);
-          
-            this.router.navigate(['fillValueCriteria']);
-          
-        });
+      if(this.path == 2)
+      {
+        this.decision.stage = 2;
+        this.decisionInterface.setDecision(this.decision).subscribe(status=>
+          {
+              this.router.navigate(['fillValueCriteria']);
+            
+          });
+      }
+      else
+      {
+        this.router.navigate(['']);
+      }
       
     }
   }
 
   goNext() {
+    this.isLoaderView = true;
     if(this.decision.alternativeArray.length >= 2)
     {
         this.goToUrl();
@@ -182,10 +195,23 @@ export class CreateAlternativeComponent implements OnInit {
   {
     if(this.path == 1)
     {
-      this.router.navigate(['createTree']);
+      this.decision.stage = -1;
+      this.decisionInterface.setDecision(this.decision).subscribe(status=>
+        {
+          this.router.navigate(['createTree']);
+        });
+      
     }
     else{
-      this.router.navigate(['fillValueCriteria']);
+      if(this.path == 2)
+      {
+        this.decision.stage = 2;
+        this.decisionInterface.setDecision(this.decision).subscribe(status=>
+          {
+              this.router.navigate(['fillValueCriteria']);
+            
+          });
+      }
     }
   }
 

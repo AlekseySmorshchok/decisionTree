@@ -30,29 +30,36 @@
 <br>
 <form >
   <div *ngIf="comparisonCriteriaArray && decision">
-    <h1>
-        Осуществите попарные сравнения критериев.
-    </h1>
-    <h3>
-         Осталось {{counter}} сравнений
-    </h3>
-         <h3 *ngIf="choose">{{comparisonCriteriaArray[firstCompariosnIndex].name}} в сравнении с {{comparisonCriteriaArray[secondCompariosnIndex].name}} имеет</h3>
-         <h3 *ngIf="!choose">{{comparisonCriteriaArray[secondCompariosnIndex].name}} в сравнении с {{comparisonCriteriaArray[firstCompariosnIndex].name}} имеет</h3>
-    
-      <mat-form-field>
-        <mat-select [(ngModel)]="selectedValue" name="value" >
-          <mat-option *ngFor="let value of values" [value]="value.value">
-           {{value.viewValue}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-  </div>
-  <h1 *ngIf="!comparisonCriteriaArray || !decision">Loading...</h1>
-  <br>
-  <div>
-  <button mat-raised-button (click)="swap()">Поменять местами критерии в фразе</button>
-  <button mat-raised-button (click)="saveAnswerInRageArray()" >Сохранить</button>
+    <div>
+        <h1  style="text-align: center;">
+            Осуществите попарные сравнения критериев.
+        </h1>
+        <h2 style="text-align: center; font-weight: 600;">
+          Осталось {{counter}} сравнений
+      </h2>
+            <h2 *ngIf="choose" style="text-align: center;">{{comparisonCriteriaArray[firstCompariosnIndex].name}} в сравнении с {{comparisonCriteriaArray[secondCompariosnIndex].name}} имеет</h2>
+            <h2 *ngIf="!choose" style="text-align: center;">{{comparisonCriteriaArray[secondCompariosnIndex].name}} в сравнении с {{comparisonCriteriaArray[firstCompariosnIndex].name}} имеет</h2>
+        
+          <mat-form-field style="top: 50%;
+          left: 50%;
+          margin-right: -50%;
+          transform: translate(-50%, -50%);
+          margin-top: 40px;
+          font-size: 18px;
+          width: 62%;">
+            <mat-select [(ngModel)]="selectedValue" name="value" >
+              <mat-option *ngFor="let value of values" [value]="value.value">
+              {{value.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+      </div>
+      <div class="alternative-table-bar" style="text-align: center;">
+      <button class="button" (click)="swap()" [disabled]="!comparisonCriteriaArray || !decision || isLoaderView">Поменять местами критерии в фразе</button>
+      <button class="button" (click)="saveAnswerInRageArray()" [disabled]="!comparisonCriteriaArray || comparisonCriteriaArray.length < 1 || isLoaderView">Сохранить</button>
   <!--<button mat-raised-button (click)="goNext()" *ngIf="end == true">Далее</button>-->
+    </div>
   </div>
+  <h1 *ngIf="!comparisonCriteriaArray || !decision || isLoaderView"><div id="spin-loader"></div></h1>
 </form>
 

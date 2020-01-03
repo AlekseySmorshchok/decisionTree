@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   title = 'Decision App';
   isLogIn = false;
   host : string ;
+  isUserHaveDecision = false;
   constructor(private router: Router, 
               private loginStateService : LoginStateCommunicationService,
               private http: Http){
@@ -31,6 +32,7 @@ export class HomeComponent implements OnInit {
   
   ngOnInit() {
     this.isLogIn = localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME) ? true : false;
+    this.isUserHaveDecision = localStorage.getItem('isUserHaveDecision') == 'true' ? true : false;
     this.loginStateService.dataTransferEvent$.subscribe(data=>
       {
         if(data == "Выйти")

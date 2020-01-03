@@ -54,7 +54,7 @@
               <span class="alert" style="color: red">{{alternativeErrorMessage}}</span>
             </li>
             <li>
-              <button class="button large" type="submit">Добавить</button>
+              <button class="button large" type="submit" [disabled]="!decision || isLoaderView" >Добавить</button>
             </li>
           </ul>
         </div>
@@ -65,10 +65,10 @@
       <div class="alternative-list" *ngFor="let alternative of decision.alternativeArray; index as i">
         <div class="alternative-list-name">Альтернатива {{i+1}}: {{alternative.name}}</div>
         <div class="alternative-actions">
-          <button mat-icon-button (click)="editAlternative(alternative)">
+          <button mat-icon-button [disabled]="isLoaderView" (click)="editAlternative(alternative)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button (click)="delete(alternative)">
+          <button mat-icon-button [disabled]="isLoaderView" (click)="delete(alternative)">
             <mat-icon calss="exampple-icon">delete_forever</mat-icon>
           </button>
         </div>
@@ -76,8 +76,9 @@
       <mat-divider></mat-divider>
     </div>
     <div class="alternative-table-bar">
-      <button class="button" (click)="goBack()">Вернуться назад</button>
-      <button class="button" type="submit" (click)="goNext()">Далее</button>
+      <button class="button" [disabled]="!decision || isLoaderView" (click)="goBack()">Назад</button>
+      <button class="button" type="submit" (click)="goNext()" [disabled]="!decision || isLoaderView" >Далее</button>
     </div>
   </div>
+  <h1 *ngIf="!decision || isLoaderView"><div id="spin-loader"></div></h1>
 </section>

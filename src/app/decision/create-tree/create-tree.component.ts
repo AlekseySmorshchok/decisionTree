@@ -15,11 +15,12 @@ import { identifierModuleUrl } from '@angular/compiler';
 })
 export class CreateTreeComponent implements OnInit{
 
-  decision: Decision;
+  decision: Decision = new Decision();
   decisionInterface: DecisionInterface;
-  buttonName: string;
+  buttonName: string = "Создать";
   isnewDecision = true;
   decisionErrorMessage = "";
+  isLoaderView = false;
   constructor(public snackBar: MatSnackBar,
               private router: Router,
               private dialog: MatDialog,
@@ -27,8 +28,8 @@ export class CreateTreeComponent implements OnInit{
               private decisionWithAuth: DecisionInterfaceWithauthService) { }
 
   ngOnInit() {
-    
-    if (localStorage.getItem('currentUser') != null) {
+    this.isLoaderView = true;
+    if (localStorage.getItem('token') != null) {
       this.decisionInterface = this.decisionWithAuth;
     }
     else {
@@ -104,8 +105,9 @@ export class CreateTreeComponent implements OnInit{
           this.isnewDecision = false;
           this.buttonName = "Далее";
         }
-        }
-    );
+        
+        this.isLoaderView = false;
+        });
     
   }
 
@@ -117,18 +119,24 @@ export class CreateTreeComponent implements OnInit{
 
   goNext() {
     this.checkDecisionName();
+    this.isLoaderView = true;
     if(this.decisionErrorMessage == "")
     {
       if(this.isnewDecision == true)
             {
-              this.openSnackBar(this.decision.name, 'Решение создано');
+             
               this.decisionInterface.createDecision(this.decision.name, this.decision.note).subscribe(status=>
                 {
                   this.router.navigate(['createAlternative', 1]);
+                  this.openSnackBar(this.decision.name, 'Решение создано');
+                  if (localStorage.getItem('token') != null) {
+                    localStorage.setItem('isUserHaveDecision', 'true');
+                  }
                 },
                 error=>
                 {
                   this.decisionErrorMessage = error;
+                  this.isLoaderView = false;
                   
                 });
             }
@@ -136,9 +144,17 @@ export class CreateTreeComponent implements OnInit{
             {
               this.decisionInterface.setDecision(this.decision).subscribe( data=>
               {
-
+                if (localStorage.getItem('token') != null) {
+                  localStorage.setItem('isUserHaveDecision', 'true');
+                }
                 this.openSnackBar(this.decision.name, 'Решение обновлено');
                 this.router.navigate(['createAlternative', 1]);
+              },
+              error=>
+              {
+                this.decisionErrorMessage = error;
+                this.isLoaderView = false;
+                
               });
             }
         

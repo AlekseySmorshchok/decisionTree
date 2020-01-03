@@ -19,6 +19,7 @@ export class EndTreeComponent implements OnInit {
   alternativeName : String = "";
   number : number = 0;
   decisionInterface : DecisionInterface;
+  isLoaderView = false;
 
   constructor(private router: Router,
               private decisionCreateService: DecisionCreateService,
@@ -27,7 +28,7 @@ export class EndTreeComponent implements OnInit {
               private decisionWithAuth: DecisionInterfaceWithauthService) { }
 
   ngOnInit() {
-    if (localStorage.getItem('currentUser') != null) {
+    if (localStorage.getItem('token') != null) {
       this.decisionInterface = this.decisionWithAuth;
     }
     else {
@@ -73,10 +74,13 @@ export class EndTreeComponent implements OnInit {
 
   goNext()
   {
+    this.isLoaderView = true;
     this.router.navigate(['']);
   }
+
   changeTree()
   {
+    this.isLoaderView = true;
     this.router.navigate(['editTree']);
   }
 

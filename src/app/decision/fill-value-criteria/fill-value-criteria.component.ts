@@ -16,11 +16,12 @@ import { DecisionInterfaceWithauthService } from '../../services/decision-interf
 })
 export class FillValueCriteriaComponent implements OnInit {
 
-  decision: Decision;
+  decision: Decision; 
   minRate: boolean[] = [];
   panelOpenState: boolean = false;
   disabled: boolean[] = [];
   decisionInterface : DecisionInterface;
+  isLoaderView = false;
   
   constructor( public snackBar: MatSnackBar,
               private dialog: MatDialog,
@@ -31,7 +32,7 @@ export class FillValueCriteriaComponent implements OnInit {
 
   ngOnInit() {
     
-    if (localStorage.getItem('currentUser') != null) {
+    if (localStorage.getItem('token') != null) {
       this.decisionInterface = this.decisionWithAuth;
     }
     else {
@@ -79,6 +80,7 @@ export class FillValueCriteriaComponent implements OnInit {
 
   goNext()
   {
+    this.isLoaderView = true;
     let canGoNext = true;
     for(let alternative of this.decision.alternativeArray)
     {
@@ -109,6 +111,7 @@ export class FillValueCriteriaComponent implements OnInit {
             editDecision => 
             {
               this.decision = editDecision;
+              this.decision.stage = 5;
               this.decisionInterface.setDecision(this.decision).subscribe(status=>
                 {
                   
@@ -121,6 +124,7 @@ export class FillValueCriteriaComponent implements OnInit {
     else
     {
       this.openSnackBar("Для перехода на следующую страницу, должны быть заполнены все значения", '');
+      this.isLoaderView = false;
     }
     
   }
@@ -145,6 +149,7 @@ export class FillValueCriteriaComponent implements OnInit {
 
   goCreateCriterion()
   {
+    this.isLoaderView = true;
     for(let alternative of this.decision.alternativeArray)
           {
             for(let i in this.decision.alternativeArray[0].criteriaArray)
@@ -152,6 +157,7 @@ export class FillValueCriteriaComponent implements OnInit {
               alternative.criteriaArray[i].minMaxValue = this.minRate[i]
             }
           }
+    this.decision.stage = 4
     this.decisionInterface.setDecision(this.decision).subscribe(status=>
       {
         
@@ -162,6 +168,8 @@ export class FillValueCriteriaComponent implements OnInit {
 
   goCreateAlternative()
   {
+    this.isLoaderView = true;
+    this.decision.stage = 3;
     this.decisionInterface.setDecision(this.decision).subscribe(status=>
       {
         
@@ -172,6 +180,7 @@ export class FillValueCriteriaComponent implements OnInit {
 
   goBack()
   {
+    this.isLoaderView = true;
     this.router.navigate(['instruction']);
   }
 

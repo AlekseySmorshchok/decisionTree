@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
     private loginStateService: LoginStateCommunicationService) { }
 
   ngOnInit() {
-    this.isLogin = localStorage.getItem("currentUser") ? true : false;
+    this.isLogin = localStorage.getItem("token") ? true : false;
     this.buttonText = this.isLogin  ? "Выйти" : "Войти";
     this.loginStateService.dataTransferEvent$.subscribe(data=>
       {
@@ -56,7 +56,7 @@ export class HeaderComponent implements OnInit {
     {
       this.loginStateService.setData("Войти");
       this.loginStateService.sendData();
-          localStorage.removeItem("currentUser");
+          localStorage.removeItem("isUserHaveDecision");
           localStorage.removeItem("idDecision");
           localStorage.removeItem(AuthConfigConsts.DEFAULT_TOKEN_NAME);
           this.router.navigate(['']);

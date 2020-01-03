@@ -25,19 +25,25 @@
     </ng-container>
     <ng-container cdkColumnDef="alternatives">
       <mat-header-cell *cdkHeaderCellDef mat-sort-header> Альтернативы: </mat-header-cell>
-      <mat-cell *cdkCellDef="let row"> {{getAlternativeNames(row.alternativeArray)}} </mat-cell>
+      <mat-cell *cdkCellDef="let row"> 
+        <div *ngIf="row?.alternativeArray && row.alternativeArray.length>0; else missAltBlock"> {{getAlternativeNames(row.alternativeArray)}}  </div>
+        <ng-template #missAltBlock> - </ng-template>
+      </mat-cell>
     </ng-container>
     <ng-container cdkColumnDef="criterion">
       <mat-header-cell *cdkHeaderCellDef mat-sort-header> Критерии: </mat-header-cell>
       <mat-cell *cdkCellDef="let row">
-          <div *ngIf="row?.alternativeArray && row.alternativeArray[0]?.criteriaArray; else elseBlock"> {{getCriteriaNames(row.alternativeArray[0].criteriaArray)}} </div>
-          <ng-template #elseBlock> 0 </ng-template>
+          <div *ngIf="row?.alternativeArray && row.alternativeArray[0]?.criteriaArray.length>0; else missCrBlock"> {{getCriteriaNames(row.alternativeArray[0].criteriaArray)}} </div>
+          <ng-template #missCrBlock> - </ng-template>
       </mat-cell>
     </ng-container>
 
     <ng-container cdkColumnDef="note">
       <mat-header-cell *cdkHeaderCellDef mat-sort-header> Комментарий </mat-header-cell>
-      <mat-cell *cdkCellDef="let row"> {{row.note}} </mat-cell>
+      <mat-cell *cdkCellDef="let row"> 
+        <div *ngIf="row?.note ; else missCommBlock"> {{row.note}}  </div>
+        <ng-template #missCommBlock> - </ng-template>
+      </mat-cell>
     </ng-container>
 
     <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>

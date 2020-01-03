@@ -21,7 +21,7 @@
     <div class="alert" style=" left: 50px;color: red">{{errorMessage}}</div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn-default btn" (click)="register()" data-dismiss="modal">Регистрация</button>
+    <button class="button" (click)="register()" [disabled]="isLoaderView" data-dismiss="modal">Регистрация</button>
   </div>
 </div>
-        
+<h1 *ngIf="isLoaderView"><div id="spin-loader"></div></h1>      

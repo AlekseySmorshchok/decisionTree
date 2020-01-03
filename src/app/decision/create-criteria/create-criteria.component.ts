@@ -25,6 +25,7 @@ export class CreateCriteriaComponent implements OnInit {
   criteriaArray: Criteria[] = [];
   decisionInterface : DecisionInterface;
   criteriaErrorMessage = "";
+  isLoaderView = false;
   constructor(private decisionCreateService: DecisionCreateService,
               private dialog: MatDialog,
               private router: Router,
@@ -34,7 +35,7 @@ export class CreateCriteriaComponent implements OnInit {
 
   ngOnInit() {
     this.path = +this.router.url.substring(this.router.url.length-1,this.router.url.length);
-    if (localStorage.getItem('currentUser') != null) {
+    if (localStorage.getItem('token') != null) {
       this.decisionInterface = this.decisionWithAuth;
     }
     else {
@@ -58,6 +59,7 @@ export class CreateCriteriaComponent implements OnInit {
 
   create()
   {
+    this.isLoaderView = true;
     this.criteriaErrorMessage=="";
     if( this.decision == null)
     {
@@ -69,16 +71,19 @@ export class CreateCriteriaComponent implements OnInit {
         this.decisionInterface.addCriteria(this.newCriteriaName).subscribe(data=>{
           this.decision = new Decision().deserialize(data);
           this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
+          this.isLoaderView = false;
         });
       }
       else
       {
         this.criteriaErrorMessage = "Наименование критерия должно быть уникальным";
+        this.isLoaderView = false;
       }
     }
     else
     {
       this.criteriaErrorMessage = "Введите наименование критерия";
+      this.isLoaderView = false;
     }
     
   }
@@ -116,15 +121,18 @@ export class CreateCriteriaComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result != undefined)
       {
+        this.isLoaderView = true;
         if(!this.isDuplicateName(result)){
         this.decisionInterface.editCriteria(criteria,result).subscribe(data=>
           {
             this.decision = new Decision().deserialize(data);
             this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
             this.openSnackBar("Критерий изменен","");
+            this.isLoaderView = false;
           });}
           else
           {
+            this.isLoaderView = false;
             this.openSnackBar("Наименование критерия должно быть уникальным","");
           }
       }
@@ -139,11 +147,13 @@ export class CreateCriteriaComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result)
       {
+        this.isLoaderView = true;
         this.decisionInterface.deleteCriteria(criteria).subscribe(data=>
           {
             this.decision = new Decision().deserialize(data);
             this.criteriaArray = this.decision.alternativeArray[0].criteriaArray;
             this.openSnackBar("Критерий удален","");
+            this.isLoaderView = false;
           });
       }
       
@@ -154,23 +164,43 @@ export class CreateCriteriaComponent implements OnInit {
 
   goNext()
   {
+    this.isLoaderView = true;
     if(this.criteriaArray.length>=2)
     {
         this.decision.stage = 2;
-        this.router.navigate(['fillValueCriteria']);
+        this.decisionInterface.setDecision(this.decision).subscribe(status=>
+          {
+              this.router.navigate(['fillValueCriteria']);
+            
+          });
     }
     else{
       this.openSnackBar("Для сравнения нужны как минимум 2 критерия","");
+      this.isLoaderView = false;
     }
   }
 
   goBack(){
       if(this.path==1)
       {
-        this.router.navigate(['createAlternative',1]);
+        this.decision.stage = 0;
+        this.decisionInterface.setDecision(this.decision).subscribe(status=>
+          {
+            this.router.navigate(['createAlternative',1]);
+            
+          });
+        
       }
       else{
-        this.router.navigate(['fillValueCriteria']);
+        if(this.path == 2)
+        {
+          this.decision.stage = 2;
+          this.decisionInterface.setDecision(this.decision).subscribe(status=>
+            {
+                this.router.navigate(['fillValueCriteria']);
+              
+            });
+        }
       }
   }
   

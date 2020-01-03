@@ -5,6 +5,7 @@ import { User } from '../../../../model/user';
 import { UserService } from '../../../../services/user-service';
 import { HeaderComponent } from '../../header.component';
 import { LoginStateCommunicationService } from '../../../../services/component-communication/login-state-communication.service';
+import { DecisionInterfaceWithauthService } from '../../../../services/decision-interface-withauth.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -16,10 +17,12 @@ export class SignInComponent implements OnInit{
   errorMessage: string;
   emailMessage: string;
   passwordMessage: string;
+  isLoaderView = false;
   public change: boolean = false;
   public user: User = new User();
   
   constructor(private userServise: UserService,
+              private decisionService: DecisionInterfaceWithauthService,
               private router: Router,
               private loginStateService : LoginStateCommunicationService) {
                
@@ -53,6 +56,7 @@ export class SignInComponent implements OnInit{
 
   login(data?: any) {
     this.errorMessage = "";
+    this.isLoaderView = true;
     if(this.passwordMessage == "" && this.emailMessage == "")
     {
       this.checkLogin();
@@ -61,23 +65,27 @@ export class SignInComponent implements OnInit{
       {
         this.userServise.login(this.user.email, this.user.password)
         .flatMap(data => {
-          return this.userServise.getMe();
+          return this.decisionService.getDecisions();
         })
         .subscribe(
           data => {
-            localStorage.setItem('currentUser', JSON.stringify(data));
+            localStorage.setItem('isUserHaveDecision', data.length > 0 ? 'true' : 'false');
             localStorage.removeItem('Decision');
             this.loginStateService.setData("Выйти");
             this.loginStateService.sendData();
             this.router.navigate(['']);
           },
           error => {
+            this.isLoaderView = false;
             this.errorMessage = error.json().message;
           }
         );
       }
     }
-    
+    else
+    {
+      this.isLoaderView = false;
+    }
     
   }
 

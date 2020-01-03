@@ -28,6 +28,7 @@ export class PairedComparisonCriteriaComponent implements OnInit {
   choose:boolean = true;
   panelOpenState: boolean = false;
   decisionInterface : DecisionInterface;
+  isLoaderView = false;
   
   values = [
     {value: 1, viewValue: 'равновесное значение (одинаково важны при выборе)'},
@@ -47,7 +48,7 @@ export class PairedComparisonCriteriaComponent implements OnInit {
               private decisionWithAuth: DecisionInterfaceWithauthService) {  }
 
   ngOnInit() {
-    if (localStorage.getItem('currentUser') != null) {
+    if (localStorage.getItem('token') != null) {
       this.decisionInterface = this.decisionWithAuth;
     }
     else {
@@ -147,6 +148,8 @@ export class PairedComparisonCriteriaComponent implements OnInit {
   {
     if(this.counter<=0)
     {
+      this.isLoaderView = true;
+      this.decision.stage = 8;
       this.decisionInterface.sendpairedComparisonCirteria(this.decision,this.rageCriteria).subscribe(
         data=>
         {

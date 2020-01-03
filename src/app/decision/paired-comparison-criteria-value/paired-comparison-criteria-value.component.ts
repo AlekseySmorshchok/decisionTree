@@ -28,6 +28,7 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
   panelOpenState: boolean = false;
   choose:boolean = true;
   decisionInterface : DecisionInterface;
+  isLoaderView = false;
 
   constructor(private router: Router,
               private decisionCreateService: DecisionCreateService,
@@ -49,7 +50,7 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
   ];
 
   ngOnInit() {
-    if (localStorage.getItem('currentUser') != null) {
+    if (localStorage.getItem('token') != null) {
       this.decisionInterface = this.decisionWithAuth;
     }
     else {
@@ -63,6 +64,7 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
           {
             if(flag==-1)
             {
+              this.decision.stage = 7;
               this.decisionInterface.setDecision(this.decision).subscribe(status=>
                 {
                   
@@ -201,10 +203,10 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
 
   saveAnswerInRageArray()
   {
-    this.saveChoose();
-    if(this.secondCompariosnIndex== this.rageCriteria.length-1)
+    this.saveChoose();    
+    if(this.secondCompariosnIndex== this.comparisonCriteriaArray.length-1)
     {
-      if(this.firstCompariosnIndex == this.rageCriteria.length-2 && this.secondCompariosnIndex== this.rageCriteria.length-1 )
+      if(this.firstCompariosnIndex == this.comparisonCriteriaArray.length-2 && this.secondCompariosnIndex== this.comparisonCriteriaArray.length-1 )
       {
         
       }
@@ -221,7 +223,6 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
     {
       this.saveResaultAndgoNext(); 
     }
-    console.log(this.rageCriteria);
   }
 
   swap()
@@ -237,21 +238,25 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
 
   saveResaultAndgoNext()
   {
+    
+    this.isLoaderView = true;
     if(this.counter<=0)
     {
-      console.log(this.rageCriteria);
       this.decisionInterface.sendpairedComparisonCirteriaValue(this.decision,this.rageCriteria).subscribe( (data )=>{
+        
         this.decision = new Decision().deserialize(data);
         this.decisionCreateService.getAnswer(this.decision).subscribe(
           flag =>
           {
             if(flag==-1)
             {
+              this.decision.stage = 7;
               this.decisionInterface.setDecision(this.decision).subscribe(status=>
                 {
                   
                     this.router.navigate(['pairedComparisonCriteria']);
                   
+                    this.isLoaderView = false;
                 });
             }
             else
@@ -263,14 +268,14 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
               this.makeDefaultRageCriteria();
               this.makeCriteriaArray();
               this.counter = this.doFact(this.comparisonCriteriaArray.length-1);
+              
+              this.isLoaderView = false;
             }
+            
           }
         );
       });
-
-          
-        }
-      
+    }
   }
 
 }

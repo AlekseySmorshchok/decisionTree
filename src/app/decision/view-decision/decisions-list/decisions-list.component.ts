@@ -56,8 +56,35 @@ export class DecisionsListComponent implements OnInit {
   }
 
   onSelect(decision: Decision) {
+    console.log(decision);
     localStorage.setItem("idDecision",decision.id.toString());
-    this.router.navigate(['endTree']);
+    if(decision.stage = 8)
+    {
+        this.router.navigate(['endTree']);
+    }
+    else
+    {
+      if(decision.alternativeArray.length!=0 && decision.alternativeArray[0].criteriaArray.length!=0)
+      {
+        this.router.navigate(['fillValueCriteria']);
+      }
+      else
+      {
+        if(decision.alternativeArray.length==0)
+        {
+          this.router.navigate(['createAlternative',1]);
+        }
+        else
+        {
+          if(decision.alternativeArray[0].criteriaArray.length==0)
+          {
+            this.router.navigate(['createCriteria',1]);
+          }
+        }
+      }
+    }
+    
+    
   }
 
   public getAlternativeNames(array: Array<Alternative>): string {
@@ -135,11 +162,10 @@ export class DecisionDataSource extends DataSource<any> {
   }
 
   getSortedData(): Decision[] {
-    
     const data = this._decisionData.data.slice().filter((item: Decision) => {
-     
-      const searchStr = (item.name + item.note + 
-        item.dateCreate!= undefined && item.dateCreate != null ? this.dateConvert(item.dateCreate): ''
+      
+      let  searchStr = (item.name + item.note + 
+        (item.dateCreate!= undefined && item.dateCreate != null ? this.dateConvert(item.dateCreate): '')
         + this.getAlternativeNames(item.alternativeArray) + 
       (item.alternativeArray!=undefined && item.alternativeArray.length>0 ? this.getCriteriaNames(item.alternativeArray[0].criteriaArray) : "")).toLowerCase();
       return searchStr.indexOf(this.filter.toLowerCase()) !== -1;

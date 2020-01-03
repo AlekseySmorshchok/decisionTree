@@ -5,6 +5,7 @@ import { UserService } from '../../../../services/user-service';
 import { ValidationData } from '../../../../services/validationData';
 import { LoginStateCommunicationService } from '../../../../services/component-communication/login-state-communication.service';
 import { Router } from '@angular/router';
+import { DecisionInterfaceWithauthService } from '../../../../services/decision-interface-withauth.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -24,7 +25,9 @@ export class SignUpComponent  implements OnInit{
   passwordMessage ="";
   confirmPasswordMessage = "";
   passwordConfirm = "";
+  isLoaderView = false;
   constructor(private userService: UserService,
+              private decisionService: DecisionInterfaceWithauthService,
               private validationService:ValidationData,
               private router: Router,
               private loginStateService : LoginStateCommunicationService)
@@ -80,33 +83,39 @@ export class SignUpComponent  implements OnInit{
     this.checkLogin();
     this.checkPassword();
     this.checkConfirmPassword();
+    this.isLoaderView = true;
     if(this.nameMessage == "" && this.emailMessage == "" && this.passwordMessage =="" && this.confirmPasswordMessage == "")
     {
       this.userService.register(this.user).subscribe(
         data =>{
           this.userService.login(this.user.email, this.user.password)
           .flatMap(data => {
-            return this.userService.getMe();
+            return this.decisionService.getDecisions();
           })
             .subscribe(
               data => {
-                localStorage.setItem('currentUser', JSON.stringify(data));
+                localStorage.setItem('isUserHaveDecision', data.length > 0 ? 'true' : 'false');
                 localStorage.removeItem('Decision');
                 this.loginStateService.setData("Выйти");
                 this.loginStateService.sendData();
                 this.router.navigate(['']);
               },
               error => {
+                this.isLoaderView = false;
                 this.errorMessage = error.json().message;
               }
             );
          
         },
         error => {
+          this.isLoaderView = false;
           this.errorMessage = error.json().message;
         })
     }
-    
+    else
+    {
+      this.isLoaderView = false;
+    }
   }
 
   clearMessage(messageForClear: string)

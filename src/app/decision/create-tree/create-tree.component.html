@@ -1,5 +1,5 @@
 <section id="one" class="wrapper style1 special">
-  <div *ngIf="decision" class="containersS">
+  <div  class="containersS">
     <header class="major">
       <h2>Создайте решение</h2>
     </header>
@@ -15,10 +15,10 @@
       </div>
       <p></p>
       <div id='loader'></div>
-      <button class="button big" type="submit" [disabled]="decisionForm.form.invalid" (click)="goNext()">
+      <button class="button big" type="submit" [disabled]="isLoaderView" (click)="goNext()">
         {{buttonName}}
       </button>
     </form>
   </div>
-  <h1 *ngIf="!decision"><div id="spin-loader"></div></h1>
+  <h1 *ngIf="isLoaderView"><div id="spin-loader"></div></h1>
 </section>

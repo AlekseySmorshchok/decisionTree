@@ -1,33 +1,31 @@
-<br>
-
-<h1>Для Вас наибольшим приоритетом обладает альтернатива: {{alternativeName}}</h1>
-
-<h1>Результирующая матрица</h1>
-<table *ngIf="decision" class="tree">
-  <thead>
-    <tr>
-      <th></th>
-      <th *ngFor="let alternative of decision.alternativeArray"><sup>{{ alternative.finalRate}}%</sup>{{ alternative.name }}</th>
-    </tr>
-  </thead>
-  <tbody>
-      <tr *ngFor="let number of decision.alternativeArray[0].criteriaArray; index as i">
-        <th> <sup>{{number.rate}}</sup>{{number.name}}</th>
-        <th *ngFor="let alternative of decision.alternativeArray">
-          <div>
-            <p id = {{alternative.criteriaArray[i].id}}>
-              <sup>{{alternative.criteriaArray[i].valuePriority}}</sup>{{alternative.criteriaArray[i].value}}
-            </p>
-          </div>
-           </th>
-      </tr>
-  </tbody>
-</table>
-<div>
-  <button mat-raised-button (click)="changeTree()">Изменить исходное дерево решений</button>
+<div  *ngIf="decision" style="display: block;">
+    <h1>Для Вас наибольшим приоритетом обладает альтернатива: {{alternativeName}}</h1>
+    <h1>Результирующая матрица</h1>
+    <table class="tree">
+      <thead>
+        <tr>
+          <th></th>
+          <th *ngFor="let alternative of decision.alternativeArray"><sup>{{ alternative.finalRate}}%</sup>{{ alternative.name }}</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let number of decision.alternativeArray[0].criteriaArray; index as i">
+            <th> <sup>{{number.rate}}</sup>{{number.name}}</th>
+            <th *ngFor="let alternative of decision.alternativeArray">
+              <div>
+                <p id = {{alternative.criteriaArray[i].id}}>
+                  <sup>{{alternative.criteriaArray[i].valuePriority}}</sup>{{alternative.criteriaArray[i].value}}
+                </p>
+              </div>
+              </th>
+          </tr>
+      </tbody>
+    </table>
+    <div class="alternative-table-bar" >
+      <button class="button" (click)="changeTree()" [disabled]="!decision || isLoaderView">Изменить исходное дерево решений</button>
+      <!--<button mat-raised-button (click)="deleteTree()">Удалить дерево решений</button>-->
+      <button class="button" (click)="goNext()" [disabled]="!decision || isLoaderView">На главную</button>
+    </div>
 </div>
-<div>
-  <!--<button mat-raised-button (click)="deleteTree()">Удалить дерево решений</button>-->
-  <button mat-raised-button (click)="goNext()">На главную</button>
-</div>
+<h1 *ngIf="!decision || isLoaderView"><div id="spin-loader"></div></h1>
 

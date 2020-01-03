@@ -17,6 +17,7 @@ export class InstructionComponent implements OnInit {
   title = 'Instruction';
   decision: Decision;
   decisionInterface : DecisionInterface;
+  isLoaderView = false;
 
   constructor(private router: Router,
               private createDecisionService: DecisionCreateService,
@@ -25,7 +26,7 @@ export class InstructionComponent implements OnInit {
               private decisionWithAuth: DecisionInterfaceWithauthService) { }
 
   ngOnInit() {
-    if (localStorage.getItem('currentUser') != null) {
+    if (localStorage.getItem('token') != null) {
       this.decisionInterface = this.decisionWithAuth;
     }
     else {
@@ -55,7 +56,9 @@ export class InstructionComponent implements OnInit {
 
   goNext()
   {
+    this.isLoaderView = true;
     this.createDecisionService.setAllInWorkAndGetAnswer(this.decision).subscribe(data=>{
+      
       if(data == -1)
     {
       this.router.navigate(['pairedComparisonCriteria']);
