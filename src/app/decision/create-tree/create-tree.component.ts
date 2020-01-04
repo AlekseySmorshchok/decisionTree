@@ -73,7 +73,7 @@ export class CreateTreeComponent implements OnInit{
                           {
                             if(this.decision.stage == 2)
                             {
-                              this.router.navigate(['fillValueCriteria', 1]);
+                              this.router.navigate(['fillValueCriteria']);
                             }
                             else
                             {
@@ -107,7 +107,14 @@ export class CreateTreeComponent implements OnInit{
                                       }
                                       else
                                       {
-                                        this.initForm();
+                                        if(this.decision.stage == 8)
+                                        {
+                                          this.router.navigate(['endTree']);
+                                        }
+                                        else
+                                        {
+                                          this.initForm();
+                                        }
                                       }
                                     }
                                   }

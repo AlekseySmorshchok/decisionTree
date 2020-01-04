@@ -75,6 +75,8 @@ export class EndTreeComponent implements OnInit {
   goNext()
   {
     this.isLoaderView = true;
+    localStorage.removeItem('idDecision');
+    localStorage.removeItem('Decision');
     this.router.navigate(['']);
   }
 

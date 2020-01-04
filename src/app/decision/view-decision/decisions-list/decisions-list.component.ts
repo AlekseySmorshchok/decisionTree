@@ -71,7 +71,7 @@ export class DecisionsListComponent implements OnInit {
       {
         if(decision.stage == 2)
         {
-          this.router.navigate(['fillValueCriteria', 1]);
+          this.router.navigate(['fillValueCriteria']);
         }
         else
         {
