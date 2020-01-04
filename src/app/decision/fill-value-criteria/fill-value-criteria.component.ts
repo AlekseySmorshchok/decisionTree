@@ -16,13 +16,15 @@ import { DecisionInterfaceWithauthService } from '../../services/decision-interf
 })
 export class FillValueCriteriaComponent implements OnInit {
 
-  decision: Decision; 
+  decision: Decision = new Decision(); 
   minRate: boolean[] = [];
   panelOpenState: boolean = false;
   disabled: boolean[] = [];
   decisionInterface : DecisionInterface;
   isLoaderView = false;
   decisionForCompare: Decision;
+  decisionString = "";
+
   constructor( public snackBar: MatSnackBar,
               private dialog: MatDialog,
               private router: Router,
@@ -41,7 +43,7 @@ export class FillValueCriteriaComponent implements OnInit {
     this.decisionInterface.getDecision().subscribe(
       data=>{
         this.decision  =  new Decision().deserialize(data);
-        
+        this.decisionString = JSON.stringify(data);
         this.check();
         for(let i =0; i< this.decision.alternativeArray[0].criteriaArray.length;i++)
         {
@@ -108,7 +110,6 @@ export class FillValueCriteriaComponent implements OnInit {
             }
           }
           this.compareNewAndOldDecision();
-          console.log(this.decision);
           this.checkValueRate();
           this.decisionService.checkValueRate(this.decision).subscribe(
             editDecision => 
@@ -134,7 +135,7 @@ export class FillValueCriteriaComponent implements OnInit {
 
   compareNewAndOldDecision()
   {
-    this.decisionForCompare =  new Decision().deserialize(JSON.parse(localStorage.getItem('Decision')));
+    this.decisionForCompare = new Decision().deserialize(JSON.parse(this.decisionString));
     for(let criteriaIndex=0; criteriaIndex < this.decision.alternativeArray[0].criteriaArray.length; criteriaIndex++)
     {
       let isChange = false;
