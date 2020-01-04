@@ -230,10 +230,10 @@ export class DecisionCreateService {
 
   }
 
-  setAllInWorkAndGetAnswer(decision:Decision){
+  isNeedCompareCriteriaValue(decision:Decision){
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post(this.host+`setAllInWorkAndGetAnswer`, decision,{headers})
+    return this.http.post(this.host+`isNeedCompareCriteriaValue`, decision,{headers})
     .map(response => response.json() as number);
 
   }

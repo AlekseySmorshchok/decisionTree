@@ -57,7 +57,7 @@ export class InstructionComponent implements OnInit {
   goNext()
   {
     this.isLoaderView = true;
-    this.createDecisionService.setAllInWorkAndGetAnswer(this.decision).subscribe(data=>{
+    this.createDecisionService.isNeedCompareCriteriaValue(this.decision).subscribe(data=>{
       this.decision  =  new Decision().deserialize(data);
       this.decisionInterface.setDecision(this.decision).subscribe(d =>
         {

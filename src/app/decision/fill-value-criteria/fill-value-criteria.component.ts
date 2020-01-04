@@ -22,7 +22,7 @@ export class FillValueCriteriaComponent implements OnInit {
   disabled: boolean[] = [];
   decisionInterface : DecisionInterface;
   isLoaderView = false;
-  
+  decisionForCompare: Decision;
   constructor( public snackBar: MatSnackBar,
               private dialog: MatDialog,
               private router: Router,
@@ -41,6 +41,7 @@ export class FillValueCriteriaComponent implements OnInit {
     this.decisionInterface.getDecision().subscribe(
       data=>{
         this.decision  =  new Decision().deserialize(data);
+        
         this.check();
         for(let i =0; i< this.decision.alternativeArray[0].criteriaArray.length;i++)
         {
@@ -106,20 +107,22 @@ export class FillValueCriteriaComponent implements OnInit {
               alternative.criteriaArray[i].minMaxValue = this.minRate[i]
             }
           }
+          this.compareNewAndOldDecision();
+          console.log(this.decision);
           this.checkValueRate();
           this.decisionService.checkValueRate(this.decision).subscribe(
             editDecision => 
             {
               this.decision = editDecision;
               this.decision.stage = 5;
+
               this.decisionInterface.setDecision(this.decision).subscribe(status=>
                 {
-                  
                     this.router.navigate(['instruction']);
                   
                 });
-          }
-        )
+            }
+          );
     }
     else
     {
@@ -127,6 +130,31 @@ export class FillValueCriteriaComponent implements OnInit {
       this.isLoaderView = false;
     }
     
+  }
+
+  compareNewAndOldDecision()
+  {
+    this.decisionForCompare =  new Decision().deserialize(JSON.parse(localStorage.getItem('Decision')));
+    for(let criteriaIndex=0; criteriaIndex < this.decision.alternativeArray[0].criteriaArray.length; criteriaIndex++)
+    {
+      let isChange = false;
+      for(let alternativeIndex = 0; alternativeIndex < this.decision.alternativeArray.length; alternativeIndex++)
+      {
+            if(this.decision.alternativeArray[alternativeIndex].criteriaArray[criteriaIndex].value != this.decisionForCompare.alternativeArray[alternativeIndex].criteriaArray[criteriaIndex].value ||
+              this.decision.alternativeArray[alternativeIndex].criteriaArray[criteriaIndex].minMaxValue != this.decisionForCompare.alternativeArray[alternativeIndex].criteriaArray[criteriaIndex].minMaxValue)
+          {
+            isChange = true;
+            break;
+          }
+      }
+      if(isChange)
+      {
+        for(let alternativeIndex = 0; alternativeIndex < this.decision.alternativeArray.length; alternativeIndex++)
+        {
+          this.decision.alternativeArray[alternativeIndex].criteriaArray[criteriaIndex].inWork = true;
+        }
+      }
+    }
   }
 
   checkValueRate()
