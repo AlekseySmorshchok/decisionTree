@@ -58,18 +58,22 @@ export class InstructionComponent implements OnInit {
   {
     this.isLoaderView = true;
     this.createDecisionService.setAllInWorkAndGetAnswer(this.decision).subscribe(data=>{
-      
-      if(data == -1)
-    {
-      this.router.navigate(['pairedComparisonCriteria']);
-    }
-    else
-    {
-      if(data != -1)
-      {
-        this.router.navigate(['pairedComparisonCriteriaValue']);
-      }
-    }
+      this.decision  =  new Decision().deserialize(data);
+      this.decisionInterface.setDecision(this.decision).subscribe(d =>
+        {
+          if(this.decision.stage == 7)
+          {
+            this.router.navigate(['pairedComparisonCriteria']);
+          }
+          else
+          {
+            if(this.decision.stage == 6)
+            {
+              this.router.navigate(['pairedComparisonCriteriaValue']);
+            }
+          }
+        });  
+        
     });
     
   }
