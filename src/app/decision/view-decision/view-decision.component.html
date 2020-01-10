@@ -1,12 +1,11 @@
-<div>
-  <mat-toolbar color="primary">
-    <header>
+<div class="table-wrapper">
+  <mat-toolbar color="white">
+    <header class="major" style="width: 60%; margin: 0 auto;">
       <h1>{{ title }}</h1>
     </header>
   </mat-toolbar>
-  <div style="margin-bottom: 30px;">
+  <div style="width: 60%; margin: 0 auto;">
     <router-outlet></router-outlet>
-  </div>  
-
-  <button class="button" (click)="goBack()">Назад</button>
+    <button style="margin-top: 20px;" class="button" (click)="goBack()">Назад</button>
+  </div>
 </div> 

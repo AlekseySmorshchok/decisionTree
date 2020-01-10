@@ -1,7 +1,7 @@
-<div  *ngIf="decision" style="display: block;">
+<div  *ngIf="decision" style="display: block; width: 60%; margin: 0 auto">
     <h1>Для Вас наибольшим приоритетом обладает альтернатива: {{alternativeName}}</h1>
     <h1>Результирующая матрица</h1>
-    <table class="tree">
+    <table class="tree" style=" width: 60%; margin: 0 auto">
       <thead>
         <tr>
           <th></th>
@@ -21,7 +21,7 @@
           </tr>
       </tbody>
     </table>
-    <div class="alternative-table-bar" >
+    <div class="alternative-table-bar align-center" >
       <button class="button" (click)="changeTree()" [disabled]="!decision || isLoaderView">Изменить исходное дерево решений</button>
       <!--<button mat-raised-button (click)="deleteTree()">Удалить дерево решений</button>-->
       <button class="button" (click)="goNext()" [disabled]="!decision || isLoaderView">На главную</button>
