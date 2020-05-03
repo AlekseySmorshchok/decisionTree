@@ -11,6 +11,12 @@
       <br>
       <p><span class="alert" style="color: red">{{decisionErrorMessage}}</span></p>
       <div class="smallContainer">
+        <input type="text" name="name" id="name" (blur)="checkDecisionUrl()" (input)="clearDecisionUrlErrorMEssage()"
+               [(ngModel)]="decision.url" placeholder="Вставьте url"/>
+      </div>
+      <br>
+      <p><span class="alert" style="color: red">{{decisionUrlErrorMessage}}</span></p>
+      <div class="smallContainer">
         <textarea name="message" id="message" [(ngModel)]="decision.note" placeholder="Комментарий" rows="6"></textarea>
       </div>
       <p></p>

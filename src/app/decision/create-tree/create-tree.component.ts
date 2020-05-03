@@ -20,6 +20,7 @@ export class CreateTreeComponent implements OnInit{
   buttonName: string = "Создать";
   isnewDecision = true;
   decisionErrorMessage = "";
+  decisionUrlErrorMessage = "";
   isLoaderView = false;
   constructor(public snackBar: MatSnackBar,
               private router: Router,
@@ -156,6 +157,16 @@ export class CreateTreeComponent implements OnInit{
   clearDecisionErrorMEssage()
   {
     this.decisionErrorMessage = "";
+  }
+
+  checkDecisionUrl()
+  {
+      this.decision.url != "" && this.decision.url.search("catalog.onliner.by/compare/") <=0 ? this.decisionUrlErrorMessage = "Введен некорректный адрес" : this.decisionUrlErrorMessage = "";
+  }
+
+  clearDecisionUrlErrorMEssage()
+  {
+    this.decisionUrlErrorMessage = "";
   }
 
   initForm()
