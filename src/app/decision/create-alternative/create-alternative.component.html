@@ -47,14 +47,14 @@
               <header class="major"><p>Для сравнения нужно ввести минимум 2 альтернативы</p></header>
             </li>
             <li>
-              <input type="text" class="input large" name="name" id="name" value="" [(ngModel)]="newAlternativeName"
+              <input [readonly]="isReadOnly" type="text" class="input large" name="name" id="name" value="" [(ngModel)]="newAlternativeName"
                      placeholder="Название варианта альтернативы">
             </li>
             <li>
               <span class="alert" style="color: red">{{alternativeErrorMessage}}</span>
             </li>
             <li>
-              <button class="button large" type="submit" [disabled]="!decision || isLoaderView" >Добавить</button>
+              <button class="button large" type="submit" [disabled]="!decision || isLoaderView || isReadOnly" >Добавить</button>
             </li>
           </ul>
         </div>
@@ -68,7 +68,7 @@
           <button mat-icon-button [disabled]="isLoaderView" (click)="editAlternative(alternative)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button [disabled]="isLoaderView" (click)="delete(alternative)">
+          <button mat-icon-button [disabled]="isLoaderView || isReadOnly" (click)="delete(alternative)">
             <mat-icon calss="exampple-icon">delete_forever</mat-icon>
           </button>
         </div>

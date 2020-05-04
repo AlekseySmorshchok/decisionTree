@@ -27,6 +27,7 @@ export class CreateAlternativeComponent implements OnInit {
   decisionInterface : DecisionInterface;
   alternativeErrorMessage = "";
   isLoaderView = false;
+  isReadOnly = false;
 
   constructor(private decisionCreateService : DecisionCreateService,
               private dialog: MatDialog,
@@ -46,6 +47,11 @@ export class CreateAlternativeComponent implements OnInit {
       this.decisionInterface.getDecision().subscribe(data=>
         {
           this.decision = new Decision().deserialize(data);
+          if(this.decision.urltable!=null && this.decision.urltable!="")
+          {
+            this.isReadOnly = true;
+            console.log(this.isReadOnly);
+          }
           this.check();
         });
   }
@@ -153,13 +159,23 @@ export class CreateAlternativeComponent implements OnInit {
   {
     if(this.path == 1)
     {
-      this.decision.stage = 1;
       this.decisionInterface.setDecision(this.decision).subscribe(status=>
         {
-          
-              this.router.navigate(['createCriteria', 1]);
+          if(this.decision.urltable!=null && this.decision.urltable!="")
+      {
+        this.decision.stage = 9;
+
+      }
+      else {
+        this.decision.stage = 1;
+        this.router.navigate(['createCriteria', 1]);
+        
+      }
+              
           
         });
+      
+      
     }
     else{
       if(this.path == 2)

@@ -13,7 +13,7 @@ export interface DecisionInterface
     addCriteria(name: string): Observable<Decision> ;
     editCriteria(criteria: Criteria, result: string): Observable<Decision> ;
     deleteCriteria(criteria: Criteria): Observable<Decision> ;
-    createDecision(name: String, note:String): Observable<Decision> ;
+    createDecision(name: String, note:String, url:String): Observable<Decision> ;
     deleteDecisionFromInterface(): Observable<String>;
     isNewDecision(): Observable<Boolean>;
     sendpairedComparisonCirteria(decision:Decision, rageCriteria:number[][]): Observable<Decision> ;

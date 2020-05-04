@@ -22,6 +22,7 @@ export class CreateTreeComponent implements OnInit{
   decisionErrorMessage = "";
   decisionUrlErrorMessage = "";
   isLoaderView = false;
+  isUserAuth = false;
   constructor(public snackBar: MatSnackBar,
               private router: Router,
               private dialog: MatDialog,
@@ -32,6 +33,7 @@ export class CreateTreeComponent implements OnInit{
     this.isLoaderView = true;
     if (localStorage.getItem('token') != null) {
       this.decisionInterface = this.decisionWithAuth;
+      this.isUserAuth = true;
     }
     else {
       this.decisionInterface = this.decisionWithouAuth;
@@ -203,7 +205,7 @@ export class CreateTreeComponent implements OnInit{
       if(this.isnewDecision == true)
             {
               
-              this.decisionInterface.createDecision(this.decision.name, this.decision.note).subscribe(status=>
+              this.decisionInterface.createDecision(this.decision.name, this.decision.note,this.decision.url).subscribe(status=>
                 {
                   this.router.navigate(['createAlternative', 1]);
                   this.openSnackBar(this.decision.name, 'Решение создано');
