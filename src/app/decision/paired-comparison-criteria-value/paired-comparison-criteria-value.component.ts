@@ -81,7 +81,6 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
               this.makeDefaultRageCriteria();
               this.makeCriteriaArray();
               this.counter = this.doFact(this.comparisonCriteriaArray.length-1);
-              
             }
           }
         );
@@ -129,6 +128,26 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
           this.comparisonCriteriaArray.push(alternative.criteriaArray[this.numberOfNote]);
         }
       }
+      if(this.comparisonCriteriaArray.length<=1)
+      {
+        this.checkIfAllValueEqual();
+      }
+  }
+
+  checkIfAllValueEqual()
+  {
+    this.counter = 0;
+              
+                for(var alternative = 0 ; alternative < this.decision.alternativeArray.length; alternative ++)
+                {
+                  for(var alternativeduble = 0 ; alternativeduble < this.decision.alternativeArray.length; alternativeduble ++)
+                  {
+                      this.rageCriteria[alternative][alternativeduble] = 1;
+                      this.rageCriteria[alternativeduble][alternative] = 1;
+                  }
+                }
+                this.saveResaultAndgoNext();
+              
   }
 
   redirectWithMessage()
@@ -182,9 +201,9 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
 
   saveChoose()
   {
-    for(let line of this.findIndex(this.decision.alternativeArray[this.firstCompariosnIndex].criteriaArray[this.numberOfNote].value))
+    for(let line of this.findIndex(this.comparisonCriteriaArray[this.firstCompariosnIndex].value))
       {
-        for(let column of this.findIndex(this.decision.alternativeArray[this.secondCompariosnIndex].criteriaArray[this.numberOfNote].value))
+        for(let column of this.findIndex(this.comparisonCriteriaArray[this.secondCompariosnIndex].value))
         {
           if(this.choose)
           {
@@ -198,7 +217,6 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
           }
         }
       }
-    
   }
 
   saveAnswerInRageArray()
@@ -238,7 +256,6 @@ export class PairedComparisonCriteriaValueComponent implements OnInit {
 
   saveResaultAndgoNext()
   {
-    
     this.isLoaderView = true;
     if(this.counter<=0)
     {

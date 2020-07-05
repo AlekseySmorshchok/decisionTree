@@ -1,3 +1,20 @@
-<p>
-  choose-criteria-url works!
-</p>
+<div *ngIf="criteriaName">
+  <div class="alternative-table-bar">
+    <button class="button"  (click)="chooseCheckBox()">{{buttonName}}</button>
+  </div>
+  <div class="alternative-list" *ngFor="let element of criteriaName; index as i">
+    <mat-checkbox
+    class="example-margin"
+    [(ngModel)]="criteriaName[i].choose"
+    [(indeterminate)]="indeterminate"
+    [align]="align"
+    [disabled]="disabled">
+  {{criteriaName[i].criteriaName}}
+</mat-checkbox>
+  </div>
+  <div class="alternative-table-bar">
+    <button class="button"  (click)="goBack()">Назад</button>
+    <button class="button" type="submit" (click)="goNext()"  >Далее</button>
+  </div>
+</div>
+<h1 *ngIf="!criteriaName"><div id="spin-loader"></div></h1>

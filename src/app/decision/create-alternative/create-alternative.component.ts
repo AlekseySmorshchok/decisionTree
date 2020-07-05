@@ -47,7 +47,7 @@ export class CreateAlternativeComponent implements OnInit {
       this.decisionInterface.getDecision().subscribe(data=>
         {
           this.decision = new Decision().deserialize(data);
-          if(this.decision.urltable!=null && this.decision.urltable!="")
+          if(this.decision.urlTable!=null && this.decision.urlTable!="")
           {
             this.isReadOnly = true;
             console.log(this.isReadOnly);
@@ -159,23 +159,25 @@ export class CreateAlternativeComponent implements OnInit {
   {
     if(this.path == 1)
     {
+      if(this.decision.urlTable!=null && this.decision.urlTable!="")
+          {
+            this.decision.stage = 9;
+          }
+            else {
+              this.decision.stage = 1;
+            }
       this.decisionInterface.setDecision(this.decision).subscribe(status=>
         {
-          if(this.decision.urltable!=null && this.decision.urltable!="")
-      {
-        this.decision.stage = 9;
-
-      }
-      else {
-        this.decision.stage = 1;
-        this.router.navigate(['createCriteria', 1]);
-        
-      }
-              
-          
+          if(this.decision.urlTable!=null && this.decision.urlTable!="")
+          {
+            this.decision.stage = 9;
+            this.router.navigate(['chooseCriteria']);
+          }
+          else {
+            this.decision.stage = 1;
+            this.router.navigate(['createCriteria', 1]);
+          }
         });
-      
-      
     }
     else{
       if(this.path == 2)
@@ -212,7 +214,7 @@ export class CreateAlternativeComponent implements OnInit {
     this.isLoaderView = true;
     if(this.path == 1)
     {
-      this.decision.stage = -1;
+      this.decision.stage = 1;
       this.decisionInterface.setDecision(this.decision).subscribe(status=>
         {
           this.router.navigate(['createTree']);

@@ -20,6 +20,7 @@ import { AppComponent } from '../../app.component';
 import { ViewDecisionComponent } from '../view-decision/view-decision.component';
 import { DecisionsListComponent } from '../view-decision/decisions-list/decisions-list.component';
 import { DecisionDetailComponent } from '../view-decision/decision-detail/decision-detail.component';
+import { ChooseCriteriaUrlComponent } from '../choose-criteria-url/choose-criteria-url.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,9 @@ const routes: Routes = [
   },
   {
     path:'fillValueCriteria', component: FillValueCriteriaComponent
+  },
+  {
+    path:'chooseCriteria', component: ChooseCriteriaUrlComponent
   },
   {
     path:'instruction', component: InstructionComponent

@@ -39,7 +39,7 @@ import { LoginStateCommunicationService } from './services/component-communicati
 import { ViewDecisionComponent } from './decision/view-decision/view-decision.component';
 import { DecisionsListComponent } from './decision/view-decision/decisions-list/decisions-list.component';
 import { DecisionDetailComponent } from './decision/view-decision/decision-detail/decision-detail.component';
-import { ChooseCriteriaUrlComponent } from './choose-criteria-url/choose-criteria-url.component';
+import { ChooseCriteriaUrlComponent } from './decision/choose-criteria-url/choose-criteria-url.component';
 
 
 @NgModule({

@@ -12,7 +12,7 @@ export class Decision  implements Deserializable {
   public stage: number;
   public dateCreate: Date;
   public url: string;
-  public urltable: string;
+  public urlTable: string;
   
   constructor() {
     this.id = 0;
@@ -22,7 +22,7 @@ export class Decision  implements Deserializable {
     this.dateCreate = new Date();
     this.alternativeArray = [];
     this.url = "";
-    this.urltable = "";
+    this.urlTable = "";
   }
   
   

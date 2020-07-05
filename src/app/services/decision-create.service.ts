@@ -10,6 +10,8 @@ import { Observable } from '../../../node_modules/rxjs/Observable';
 import { Alternative } from '../model/alternative';
 import { Criteria } from '../model/criteria';
 import { AngularWaitBarrier } from 'blocking-proxy/built/lib/angular_wait_barrier';
+import { ChooseCriteriaUrlComponent } from '../decision/choose-criteria-url/choose-criteria-url.component';
+import { ChooseCriteriaUrl } from '../model/choose-criteria-url';
 
 @Injectable()
 export class DecisionCreateService {
@@ -282,5 +284,20 @@ export class DecisionCreateService {
       .map(response => response.json() as Decision);
   }
 
+  getCriteriaNameFromUrl(idDecision: number){
+    let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      headers.append('Authorization', localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME));
+      return this.http.post(this.host + `getCriteriaNameFromUrl`, idDecision, {headers})
+      .map(response => response.json() as ChooseCriteriaUrl[]);
+  }
+
+  setCriteriaNameFromUrl(idDecision: number,criteriaName: ChooseCriteriaUrl[]){
+    let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      headers.append('Authorization', localStorage.getItem(AuthConfigConsts.DEFAULT_TOKEN_NAME));
+      return this.http.post(this.host + `setCriteriaNameFromUrl`, {"idDecision":idDecision,"criteriaName":criteriaName}, {headers})
+      .map(response => response.json() as Decision);
+  }
 
 }

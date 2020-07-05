@@ -158,23 +158,7 @@ export class FillValueCriteriaComponent implements OnInit {
     }
   }
 
-  checkValueRate()
-  {
-    for(let alternative of this.decision.alternativeArray)
-          {
-            for(let i in this.decision.alternativeArray[0].criteriaArray)
-            {
-              alternative.criteriaArray[i].minMaxValue = this.minRate[i]
-            }
-          }
-    for(let alternative of this.decision.alternativeArray)
-    {
-      for(let criteria of alternative.criteriaArray)
-      {
-        criteria.valueRate = parseFloat(criteria.value);
-      }
-    }
-  }
+ 
 
   goCreateCriterion()
   {
@@ -186,12 +170,23 @@ export class FillValueCriteriaComponent implements OnInit {
               alternative.criteriaArray[i].minMaxValue = this.minRate[i]
             }
           }
-    this.decision.stage = 4
+          if(this.decision.urlTable!=null && this.decision.urlTable!="")
+          {
+            this.decision.stage = 9;
+          }
+          else
+          {
+            this.decision.stage = 9;
+          }
     this.decisionInterface.setDecision(this.decision).subscribe(status=>
       {
-        
-          this.router.navigate(['createCriteria',2]);
-        
+        if(this.decision.urlTable!=null && this.decision.urlTable!="")
+          {
+            this.router.navigate(['chooseCriteria']);
+          }
+          else {
+            this.router.navigate(['createCriteria',2]);
+          }
       });
   }
 
@@ -211,6 +206,29 @@ export class FillValueCriteriaComponent implements OnInit {
   {
     this.isLoaderView = true;
     this.router.navigate(['instruction']);
+  }
+
+  checkValueRate()
+  {
+    var regexp = new RegExp("[а-яА-ЯёЁa-zA-z]");
+    for(let alternative of this.decision.alternativeArray)
+          {
+            for(let i in this.decision.alternativeArray[0].criteriaArray)
+            {
+              alternative.criteriaArray[i].minMaxValue = this.minRate[i]
+            }
+          }
+    for(let alternative of this.decision.alternativeArray)
+    {
+      for(let criteria of alternative.criteriaArray)
+      {
+        if(criteria.value.search(regexp) == -1)
+        {
+          
+        criteria.valueRate = parseFloat(criteria.value);
+        }
+      }
+    }
   }
 
   checkForLetters(id : number)
